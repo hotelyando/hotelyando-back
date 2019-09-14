@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * Cargos de los empleados del hotel 
  * @author Santiago
- *
  */
 @Data
 public class _cargo {
