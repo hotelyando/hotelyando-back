@@ -2,62 +2,41 @@ package co.com.hotelyando.core.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.database.dao.IItemDao;
+import co.com.hotelyando.database.dao.ItemDao;
 import co.com.hotelyando.database.model.Item;
 
 @Service
-public class ItemService implements IItemService {
-
-	@Autowired
-	private IItemDao iItemDao;
+public class ItemService {
 	
-	@Override
-	public String registrarItem(Item item) {
+	private final ItemDao itemDao;
+	
+	public ItemService(ItemDao itemDao) {
+		this.itemDao = itemDao;
+	}
+	
+	public String registrarItem(Item item) throws Exception {
 		
 		String retornoMensaje = "";
-		
-		try {
 			
-			retornoMensaje = iItemDao.registrarItem(item);
+		retornoMensaje = itemDao.registrarItem(item);
 			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return retornoMensaje;
 	}
 
-	@Override
-	public List<Item> consultarItemsPorHotel(Integer hotelId) {
+	public List<Item> consultarItemsPorHotel(Integer hotelId) throws Exception {
 		
 		List<Item> items = null;
-		
-		try {
+		items = itemDao.consultarItemsPorHotel(hotelId);
 			
-			items = iItemDao.consultarItemsPorHotel(hotelId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return items;
 	}
 
-	@Override
-	public Item consultarItemPorHotel(Integer hotelId, Integer itemId) {
+	public Item consultarItemPorHotel(Integer hotelId, Integer itemId) throws Exception {
 		
 		Item item = null;
-		
-		try {
-			
-			item = iItemDao.consultarItemPorHotel(hotelId, itemId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		item = itemDao.consultarItemPorHotel(hotelId, itemId);
 		
 		return item;
 	}

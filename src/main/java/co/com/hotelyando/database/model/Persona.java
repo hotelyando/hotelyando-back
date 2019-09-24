@@ -15,6 +15,6 @@ public class Persona {
 	private String fechaNacimiento;
 	private String nombreCompleto;
 	private String telefonoFijo;
-	private _tipoDocumento tipoDocumento;
+	private TipoDocumento tipoDocumento;
 
 }

@@ -2,62 +2,42 @@ package co.com.hotelyando.core.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.database.dao.IPaqueteDao;
+import co.com.hotelyando.database.dao.PaqueteDao;
 import co.com.hotelyando.database.model.Paquete;
 
 @Service
-public class PaqueteService implements IPaqueteService {
+public class PaqueteService {
 
-	@Autowired
-	private IPaqueteDao iPaqueteDao;
+	private PaqueteDao paqueteDao;
 	
-	@Override
-	public String registrarPaquete(Paquete paquete) {
+	public PaqueteService(PaqueteDao paqueteDao) {
+		this.paqueteDao = paqueteDao;
+	}
+	
+	
+	public String registrarPaquete(Paquete paquete) throws Exception {
 		
 		String retornoMensaje = "";
-		
-		try {
 			
-			retornoMensaje = iPaqueteDao.registrarPaquete(paquete);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		retornoMensaje = paqueteDao.registrarPaquete(paquete);
 		
 		return retornoMensaje;
 	}
 
-	@Override
-	public List<Paquete> consultarPaquetesPorHotel(Integer hotelId) {
+	public List<Paquete> consultarPaquetesPorHotel(Integer hotelId) throws Exception {
 		
 		List<Paquete> paquetes = null;
-		
-		try {
-			
-			paquetes = iPaqueteDao.consultarPaquetesPorHotel(hotelId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		paquetes = paqueteDao.consultarPaquetesPorHotel(hotelId);
 		
 		return paquetes;
 	}
 
-	@Override
-	public Paquete consultarPaquetePorHotel(Integer hotelId, Integer paqueteId) {
+	public Paquete consultarPaquetePorHotel(Integer hotelId, Integer paqueteId) throws Exception {
 		
 		Paquete paquete = null;
-		
-		try {
-			
-			paquete = iPaqueteDao.consultarPaquetePorHotel(hotelId, paqueteId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		paquete = paqueteDao.consultarPaquetePorHotel(hotelId, paqueteId);
 		
 		return paquete;
 	}

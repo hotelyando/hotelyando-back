@@ -1,54 +1,92 @@
 package co.com.hotelyando.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.com.hotelyando.core.services.IItemService;
+import co.com.hotelyando.core.business.ItemBusiness;
+import co.com.hotelyando.core.utilities.ImpresionVariables;
+import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Item;
 
 @RestController
 public class ItemController {
 	
-	@Autowired
-	private IItemService iItemService;
+private ItemBusiness itemBusiness;
+	
+	private Utilidades utilidades;
+	private String usuario;
+	
+	public ItemController(ItemBusiness itemBusiness) {
+		this.itemBusiness = itemBusiness;
+	}
+	
+	public ItemController() {
+		utilidades = new Utilidades();
+	}
 	
 	@PostMapping("/item")
-	public ResponseEntity<String> registrarItem(@RequestBody Item item){
+	public ResponseEntity<String> registrarItem(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
 		String retornoRespuesta = "";
 		
-		retornoRespuesta = iItemService.registrarItem(item); 
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			retornoRespuesta = itemBusiness.registrarItem(item, usuario);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
-	@GetMapping("/item/{hotelId}/{itemId}")
-	public ResponseEntity<Item> consultarItemPorHotel(@PathVariable Integer hotelId, Integer itemId){
+	@GetMapping("/item/{itemId}")
+	public ResponseEntity<Item> consultarItemPorHotel(@PathVariable Integer itemId, @RequestHeader Map<String, String> headers){
 		
 		Item item = null;
 		
-		item = iItemService.consultarItemPorHotel(hotelId, itemId);
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			item = itemBusiness.consultarItemPorHotel(usuario, itemId);
+			
+		}catch (Exception e) {
+			return new ResponseEntity<Item>(item, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<Item>(item, HttpStatus.OK);
+		
 	}
 	
-	@GetMapping("/item/{hotelId}")
-	public ResponseEntity<List<Item>> consultarItemsPorHotel(@PathVariable Integer hotelId){
+	@GetMapping("/item")
+	public ResponseEntity<List<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
 		
 		List<Item> items = null;
 		
-		items = iItemService.consultarItemsPorHotel(hotelId);
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			items = itemBusiness.consultarItemsPorHotel(usuario);
+			
+		}catch (Exception e) {
+			return new ResponseEntity<List<Item>>(items, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+		
+		
 	}
-
 
 }

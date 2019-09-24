@@ -2,62 +2,41 @@ package co.com.hotelyando.core.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.database.dao.IFacturaDao;
+import co.com.hotelyando.database.dao.FacturaDao;
 import co.com.hotelyando.database.model.Factura;
 
 @Service
-public class FacturaService implements IFacturaService {
+public class FacturaService {
 
-	@Autowired
-	private IFacturaDao iFacturaDao;
+	private final FacturaDao facturaDao;
 	
-	@Override
-	public String registrarFactura(Factura factura) {
+	public FacturaService(FacturaDao facturaDao) {
+		this.facturaDao = facturaDao;
+	}
+	
+	public String registrarFactura(Factura factura) throws Exception {
 		
 		String retornoMensaje = "";
-		
-		try {
 			
-			retornoMensaje = iFacturaDao.registrarFactura(factura);
+		retornoMensaje = facturaDao.registrarFactura(factura);
 			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return retornoMensaje;
 	}
 
-	@Override
-	public List<Factura> consultarFacturasPorHotel(Integer hotelId) {
+	public List<Factura> consultarFacturasPorHotel(Integer hotelId) throws Exception {
 		
 		List<Factura> facturas = null;
-		
-		try {
+		facturas = facturaDao.consultarFacturasPorHotel(hotelId);
 			
-			facturas = iFacturaDao.consultarFacturasPorHotel(hotelId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return facturas;
 	}
 
-	@Override
-	public Factura consultarFacturaPorHotel(Integer hotelId, Integer facturaId) {
+	public Factura consultarFacturaPorHotel(Integer hotelId, Integer facturaId) throws Exception {
 		
 		Factura factura = null;
-		
-		try {
-			
-			factura = iFacturaDao.consultarFacturaPorHotel(hotelId, facturaId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		factura = facturaDao.consultarFacturaPorHotel(hotelId, facturaId);
 		
 		return factura;
 	}

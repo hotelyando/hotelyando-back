@@ -17,6 +17,6 @@ public class Item {
 	private String descripcion;
 	private Integer precio;
 	private Integer stock; // en español?
-	private List<_tipo> tipo;
+	private List<Tipo> tipo;
 
 }

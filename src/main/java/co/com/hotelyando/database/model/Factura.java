@@ -14,8 +14,8 @@ public class Factura {
 	private Integer hotelId;
 	private String estado;
 	private String fechaRegistro;
-	private List<_total> totales;
-	private _servicio servicio;
+	private List<Total> totales;
+	private Servicio servicio;
 	private Habitacion habitacion;
 	private Persona persona;
 }

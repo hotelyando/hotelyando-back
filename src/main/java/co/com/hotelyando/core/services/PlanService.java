@@ -2,62 +2,42 @@ package co.com.hotelyando.core.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.database.dao.IPlanDao;
+import co.com.hotelyando.database.dao.PlanDao;
 import co.com.hotelyando.database.model.Plan;
 
 @Service
-public class PlanService implements IPlanService {
+public class PlanService {
 
-	@Autowired
-	private IPlanDao iPlanDao;
 	
-	@Override
-	public String registrarPlan(Plan plan) {
+	private final PlanDao planDao;
+	
+	public PlanService(PlanDao planDao) {
+		this.planDao = planDao;
+	}
+	
+	public String registrarPlan(Plan plan) throws Exception {
 		
 		String retornoMensaje = "";
 		
-		try {
-			
-			retornoMensaje = iPlanDao.registrarPlan(plan);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		retornoMensaje = planDao.registrarPlan(plan);
 		
 		return retornoMensaje;
 	}
 
-	@Override
-	public List<Plan> consultarPlanesPorHotel(Integer hotelId) {
+	public List<Plan> consultarPlanesPorHotel(Integer hotelId) throws Exception {
 		
 		List<Plan> plans = null;
-		
-		try {
-			
-			plans = iPlanDao.consultarPlanesPorHotel(hotelId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		plans = planDao.consultarPlanesPorHotel(hotelId);
 		
 		return plans;
 	}
 
-	@Override
-	public Plan consultarPlanPorHotel(Integer hotelId, Integer planId) {
+	public Plan consultarPlanPorHotel(Integer hotelId, Integer planId) throws Exception {
 		
 		Plan plan = null;
-		
-		try {
-			
-			plan = iPlanDao.consultarPlanPorHotel(hotelId, planId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		plan = planDao.consultarPlanPorHotel(hotelId, planId);
 		
 		return plan;
 	}

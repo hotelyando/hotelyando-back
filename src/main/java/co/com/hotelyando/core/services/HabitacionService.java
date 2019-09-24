@@ -2,62 +2,42 @@ package co.com.hotelyando.core.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.database.dao.IHabitacionDao;
+import co.com.hotelyando.database.dao.HabitacionDao;
 import co.com.hotelyando.database.model.Habitacion;
 
 @Service
-public class HabitacionService implements IHabitacionService {
+public class HabitacionService {
 
-	@Autowired
-	private IHabitacionDao iHabitacionDao;
+	private HabitacionDao habitacionDao;
 	
-	@Override
-	public String registrarHabitacion(Habitacion habitacion) {
+	public HabitacionService(HabitacionDao habitacionDao) {
+		this.habitacionDao = habitacionDao;
+	}
+	
+	
+	public String registrarHabitacion(Habitacion habitacion) throws Exception {
 		
 		String retornoMensaje = "";
-		
-		try {
 			
-			retornoMensaje = iHabitacionDao.registrarHabitacion(habitacion);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		retornoMensaje = habitacionDao.registrarHabitacion(habitacion);
 		
 		return retornoMensaje;
 	}
 
-	@Override
-	public List<Habitacion> consultarHabitacionesPorHotel(Integer hotelId) {
+	public List<Habitacion> consultarHabitacionesPorHotel(Integer hotelId) throws Exception {
 		
 		List<Habitacion> habitacions = null;
-		
-		try {
-			
-			habitacions = iHabitacionDao.consultarHabitacionesPorHotel(hotelId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		habitacions = habitacionDao.consultarHabitacionesPorHotel(hotelId);
 		
 		return habitacions;
 	}
 
-	@Override
-	public Habitacion consultarHabitacionPorHotel(Integer hotelId, Integer habitacionId) {
+	public Habitacion consultarHabitacionPorHotel(Integer hotelId, Integer habitacionId) throws Exception {
 		
 		Habitacion habitacion = null;
-		
-		try {
-			
-			habitacion = iHabitacionDao.consultarHabitacionPorHotel(hotelId, habitacionId);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		habitacion = habitacionDao.consultarHabitacionPorHotel(hotelId, habitacionId);
 		
 		return habitacion;
 	}

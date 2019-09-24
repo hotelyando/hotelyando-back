@@ -2,19 +2,20 @@ package co.com.hotelyando.database.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.com.hotelyando.database.model.Factura;
 import co.com.hotelyando.database.repository.IFacturaRepository;
 
 @Repository
-public class FacturaDao implements IFacturaDao {
+public class FacturaDao {
 
-	@Autowired
-	private IFacturaRepository iFacturaRepository;
+	private final IFacturaRepository iFacturaRepository;
 	
-	@Override
+	public FacturaDao(IFacturaRepository iFacturaRepository) {
+		this.iFacturaRepository = iFacturaRepository;
+	}
+	
 	public String registrarFactura(Factura factura) throws Exception {
 		
 		iFacturaRepository.save(factura);
@@ -22,7 +23,7 @@ public class FacturaDao implements IFacturaDao {
 		return null;
 	}
 
-	@Override
+	
 	public List<Factura> consultarFacturasPorHotel(Integer hotelId) throws Exception {
 		
 		List<Factura> facturas = null;
@@ -32,7 +33,7 @@ public class FacturaDao implements IFacturaDao {
 		return facturas;
 	}
 
-	@Override
+	
 	public Factura consultarFacturaPorHotel(Integer hotelId, Integer facturaId) throws Exception {
 		
 		Factura factura = null;

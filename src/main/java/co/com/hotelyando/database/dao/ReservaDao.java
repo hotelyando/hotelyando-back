@@ -2,19 +2,20 @@ package co.com.hotelyando.database.dao;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.com.hotelyando.database.model.Reserva;
 import co.com.hotelyando.database.repository.IReservaRepository;
 
 @Repository
-public class ReservaDao implements IReservaDao{
+public class ReservaDao {
 	
-	@Autowired
-	private IReservaRepository iReservaRepository;
+	private final IReservaRepository iReservaRepository;
 	
-	@Override
+	public ReservaDao(IReservaRepository iReservaRepository) {
+		this.iReservaRepository = iReservaRepository;
+	}
+	
 	public String registrarReserva(Reserva reserva) throws Exception {
 		
 		iReservaRepository.save(reserva);
@@ -22,21 +23,17 @@ public class ReservaDao implements IReservaDao{
 		return null;
 	}
 
-	@Override
 	public List<Reserva> consultarReservasPorHotel(Integer hotelId) throws Exception {
 		
 		List<Reserva> reservas = null;
-		
 		reservas = iReservaRepository.findByHotelId(hotelId);
 		
 		return reservas;
 	}
 
-	@Override
 	public Reserva consultarReservaPorHotel(Integer hotelId, Integer reservaId) throws Exception {
 		
 		Reserva reserva = null;
-		
 		reserva = iReservaRepository.findByHotelIdAndReservaId(hotelId, reservaId);
 		
 		return reserva;

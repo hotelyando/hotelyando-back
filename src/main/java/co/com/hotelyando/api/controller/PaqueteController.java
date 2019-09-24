@@ -1,53 +1,92 @@
 package co.com.hotelyando.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.com.hotelyando.core.services.IPaqueteService;
+import co.com.hotelyando.core.business.PaqueteBusiness;
+import co.com.hotelyando.core.utilities.ImpresionVariables;
+import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Paquete;
 
 @RestController
 public class PaqueteController {
 	
-	@Autowired
-	private IPaqueteService iPaqueteService;
+private PaqueteBusiness paqueteBusiness;
+	
+	private Utilidades utilidades;
+	private String usuario;
+	
+	public PaqueteController(PaqueteBusiness paqueteBusiness) {
+		this.paqueteBusiness = paqueteBusiness;
+	}
+	
+	public PaqueteController() {
+		utilidades = new Utilidades();
+	}
 	
 	@PostMapping("/paquete")
-	public ResponseEntity<String> registrarPaquete(@RequestBody Paquete paquete){
+	public ResponseEntity<String> registrarPaquete(@RequestBody Paquete paquete, @RequestHeader Map<String, String> headers){
 		
 		String retornoRespuesta = "";
 		
-		retornoRespuesta = iPaqueteService.registrarPaquete(paquete); 
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			retornoRespuesta = paqueteBusiness.registrarPaquete(paquete, usuario);
+		}catch (Exception e) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
-	@GetMapping("/paquete/{hotelId}/{paqueteId}")
-	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable Integer hotelId, Integer paqueteId){
+	@GetMapping("/paquete/{paqueteId}")
+	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable Integer paqueteId, @RequestHeader Map<String, String> headers){
 		
 		Paquete paquete = null;
 		
-		paquete = iPaqueteService.consultarPaquetePorHotel(hotelId, paqueteId);
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			paquete = paqueteBusiness.consultarPaquetePorHotel(usuario, paqueteId);
+			
+		}catch (Exception e) {
+			return new ResponseEntity<Paquete>(paquete, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<Paquete>(paquete, HttpStatus.OK);
+		
 	}
 	
-	@GetMapping("/paquete/{hotelId}")
-	public ResponseEntity<List<Paquete>> consultarPaquetesPorHotel(@PathVariable Integer hotelId){
+	@GetMapping("/paquete")
+	public ResponseEntity<List<Paquete>> consultarPaquetesPorHotel(@RequestHeader Map<String, String> headers){
 		
 		List<Paquete> paquetes = null;
 		
-		paquetes = iPaqueteService.consultarPaquetesPorHotel(hotelId);
+		try {
+			
+			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+			paquetes = paqueteBusiness.consultarPaquetesPorHotel(usuario);
+			
+		}catch (Exception e) {
+			return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.NOT_IMPLEMENTED);
+		}
 		
 		return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.OK);
+		
+		
 	}
 
 

@@ -19,7 +19,7 @@ public class Hotel {
 	private List<String> redesSociales;
 	private String telefono;
 	private Plan plan;
-	private List<_sucursal> sucursales;
+	private List<Sucursal> sucursales;
 	
 
 }
