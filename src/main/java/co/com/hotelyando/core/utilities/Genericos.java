@@ -2,6 +2,8 @@ package co.com.hotelyando.core.utilities;
 
 import com.google.gson.Gson;
 
+import co.com.hotelyando.database.model.Usuario;
+
 public class Genericos<T> {
 
 	public String convertirObjetoAJson(T object) {
@@ -15,7 +17,21 @@ public class Genericos<T> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
+	public Usuario convertirJsonAObjeto(String json) {
+		
+		Gson gson = new Gson();
+		Usuario usuario = null;
+		
+		usuario = gson.fromJson(json, Usuario.class);
+		
+		return usuario;
+		
+		
+	}
+
+	
+	/*@SuppressWarnings("unchecked")
 	public T convertirJsonAObjeto(String json) {
 		
 		Gson gson = new Gson();
@@ -26,6 +42,6 @@ public class Genericos<T> {
 		return object;
 		
 		
-	}
+	}*/
 
 }

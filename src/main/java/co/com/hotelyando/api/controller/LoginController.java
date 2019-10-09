@@ -4,14 +4,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.UsuarioBusiness;
 import co.com.hotelyando.core.model.ResponseService;
 import co.com.hotelyando.core.model.Status;
-import co.com.hotelyando.core.utilities.JwtToken;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
+import co.com.hotelyando.core.utilities.JwtToken;
 import co.com.hotelyando.database.model.Usuario;
 
 @RestController
@@ -24,7 +24,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<ResponseService> login(@RequestParam String customerId, @RequestParam String password){
+	public ResponseEntity<ResponseService> login(@RequestHeader String customerId, @RequestHeader String password){
 		
 		JwtToken jwtToken;
 		String token;
@@ -34,7 +34,7 @@ public class LoginController {
 		Status status = null;
 		Usuario usuario = null;
 		
-		try {
+		try {//encritpacion
 			usuario = usuarioBusiness.consultarUsuarioYContrasenia(customerId, password);
 			
 			if(usuario != null){
@@ -50,6 +50,7 @@ public class LoginController {
 				status.setStatus_desc("");
 				
 				responseService = new ResponseService();
+				responseService.setUsuario(usuario);
 				responseService.setResponse(usuario.getPersona().getNombreCompleto());
 				responseService.setStatus(status);
 				

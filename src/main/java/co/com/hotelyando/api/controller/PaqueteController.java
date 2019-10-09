@@ -20,16 +20,14 @@ import co.com.hotelyando.database.model.Paquete;
 @RestController
 public class PaqueteController {
 	
-private PaqueteBusiness paqueteBusiness;
+	private final PaqueteBusiness paqueteBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public PaqueteController(PaqueteBusiness paqueteBusiness) {
 		this.paqueteBusiness = paqueteBusiness;
-	}
-	
-	public PaqueteController() {
+		
 		utilidades = new Utilidades();
 	}
 	

@@ -21,6 +21,7 @@ private final PaqueteService paqueteService;
 		this.paqueteService = paqueteService;
 		
 		genericos = new Genericos<>();
+		
 	}
 	
 	public String registrarPaquete(Paquete paquete, String usuario) {
@@ -28,6 +29,11 @@ private final PaqueteService paqueteService;
 		String retornoMensaje = "";
 		
 		try {
+			
+			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
+			
+			paquete.setHotelId(objetoUsuario.getHotelId());
+			
 			retornoMensaje = paqueteService.registrarPaquete(paquete);
 		}catch (Exception e) {
 			e.printStackTrace();
