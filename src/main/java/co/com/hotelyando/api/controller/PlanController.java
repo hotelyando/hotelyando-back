@@ -3,6 +3,7 @@ package co.com.hotelyando.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,57 +40,43 @@ private PlanBusiness planBusiness;
 	@PostMapping("/plan")
 	public ResponseEntity<String> registrarPlan(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
 		
-		String retornoRespuesta = "";
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+		String retornoRespuesta = planBusiness.registrarPlan(plan, usuario);
 		
-		try {
-			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			
-			retornoRespuesta = planBusiness.registrarPlan(plan, usuario);
-		}catch (Exception e) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
 	@GetMapping("/plan/{planId}")
 	public ResponseEntity<Plan> consultarPlanPorHotel(@PathVariable Integer planId, @RequestHeader Map<String, String> headers){
 		
-		Plan plan = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		Plan plan = planBusiness.consultarPlanPorHotel(usuario, planId);
 			
-			plan = planBusiness.consultarPlanPorHotel(usuario, planId);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<Plan>(plan, HttpStatus.NOT_IMPLEMENTED);
+		if(plan == null) {
+			return new ResponseEntity<Plan>(plan, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Plan>(plan, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Plan>(plan, HttpStatus.OK);
-		
 	}
 	
 	@GetMapping("/plan")
 	public ResponseEntity<List<Plan>> consultarPlansPorHotel(@RequestHeader Map<String, String> headers){
 		
-		List<Plan> plans = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		List<Plan> plans = planBusiness.consultarPlansPorHotel(usuario);
 			
-			plans = planBusiness.consultarPlansPorHotel(usuario);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<List<Plan>>(plans, HttpStatus.NOT_IMPLEMENTED);
+		if(plans == null) {
+			return new ResponseEntity<List<Plan>>(plans, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<List<Plan>>(plans, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<List<Plan>>(plans, HttpStatus.OK);
-		
-		
 	}
 
 }

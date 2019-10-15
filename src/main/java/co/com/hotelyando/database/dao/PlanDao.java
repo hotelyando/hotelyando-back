@@ -20,7 +20,7 @@ public class PlanDao{
 		
 		iPlanRepository.save(plan);
 		
-		return null;
+		return "Ok";
 	}
 
 	public List<Plan> consultarPlanesPorHotel(Integer hotelId) throws Exception {

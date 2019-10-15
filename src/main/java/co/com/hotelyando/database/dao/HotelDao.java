@@ -19,7 +19,7 @@ public class HotelDao {
 		
 		iHotelRepository.save(hotel);
 		
-		return null;
+		return "Ok";
 	}
 
 	public Hotel consultarHotel(Integer hotelId) throws Exception {

@@ -16,9 +16,11 @@ public class PaisService {
 	
 	public String registrarPais(Pais pais) throws Exception {
 		
-		paisDao.registrarPais(pais);
+		String retornoMensaje = "";
 		
-		return "";
+		retornoMensaje = paisDao.registrarPais(pais);
+		
+		return retornoMensaje;
 		
 	}
 	

@@ -20,7 +20,7 @@ public class PaqueteDao{
 		
 		iPaqueteRepository.save(paquete);
 		
-		return null;
+		return "Ok";
 	}
 
 	public List<Paquete> consultarPaquetesPorHotel(Integer hotelId) throws Exception {

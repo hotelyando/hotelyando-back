@@ -27,7 +27,7 @@ public class PersonaDao{
 		
 		iPersonaRepository.save(persona);
 		
-		return null;
+		return "Ok";
 	}
 
 	public Persona consultarNumeroDocumento(String numeroDocumento) throws Exception {

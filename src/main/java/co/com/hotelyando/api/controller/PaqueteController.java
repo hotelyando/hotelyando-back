@@ -3,6 +3,7 @@ package co.com.hotelyando.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,57 +38,43 @@ public class PaqueteController {
 	@PostMapping("/paquete")
 	public ResponseEntity<String> registrarPaquete(@RequestBody Paquete paquete, @RequestHeader Map<String, String> headers){
 		
-		String retornoRespuesta = "";
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			
-			retornoRespuesta = paqueteBusiness.registrarPaquete(paquete, usuario);
-		}catch (Exception e) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		String retornoRespuesta = paqueteBusiness.registrarPaquete(paquete, usuario);
+
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
 	@GetMapping("/paquete/{paqueteId}")
 	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable Integer paqueteId, @RequestHeader Map<String, String> headers){
 		
-		Paquete paquete = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		Paquete	paquete = paqueteBusiness.consultarPaquetePorHotel(usuario, paqueteId);
 			
-			paquete = paqueteBusiness.consultarPaquetePorHotel(usuario, paqueteId);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<Paquete>(paquete, HttpStatus.NOT_IMPLEMENTED);
+		if(paquete == null) {
+			return new ResponseEntity<Paquete>(paquete, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Paquete>(paquete, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Paquete>(paquete, HttpStatus.OK);
-		
 	}
 	
 	@GetMapping("/paquete")
 	public ResponseEntity<List<Paquete>> consultarPaquetesPorHotel(@RequestHeader Map<String, String> headers){
 		
-		List<Paquete> paquetes = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		List<Paquete> paquetes = paqueteBusiness.consultarPaquetesPorHotel(usuario);
 			
-			paquetes = paqueteBusiness.consultarPaquetesPorHotel(usuario);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.NOT_IMPLEMENTED);
+		if(paquetes == null) {
+			return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.OK);
-		
-		
 	}
 
 

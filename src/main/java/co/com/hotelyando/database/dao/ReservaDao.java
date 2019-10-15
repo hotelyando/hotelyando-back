@@ -20,7 +20,7 @@ public class ReservaDao {
 		
 		iReservaRepository.save(reserva);
 		
-		return null;
+		return "Ok";
 	}
 
 	public List<Reserva> consultarReservasPorHotel(Integer hotelId) throws Exception {

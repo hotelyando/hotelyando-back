@@ -3,6 +3,7 @@ package co.com.hotelyando.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,57 +40,43 @@ private ReservaBusiness reservaBusiness;
 	@PostMapping("/reserva")
 	public ResponseEntity<String> registrarReserva(@RequestBody Reserva reserva, @RequestHeader Map<String, String> headers){
 		
-		String retornoRespuesta = "";
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+		String retornoRespuesta = reservaBusiness.registrarReserva(reserva, usuario);
 		
-		try {
-			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			
-			retornoRespuesta = reservaBusiness.registrarReserva(reserva, usuario);
-		}catch (Exception e) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
 	@GetMapping("/reserva/{reservaId}")
 	public ResponseEntity<Reserva> consultarReservaPorHotel(@PathVariable Integer reservaId, @RequestHeader Map<String, String> headers){
 		
-		Reserva reserva = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		Reserva	reserva = reservaBusiness.consultarReservaPorHotel(usuario, reservaId);
 			
-			reserva = reservaBusiness.consultarReservaPorHotel(usuario, reservaId);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<Reserva>(reserva, HttpStatus.NOT_IMPLEMENTED);
-		}
-		
-		return new ResponseEntity<Reserva>(reserva, HttpStatus.OK);
-		
+		if(StringUtils.isEmpty(usuario)){
+			return new ResponseEntity<Reserva>(reserva, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Reserva>(reserva, HttpStatus.OK);
+		}	
 	}
 	
 	@GetMapping("/reserva")
 	public ResponseEntity<List<Reserva>> consultarReservasPorHotel(@RequestHeader Map<String, String> headers){
 		
-		List<Reserva> reservas = null;
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+			
+		List<Reserva> reservas = reservaBusiness.consultarReservasPorHotel(usuario);
 		
-		try {
-			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			
-			reservas = reservaBusiness.consultarReservasPorHotel(usuario);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.NOT_IMPLEMENTED);
+		if(reservas == null){
+			return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.OK);
-		
-		
 	}
 
 }

@@ -20,7 +20,7 @@ public class FacturaDao {
 		
 		iFacturaRepository.save(factura);
 		
-		return null;
+		return "Ok";
 	}
 
 	

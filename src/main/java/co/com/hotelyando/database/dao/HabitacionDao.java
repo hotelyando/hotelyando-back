@@ -21,7 +21,7 @@ public class HabitacionDao{
 		
 		iHabitacionRepository.save(habitacion);
 		
-		return null;
+		return "Ok";
 	}
 
 	public List<Habitacion> consultarHabitacionesPorHotel(Integer hotelId) throws Exception {

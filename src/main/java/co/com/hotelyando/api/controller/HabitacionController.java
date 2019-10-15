@@ -3,6 +3,7 @@ package co.com.hotelyando.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,52 +38,40 @@ public class HabitacionController {
 	@PostMapping("/habitacion")
 	public ResponseEntity<String> registrarHabitacion(@RequestBody Habitacion habitacion, @RequestHeader Map<String, String> headers){
 		
-		String retornoRespuesta = "";
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		String retornoRespuesta = habitacionBusiness.registrarHabitacion(habitacion, usuario);
 		
-		try {
-			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			retornoRespuesta = habitacionBusiness.registrarHabitacion(habitacion, usuario);
-			
-		} catch (Exception e) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
-		} 
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping("/habitacion/{habitacionId}")
 	public ResponseEntity<Habitacion> consultarHabitacionPorHotel(@PathVariable Integer habitacionId, @RequestHeader Map<String, String> headers){
 		
-		Habitacion habitacion = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		Habitacion habitacion = habitacionBusiness.consultarHabitacionPorHotel(usuario, habitacionId);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			habitacion = habitacionBusiness.consultarHabitacionPorHotel(usuario, habitacionId);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<Habitacion>(habitacion, HttpStatus.NOT_IMPLEMENTED);
+		if(habitacion == null) {
+			return new ResponseEntity<Habitacion>(habitacion, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Habitacion>(habitacion, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Habitacion>(habitacion, HttpStatus.OK);
 	}
 	
 	@GetMapping("/habitacion")
 	public ResponseEntity<List<Habitacion>> consultarHabitacionesPorHotel(@RequestHeader Map<String, String> headers){
 		
-		List<Habitacion> habitaciones = null;
-		
-		try {
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		List<Habitacion> habitaciones = habitacionBusiness.consultarHabitacionesPorHotel(usuario);
 			
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			habitaciones = habitacionBusiness.consultarHabitacionesPorHotel(usuario);
-			
-		}catch (Exception e) {
-			return new ResponseEntity<List<Habitacion>>(habitaciones, HttpStatus.NOT_IMPLEMENTED);
+		if(habitaciones == null) {
+			return new ResponseEntity<List<Habitacion>>(habitaciones, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<List<Habitacion>>(habitaciones, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<List<Habitacion>>(habitaciones, HttpStatus.OK);
 	}
 
 

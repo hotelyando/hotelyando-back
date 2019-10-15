@@ -1,5 +1,6 @@
 package co.com.hotelyando.api.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,21 +27,26 @@ public class HotelController {
 	@PostMapping("/hotel")
 	public ResponseEntity<String> registrarHotel(@RequestBody Hotel hotel){
 		
-		String retornoRespuesta = "";
+		String retornoRespuesta = hotelBusiness.registrarHotel(hotel); 
 		
-		retornoRespuesta = hotelBusiness.registrarHotel(hotel); 
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+		}
 		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
 	@GetMapping("/hotel/{hotelId}")
 	public ResponseEntity<Hotel> consultarHotel(@PathVariable Integer hotelId){
+	
+		Hotel hotel = hotelBusiness.consultarHotel(hotelId);
 		
-		Hotel hotel = null;
-		
-		hotel = hotelBusiness.consultarHotel(hotelId);
-		
-		return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
+		if(hotel == null) {
+			return new ResponseEntity<Hotel>(hotel, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
+		}
 	}
 	
 

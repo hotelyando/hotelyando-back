@@ -1,5 +1,6 @@
 package co.com.hotelyando.api.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,10 +25,12 @@ public class PaisController {
 	@PostMapping("/pais")
 	public ResponseEntity<String> registrarFactura(@RequestBody Pais pais){
 		
-		String retornoRespuesta = "";
+		String retornoRespuesta = paisBusiness.registrarPais(pais);
 		
-		retornoRespuesta = paisBusiness.registrarPais(pais);
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+		}
 	}
 }

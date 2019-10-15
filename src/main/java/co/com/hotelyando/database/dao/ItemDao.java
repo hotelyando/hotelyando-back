@@ -20,7 +20,7 @@ private final IItemRepository iItemRepository;
 		
 		iItemRepository.save(item);
 		
-		return null;
+		return "Ok";
 	}
 
 	

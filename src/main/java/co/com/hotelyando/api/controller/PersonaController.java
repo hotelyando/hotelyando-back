@@ -2,6 +2,7 @@ package co.com.hotelyando.api.controller;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,47 +39,43 @@ public class PersonaController {
 	@PostMapping("/persona")
 	public ResponseEntity<String> registrarPersona(@RequestBody Persona persona, @RequestHeader Map<String, String> headers){
 		
-		String retornoRespuesta = "";
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 		
-		try {
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			retornoRespuesta = personaBusiness.registrarPersona(persona, usuario);
-		} catch (Exception e) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NOT_IMPLEMENTED);
+		String retornoRespuesta = personaBusiness.registrarPersona(persona, usuario);
+		
+		if(StringUtils.isEmpty(retornoRespuesta)) {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 		} 
-		
-		return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
 	}
 	
 	@GetMapping("/persona/{tipoDocumento}/{numeroDocumento}")
 	public ResponseEntity<Persona> consultarTipoYNumeroDocumento(@PathVariable String tipoDocumento, @PathVariable String numeroDocumento, @RequestHeader Map<String, String> headers){
 		
-		Persona persona = null;
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 		
-		try {
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			persona = personaBusiness.consultarTipoYNumeroDocumento(tipoDocumento, numeroDocumento, usuario);
-		} catch (Exception e) {
-			return new ResponseEntity<Persona>(persona, HttpStatus.NOT_IMPLEMENTED);
+		Persona	persona = personaBusiness.consultarTipoYNumeroDocumento(tipoDocumento, numeroDocumento, usuario);
+		
+		if(persona == null) {
+			return new ResponseEntity<Persona>(persona, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Persona>(persona, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Persona>(persona, HttpStatus.OK);
 	}
 	
 	@GetMapping("/persona/{numeroDocumento}")
 	public ResponseEntity<Persona> consultarNumeroDocumento(@PathVariable String numeroDocumento, @RequestHeader Map<String, String> headers){
 		
-		Persona persona = null;
+		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 		
-		try {
-			usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
-			persona = personaBusiness.consultarNumeroDocumento(numeroDocumento, usuario);
-		}catch (Exception e) {
-			return new ResponseEntity<Persona>(persona, HttpStatus.NOT_IMPLEMENTED);
+		Persona persona = personaBusiness.consultarNumeroDocumento(numeroDocumento, usuario);
+		
+		if(persona == null) {
+			return new ResponseEntity<Persona>(persona, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<Persona>(persona, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<Persona>(persona, HttpStatus.OK);
-		
 	}
 	
 	

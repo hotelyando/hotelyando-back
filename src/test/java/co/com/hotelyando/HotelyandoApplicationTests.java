@@ -1,9 +1,6 @@
 package co.com.hotelyando;
 
-
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+//@SpringBootTest
 class HotelyandoApplicationTests {
 
 

@@ -16,15 +16,17 @@ public class PaisBusiness {
 	
 	public String registrarPais(Pais pais) {
 		
+		String retornoMensaje = "";
+		
 		try {
 			
-			paisService.registrarPais(pais);
+			retornoMensaje = paisService.registrarPais(pais);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "";
+		return retornoMensaje;
 		
 	}
 
