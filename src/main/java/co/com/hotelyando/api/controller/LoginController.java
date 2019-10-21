@@ -5,11 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.UsuarioBusiness;
+import co.com.hotelyando.core.model.LoginRequest;
 import co.com.hotelyando.core.model.ResponseService;
 import co.com.hotelyando.core.model.Status;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
@@ -27,7 +28,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<ResponseService> login(@RequestHeader String customerId, @RequestHeader String password){
+	public ResponseEntity<ResponseService> login(@RequestBody LoginRequest loginRequest){
 		
 		JwtToken jwtToken;
 		String token;
@@ -37,7 +38,14 @@ public class LoginController {
 		Status status = null;
 		Usuario usuario = null;
 		
+		String customerId;
+		String password;
+		
 		try {//encritpacion
+			
+			customerId = loginRequest.getUsuario();
+			password = loginRequest.getContrasena();
+			
 			usuario = usuarioBusiness.consultarUsuarioYContrasenia(customerId, password);
 			
 			if(usuario != null){
