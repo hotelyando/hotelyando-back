@@ -23,16 +23,14 @@ import co.com.hotelyando.database.model.Persona;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PersonaController {
 
-	private PersonaBusiness personaBusiness;
+	private final PersonaBusiness personaBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public PersonaController(PersonaBusiness personaBusiness) {
 		this.personaBusiness = personaBusiness;
-	}
-	
-	public PersonaController() {
+		
 		utilidades = new Utilidades();
 	}
 	

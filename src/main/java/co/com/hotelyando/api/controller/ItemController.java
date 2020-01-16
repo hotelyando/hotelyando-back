@@ -24,18 +24,17 @@ import co.com.hotelyando.database.model.Item;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ItemController {
 	
-private ItemBusiness itemBusiness;
+	private final ItemBusiness itemBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public ItemController(ItemBusiness itemBusiness) {
 		this.itemBusiness = itemBusiness;
-	}
-	
-	public ItemController() {
+		
 		utilidades = new Utilidades();
 	}
+	
 	
 	@PostMapping("/item")
 	public ResponseEntity<String> registrarItem(@RequestBody Item item, @RequestHeader Map<String, String> headers){

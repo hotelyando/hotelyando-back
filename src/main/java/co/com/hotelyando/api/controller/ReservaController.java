@@ -24,16 +24,14 @@ import co.com.hotelyando.database.model.Reserva;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ReservaController {
 	
-private ReservaBusiness reservaBusiness;
+	private final ReservaBusiness reservaBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public ReservaController(ReservaBusiness reservaBusiness) {
 		this.reservaBusiness = reservaBusiness;
-	}
-	
-	public ReservaController() {
+		
 		utilidades = new Utilidades();
 	}
 	

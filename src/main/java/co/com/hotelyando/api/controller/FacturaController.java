@@ -24,16 +24,14 @@ import co.com.hotelyando.database.model.Factura;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class FacturaController {
 	
-	private FacturaBusiness facturaBusiness;
+	private final FacturaBusiness facturaBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public FacturaController(FacturaBusiness facturaBusiness) {
 		this.facturaBusiness = facturaBusiness;
-	}
-	
-	public FacturaController() {
+		
 		utilidades = new Utilidades();
 	}
 	

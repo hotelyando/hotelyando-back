@@ -32,5 +32,4 @@ public class Utilidades {
 		
 		return token;
 	}
-	
 }

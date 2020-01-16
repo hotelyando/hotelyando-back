@@ -2,11 +2,14 @@ package co.com.hotelyando.core.business;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import co.com.hotelyando.core.services.ItemService;
 import co.com.hotelyando.core.utilities.Genericos;
 import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.Usuario;
 
+@Service
 public class ItemBusiness {
 	
 	private final ItemService itemService;

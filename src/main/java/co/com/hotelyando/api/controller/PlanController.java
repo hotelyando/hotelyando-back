@@ -24,16 +24,14 @@ import co.com.hotelyando.database.model.Plan;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PlanController {
 	
-private PlanBusiness planBusiness;
+	private final PlanBusiness planBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
 	
 	public PlanController(PlanBusiness planBusiness) {
 		this.planBusiness = planBusiness;
-	}
-	
-	public PlanController() {
+		
 		utilidades = new Utilidades();
 	}
 	

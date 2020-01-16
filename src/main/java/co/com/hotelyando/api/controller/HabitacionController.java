@@ -24,7 +24,7 @@ import co.com.hotelyando.database.model.Habitacion;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class HabitacionController {
 	
-	private HabitacionBusiness habitacionBusiness;
+	private final HabitacionBusiness habitacionBusiness;
 	
 	private Utilidades utilidades;
 	private String usuario;
