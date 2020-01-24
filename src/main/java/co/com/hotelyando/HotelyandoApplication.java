@@ -26,7 +26,7 @@ public class HotelyandoApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:9000");
+				registry.addMapping("/**").allowedMethods("GET","POST","PUT","DELETE");
 			}
 		};
 	}
