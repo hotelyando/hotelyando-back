@@ -28,7 +28,7 @@ public class UsuarioController {
 	private final UsuarioBusiness usuarioBusiness;
 	
 	private Utilidades utilidades;
-	private String usuarioJson;
+	private Usuario usuarioJson;
 	
 	public UsuarioController(UsuarioBusiness usuarioBusiness) {
 		this.usuarioBusiness = usuarioBusiness;

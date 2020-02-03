@@ -1,11 +1,16 @@
 package co.com.hotelyando.core.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import co.com.hotelyando.core.model.LoginResponse;
+import co.com.hotelyando.core.model.RespuestaServicio;
 import co.com.hotelyando.core.services.UsuarioService;
 import co.com.hotelyando.core.utilities.Genericos;
+import co.com.hotelyando.core.utilities.JwtToken;
+import co.com.hotelyando.database.model.Hotel;
 import co.com.hotelyando.database.model.Usuario;
 
 @Service
@@ -13,16 +18,11 @@ public class UsuarioBusiness {
 
 private final UsuarioService usuarioService;
 	
-	private Genericos<Usuario> genericos;
-	private Usuario objetoUsuario;
-	
 	public UsuarioBusiness(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
-		
-		genericos = new Genericos<>();
 	}
 	
-	public String registrarUsuario(Usuario usuario, String usuario1) {
+	public String registrarUsuario(Usuario usuario, Usuario usuario1) {
 		
 		String retornoMensaje = "";
 		
@@ -35,15 +35,13 @@ private final UsuarioService usuarioService;
 		return retornoMensaje;
 	}
 
-	public List<Usuario> consultarUsuariosPorHotel(String usuario) {
+	public List<Usuario> consultarUsuariosPorHotel(Usuario usuario) {
 		
 		List<Usuario> usuarios = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			usuarios = usuarioService.consultarUsuariosPorHotel(objetoUsuario.getHotelId());
+			usuarios = usuarioService.consultarUsuariosPorHotel(usuario.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -52,15 +50,13 @@ private final UsuarioService usuarioService;
 		return usuarios;
 	}
 
-	public Usuario consultarUsuarioPorHotel(String usuario, Integer usuarioId) {
+	public Usuario consultarUsuarioPorHotel(Usuario usuario, Integer usuarioId) {
 		
 		Usuario usuario1 = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			usuario1 = usuarioService.consultarUsuarioPorHotel(objetoUsuario.getHotelId(), usuarioId);
+			usuario1 = usuarioService.consultarUsuarioPorHotel(usuario.getHotelId(), usuarioId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -69,12 +65,52 @@ private final UsuarioService usuarioService;
 		return usuario1;
 	}
 	
-	public Usuario consultarUsuarioYContrasenia(String usuario, String contrasenia) throws Exception {
+	public RespuestaServicio<LoginResponse> consultarUsuarioYContrasenia(String login, String contrasenia){
 		
-		Usuario usuario1 = null;
-		usuario1 = usuarioService.consultarUsuarioYContrasenia(usuario, contrasenia);
+		Genericos<LoginResponse> genericos;
+		JwtToken jwtToken;
+		String token;
 		
-		return usuario1;
+		RespuestaServicio<LoginResponse> respuestaServicio = null;
+		
+		LoginResponse loginResponse = null;
+		List<String> lista = null;
+		
+		Usuario usuario = null;
+		
+		try {
+			
+			usuario = usuarioService.consultarUsuarioYContrasenia(login, contrasenia);
+			
+			if(usuario != null){
+				
+				jwtToken = new JwtToken();
+				token = jwtToken.getJWTToken(usuario);
+				
+				Hotel hotel = new Hotel();
+				hotel.setHotelId(usuario.getHotelId());
+				
+				List<Hotel> hotels = new ArrayList<Hotel>();
+				hotels.add(hotel);
+				
+				loginResponse = new LoginResponse();
+				loginResponse.setToken(token);
+				loginResponse.setUser(usuario.getUsuario());
+				loginResponse.setHotels(hotels);
+				
+				lista = new ArrayList<String>();
+				lista.add("1");
+				
+				genericos = new Genericos<LoginResponse>();
+				respuestaServicio = genericos.retornoMensaje(loginResponse, "0", lista); 
+				
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+		return respuestaServicio;
 	}
 
 

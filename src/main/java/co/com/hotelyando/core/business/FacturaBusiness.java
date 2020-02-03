@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.FacturaService;
-import co.com.hotelyando.core.utilities.Genericos;
 import co.com.hotelyando.database.model.Factura;
 import co.com.hotelyando.database.model.Usuario;
 
@@ -13,17 +12,13 @@ import co.com.hotelyando.database.model.Usuario;
 public class FacturaBusiness {
 
 	private final FacturaService facturaService;
-	
-	private Genericos<Usuario> genericos;
 	private Usuario objetoUsuario;
 	
 	public FacturaBusiness(FacturaService facturaService) {
 		this.facturaService = facturaService;
-		
-		genericos = new Genericos<>();
 	}
 	
-	public String registrarFactura(Factura factura, String usuario) {
+	public String registrarFactura(Factura factura, Usuario usuario) {
 		
 		String retornoMensaje = "";
 		
@@ -36,13 +31,11 @@ public class FacturaBusiness {
 		return retornoMensaje;
 	}
 
-	public List<Factura> consultarFacturasPorHotel(String usuario) {
+	public List<Factura> consultarFacturasPorHotel(Usuario usuario) {
 		
 		List<Factura> facturas = null;
 		
 		try {
-			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
 			
 			facturas = facturaService.consultarFacturasPorHotel(objetoUsuario.getHotelId());
 			
@@ -53,13 +46,11 @@ public class FacturaBusiness {
 		return facturas;
 	}
 
-	public Factura consultarFacturaPorHotel(String usuario, Integer facturaId) {
+	public Factura consultarFacturaPorHotel(Usuario usuario, Integer facturaId) {
 		
 		Factura factura = null;
 		
 		try {
-			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
 			
 			factura = facturaService.consultarFacturaPorHotel(objetoUsuario.getHotelId(), facturaId);
 			

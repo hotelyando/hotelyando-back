@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import co.com.hotelyando.core.model.LoginResponse;
 import co.com.hotelyando.core.model.Mensaje;
 import co.com.hotelyando.core.model.RespuestaServicio;
 import co.com.hotelyando.database.model.Usuario;

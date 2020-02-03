@@ -19,6 +19,7 @@ import co.com.hotelyando.core.business.ReservaBusiness;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Reserva;
+import co.com.hotelyando.database.model.Usuario;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -27,7 +28,7 @@ public class ReservaController {
 	private final ReservaBusiness reservaBusiness;
 	
 	private Utilidades utilidades;
-	private String usuario;
+	private Usuario usuario;
 	
 	public ReservaController(ReservaBusiness reservaBusiness) {
 		this.reservaBusiness = reservaBusiness;
@@ -56,7 +57,7 @@ public class ReservaController {
 			
 		Reserva	reserva = reservaBusiness.consultarReservaPorHotel(usuario, reservaId);
 			
-		if(StringUtils.isEmpty(usuario)){
+		if(reserva == null){
 			return new ResponseEntity<Reserva>(reserva, HttpStatus.NO_CONTENT);
 		}else {
 			return new ResponseEntity<Reserva>(reserva, HttpStatus.OK);

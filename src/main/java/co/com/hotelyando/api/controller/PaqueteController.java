@@ -19,6 +19,7 @@ import co.com.hotelyando.core.business.PaqueteBusiness;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Paquete;
+import co.com.hotelyando.database.model.Usuario;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -27,7 +28,7 @@ public class PaqueteController {
 	private final PaqueteBusiness paqueteBusiness;
 	
 	private Utilidades utilidades;
-	private String usuario;
+	private Usuario usuario;
 	
 	public PaqueteController(PaqueteBusiness paqueteBusiness) {
 		this.paqueteBusiness = paqueteBusiness;

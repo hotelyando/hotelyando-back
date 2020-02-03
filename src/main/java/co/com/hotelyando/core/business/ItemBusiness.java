@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.ItemService;
-import co.com.hotelyando.core.utilities.Genericos;
 import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.Usuario;
 
@@ -14,16 +13,11 @@ public class ItemBusiness {
 	
 	private final ItemService itemService;
 	
-	private Genericos<Usuario> genericos;
-	private Usuario objetoUsuario;
-	
 	public ItemBusiness(ItemService itemService) {
 		this.itemService = itemService;
-		
-		genericos = new Genericos<>();
 	}
 	
-	public String registrarItem(Item item, String usuario) {
+	public String registrarItem(Item item, Usuario usuario) {
 		
 		String retornoMensaje = "";
 		
@@ -36,15 +30,13 @@ public class ItemBusiness {
 		return retornoMensaje;
 	}
 
-	public List<Item> consultarItemsPorHotel(String usuario) {
+	public List<Item> consultarItemsPorHotel(Usuario usuario) {
 		
 		List<Item> items = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			items = itemService.consultarItemsPorHotel(objetoUsuario.getHotelId());
+			items = itemService.consultarItemsPorHotel(usuario.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -53,15 +45,13 @@ public class ItemBusiness {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(String usuario, Integer itemId) {
+	public Item consultarItemPorHotel(Usuario usuario, Integer itemId) {
 		
 		Item item = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			item = itemService.consultarItemPorHotel(objetoUsuario.getHotelId(), itemId);
+			item = itemService.consultarItemPorHotel(usuario.getHotelId(), itemId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

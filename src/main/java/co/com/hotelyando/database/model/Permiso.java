@@ -11,6 +11,8 @@ public class Permiso {
 	private boolean consultar;
 	private boolean borrar;
 	private boolean actualizar;
+	private String metodo;
+	private String path;
 	
 
 }

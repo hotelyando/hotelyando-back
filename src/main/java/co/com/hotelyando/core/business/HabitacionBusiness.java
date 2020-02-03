@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.HabitacionService;
-import co.com.hotelyando.core.utilities.Genericos;
 import co.com.hotelyando.database.model.Habitacion;
 import co.com.hotelyando.database.model.Usuario;
 
@@ -14,22 +13,11 @@ public class HabitacionBusiness {
 
 	private HabitacionService habitacionService;
 	
-	private Genericos<Usuario> genericos;
-	private Usuario objetoUsuario;
-	
-	/*
-	 * 
-	 */
 	public HabitacionBusiness(HabitacionService habitacionService) {
 		this.habitacionService = habitacionService;
-		
-		genericos = new Genericos<>();
 	}
 	
-	/*
-	 * 
-	 */
-	public String registrarHabitacion(Habitacion habitacion, String usuario) {
+	public String registrarHabitacion(Habitacion habitacion, Usuario usuario) {
 		
 		String retornoMensaje = "";
 		
@@ -45,14 +33,13 @@ public class HabitacionBusiness {
 	/*
 	 * 
 	 */
-	public List<Habitacion> consultarHabitacionesPorHotel(String usuario) {
+	public List<Habitacion> consultarHabitacionesPorHotel(Usuario usuario) {
 		
 		List<Habitacion> habitacions = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			habitacions = habitacionService.consultarHabitacionesPorHotel(objetoUsuario.getHotelId());
+			habitacions = habitacionService.consultarHabitacionesPorHotel(usuario.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -64,14 +51,13 @@ public class HabitacionBusiness {
 	/*
 	 * 
 	 */
-	public Habitacion consultarHabitacionPorHotel(String usuario, Integer habitacionId) {
+	public Habitacion consultarHabitacionPorHotel(Usuario usuario, Integer habitacionId) {
 		
 		Habitacion habitacion = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			habitacion = habitacionService.consultarHabitacionPorHotel(objetoUsuario.getHotelId(), habitacionId);
+			habitacion = habitacionService.consultarHabitacionPorHotel(usuario.getHotelId(), habitacionId);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

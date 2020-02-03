@@ -19,6 +19,7 @@ import co.com.hotelyando.core.business.ItemBusiness;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Item;
+import co.com.hotelyando.database.model.Usuario;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
@@ -27,7 +28,7 @@ public class ItemController {
 	private final ItemBusiness itemBusiness;
 	
 	private Utilidades utilidades;
-	private String usuario;
+	private Usuario usuario;
 	
 	public ItemController(ItemBusiness itemBusiness) {
 		this.itemBusiness = itemBusiness;
