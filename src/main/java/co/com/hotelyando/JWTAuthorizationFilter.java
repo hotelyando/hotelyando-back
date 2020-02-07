@@ -1,6 +1,8 @@
 package co.com.hotelyando;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,7 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.database.model.Permiso;
 import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.repository.IRolRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -21,6 +25,14 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter{
+	
+	private IRolRepository iRolRepositoriy;
+	private boolean permiso = false;
+	
+	public JWTAuthorizationFilter(IRolRepository iRolRepository) {
+		this.iRolRepositoriy = iRolRepository;
+	
+	}
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -40,7 +52,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 				
 				usuario = utilidades.retornoTenant(request, ImpresionVariables.TOKEN_HEADER);
 				
-				permisoAcceso = utilidades.validaPermiso(request.getMethod(), request.getRequestURI(), usuario);
+				permisoAcceso = validaPermiso(request.getMethod(), request.getRequestURI(), usuario);
 				
 				if(!permisoAcceso) {
 					SecurityContextHolder.clearContext();
@@ -61,5 +73,26 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 		
 		return;
 	}	
+	
+	public boolean validaPermiso(String metodo, String url, Usuario usuario) {
+		
+		List<Permiso> permisos = new ArrayList<Permiso>();
+		
+		try {
+			
+			permisos = iRolRepositoriy.findByNombre(usuario.getRol()).getPermisos();
+			
+			permisos.forEach((value) ->{
+				if(value.getMetodo().equals(metodo) && value.getPath().equals(url.replace("/", ""))) {
+					permiso = true;
+				}
+			});
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+		return permiso;
+	}
 
 }

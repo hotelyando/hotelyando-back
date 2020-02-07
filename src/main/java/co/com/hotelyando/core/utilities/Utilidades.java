@@ -1,7 +1,5 @@
 package co.com.hotelyando.core.utilities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import co.com.hotelyando.database.model.Permiso;
 import co.com.hotelyando.database.model.Usuario;
 import io.jsonwebtoken.Jwts;
 
@@ -21,10 +18,9 @@ import io.jsonwebtoken.Jwts;
 public class Utilidades {
 	
 	private String tokenHeader;
-	private boolean permiso = false;
 	private Usuario usuario = null;
 	private Gson gson = null;
-	
+
 	/*
 	 * Retorna la información del usuario en un objeto Usuario
 	 */
@@ -91,25 +87,6 @@ public class Utilidades {
 		}
 			
 		return true;
-	}
-	
-
-	/*
-	 * Valida los permisos del usuario por rol
-	 */
-	public boolean validaPermiso(String metodo, String url, Usuario usuario) {
-		
-		List<Permiso> permisos = new ArrayList<Permiso>();
-		
-		permisos = usuario.getRol().getPermisos();
-		
-		permisos.forEach((value) ->{
-			if(value.getMetodo().equals(metodo) && value.getPath().equals(url.replace("/", ""))) {
-				permiso = true;
-			}
-		});
-		
-		return permiso;
 	}
 
 }

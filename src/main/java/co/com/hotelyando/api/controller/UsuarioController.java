@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.UsuarioBusiness;
+import co.com.hotelyando.core.model.RespuestaServicio;
 import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Usuario;
@@ -37,16 +38,16 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/usuario")
-	public ResponseEntity<String> registrarUsuario(@RequestBody Usuario usuario, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<RespuestaServicio<Usuario>> registrarUsuario(@RequestBody Usuario usuario, @RequestHeader Map<String, String> headers){
 		
 		usuarioJson = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = usuarioBusiness.registrarUsuario(usuario, usuarioJson);
+		RespuestaServicio<Usuario> retornoRespuesta = usuarioBusiness.registrarUsuario(usuario, usuarioJson);
 		
-		if(StringUtils.isEmpty(retornoRespuesta)) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		if(retornoRespuesta.getEstado().equals("0")) {
+			return new ResponseEntity<RespuestaServicio<Usuario>>(retornoRespuesta, HttpStatus.NO_CONTENT);
 		}else {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+			return new ResponseEntity<RespuestaServicio<Usuario>>(retornoRespuesta, HttpStatus.OK);
 		}
 	}
 	

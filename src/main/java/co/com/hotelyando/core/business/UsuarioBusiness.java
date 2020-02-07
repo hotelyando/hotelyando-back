@@ -15,24 +15,42 @@ import co.com.hotelyando.database.model.Usuario;
 
 @Service
 public class UsuarioBusiness {
-
-private final UsuarioService usuarioService;
 	
+
+	private final UsuarioService usuarioService;
+	private RespuestaServicio<Usuario> respuestaServicio;
+
+
 	public UsuarioBusiness(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
+		respuestaServicio = new RespuestaServicio<Usuario>();
 	}
 	
-	public String registrarUsuario(Usuario usuario, Usuario usuario1) {
+	public RespuestaServicio<Usuario> registrarUsuario(Usuario usuario, Usuario usuario1) {
 		
 		String retornoMensaje = "";
 		
 		try {
+			
+			usuario.setHotelId(usuario1.getHotelId());
+			
 			retornoMensaje = usuarioService.registrarUsuario(usuario);
+			
+			if(retornoMensaje.equals("")) {
+				respuestaServicio.setContenido(null);
+				respuestaServicio.setEstado("1");
+				respuestaServicio.setMensaje("El usuario se registro correctamente");
+			}else {
+				respuestaServicio.setContenido(null);
+				respuestaServicio.setEstado("2");
+				respuestaServicio.setMensaje(retornoMensaje);
+			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return retornoMensaje;
+		return respuestaServicio;
 	}
 
 	public List<Usuario> consultarUsuariosPorHotel(Usuario usuario) {
@@ -102,7 +120,10 @@ private final UsuarioService usuarioService;
 				lista.add("1");
 				
 				genericos = new Genericos<LoginResponse>();
-				respuestaServicio = genericos.retornoMensaje(loginResponse, "0", lista); 
+				respuestaServicio = new RespuestaServicio<LoginResponse>();
+				respuestaServicio.setContenido(loginResponse);
+				respuestaServicio.setEstado("1");
+				respuestaServicio.setMensaje("Ok");
 				
 			}
 			
