@@ -15,8 +15,8 @@ public class Paquete implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer paqueteId;
-	private Integer hotelId;
+	private String paqueteId;
+	private String hotelId;
 	private String descripcion;
 	private Integer precio;
 	private Integer tiempo; // ¿?

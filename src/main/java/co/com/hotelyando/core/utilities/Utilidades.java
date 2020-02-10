@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.utilities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ public class Utilidades {
 	private String tokenHeader;
 	private Usuario usuario = null;
 	private Gson gson = null;
-
+	
 	/*
 	 * Retorna la información del usuario en un objeto Usuario
 	 */
@@ -87,6 +89,20 @@ public class Utilidades {
 		}
 			
 		return true;
+	}
+	
+	
+	/*
+	 * Generador de ID de object
+	 */
+	public String generadorId() {
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		
+		String retornoId = simpleDateFormat.format(new Date()).replace("-", "").replace(" ", "").replace(":", "");
+		retornoId = retornoId + String.valueOf(System.currentTimeMillis());
+		return retornoId;
+		
 	}
 
 }

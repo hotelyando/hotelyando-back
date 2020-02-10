@@ -48,7 +48,7 @@ private final PaqueteService paqueteService;
 		return paquetes;
 	}
 
-	public Paquete consultarPaquetePorHotel(Usuario usuario, Integer paqueteId) {
+	public Paquete consultarPaquetePorHotel(Usuario usuario, String paqueteId) {
 		
 		Paquete paquete = null;
 		

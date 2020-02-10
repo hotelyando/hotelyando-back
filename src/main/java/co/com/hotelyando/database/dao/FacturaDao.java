@@ -24,7 +24,7 @@ public class FacturaDao {
 	}
 
 	
-	public List<Factura> consultarFacturasPorHotel(Integer hotelId) throws Exception {
+	public List<Factura> consultarFacturasPorHotel(String hotelId) throws Exception {
 		
 		List<Factura> facturas = null;
 		
@@ -34,7 +34,7 @@ public class FacturaDao {
 	}
 
 	
-	public Factura consultarFacturaPorHotel(Integer hotelId, Integer facturaId) throws Exception {
+	public Factura consultarFacturaPorHotel(String hotelId, String facturaId) throws Exception {
 		
 		Factura factura = null;
 		

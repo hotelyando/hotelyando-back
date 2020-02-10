@@ -8,8 +8,8 @@ import co.com.hotelyando.database.model.Item;
 
 public interface IItemRepository extends MongoRepository<Item, Integer> {
 	
-	List<Item> findByHotelId(Integer hotelId);
-	Item findByHotelIdAndItemId(Integer hotelId, Integer itemId);
+	List<Item> findByHotelId(String hotelId);
+	Item findByHotelIdAndItemId(String hotelId, String itemId);
 	
 
 }

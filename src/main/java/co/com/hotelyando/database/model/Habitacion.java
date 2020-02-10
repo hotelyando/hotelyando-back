@@ -14,10 +14,10 @@ public class Habitacion implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer habitacionId;
-	private Integer hotelId; // es necesario?
-	private Integer paqueteId;
-	private Integer uuidDetail; //¿?
+	private String habitacionId;
+	private String hotelId; // es necesario?
+	private String paqueteId;
+	private String uuidDetail; //¿?
 	private Integer cantidadPersona; //¿?
 	private String valores; //¿?
 	private Persona persona; //Huespedes?

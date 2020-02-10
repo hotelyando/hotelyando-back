@@ -45,7 +45,7 @@ private final ReservaService reservaService;
 		return reservas;
 	}
 
-	public Reserva consultarReservaPorHotel(Usuario usuario, Integer reservaId) {
+	public Reserva consultarReservaPorHotel(Usuario usuario, String reservaId) {
 		
 		Reserva reserva = null;
 		

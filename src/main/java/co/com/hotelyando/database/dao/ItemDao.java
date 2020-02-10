@@ -24,7 +24,7 @@ private final IItemRepository iItemRepository;
 	}
 
 	
-	public List<Item> consultarItemsPorHotel(Integer hotelId) throws Exception {
+	public List<Item> consultarItemsPorHotel(String hotelId) throws Exception {
 		
 		List<Item> items = null;
 		
@@ -34,7 +34,7 @@ private final IItemRepository iItemRepository;
 	}
 
 	
-	public Item consultarItemPorHotel(Integer hotelId, Integer itemId) throws Exception {
+	public Item consultarItemPorHotel(String hotelId, String itemId) throws Exception {
 		
 		Item item = null;
 		

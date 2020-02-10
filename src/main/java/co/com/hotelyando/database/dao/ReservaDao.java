@@ -23,7 +23,7 @@ public class ReservaDao {
 		return "Ok";
 	}
 
-	public List<Reserva> consultarReservasPorHotel(Integer hotelId) throws Exception {
+	public List<Reserva> consultarReservasPorHotel(String hotelId) throws Exception {
 		
 		List<Reserva> reservas = null;
 		reservas = iReservaRepository.findByHotelId(hotelId);
@@ -31,7 +31,7 @@ public class ReservaDao {
 		return reservas;
 	}
 
-	public Reserva consultarReservaPorHotel(Integer hotelId, Integer reservaId) throws Exception {
+	public Reserva consultarReservaPorHotel(String hotelId, String reservaId) throws Exception {
 		
 		Reserva reserva = null;
 		reserva = iReservaRepository.findByHotelIdAndReservaId(hotelId, reservaId);

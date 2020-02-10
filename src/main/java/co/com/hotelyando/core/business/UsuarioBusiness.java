@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.model.LoginResponse;
 import co.com.hotelyando.core.model.RespuestaServicio;
+import co.com.hotelyando.core.model.RespuestasServicio;
 import co.com.hotelyando.core.services.UsuarioService;
 import co.com.hotelyando.core.utilities.Genericos;
+import co.com.hotelyando.core.utilities.ImpresionEntidades;
+import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.JwtToken;
+import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Hotel;
 import co.com.hotelyando.database.model.Usuario;
 
@@ -19,13 +23,22 @@ public class UsuarioBusiness {
 
 	private final UsuarioService usuarioService;
 	private RespuestaServicio<Usuario> respuestaServicio;
-
+	private RespuestasServicio<Usuario> respuestasServicio;
+	private Utilidades utilidades = null;
+	private Genericos<Usuario> genericos = null;
 
 	public UsuarioBusiness(UsuarioService usuarioService) {
+		
 		this.usuarioService = usuarioService;
 		respuestaServicio = new RespuestaServicio<Usuario>();
+		respuestasServicio = new RespuestasServicio<Usuario>();
+		utilidades = new Utilidades();
+		genericos = new Genericos<Usuario>();
 	}
 	
+	/*
+	 * Registrar usuario
+	 */
 	public RespuestaServicio<Usuario> registrarUsuario(Usuario usuario, Usuario usuario1) {
 		
 		String retornoMensaje = "";
@@ -33,27 +46,29 @@ public class UsuarioBusiness {
 		try {
 			
 			usuario.setHotelId(usuario1.getHotelId());
+			usuario.setUsuarioId(utilidades.generadorId());
 			
 			retornoMensaje = usuarioService.registrarUsuario(usuario);
 			
 			if(retornoMensaje.equals("")) {
-				respuestaServicio.setContenido(null);
-				respuestaServicio.setEstado("1");
-				respuestaServicio.setMensaje("El usuario se registro correctamente");
+				respuestaServicio = genericos.retornoMensaje(null, ImpresionVariables.NEGOCIO, ImpresionEntidades.USUARIO_REGISTRADO);
 			}else {
-				respuestaServicio.setContenido(null);
-				respuestaServicio.setEstado("2");
-				respuestaServicio.setMensaje(retornoMensaje);
+				respuestaServicio = genericos.retornoMensaje(null, ImpresionVariables.ADVERTENCIA, retornoMensaje);
 			}
 			
 		}catch (Exception e) {
+			respuestaServicio = genericos.retornoMensaje(null, ImpresionVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
 		return respuestaServicio;
 	}
 
-	public List<Usuario> consultarUsuariosPorHotel(Usuario usuario) {
+	/*
+	 * Metodo que consultará los usuarios por hotel, la información del hotel viene en el token, no hay necesidad de 
+	 * enviarlo desde el servicio.
+	 */
+	public RespuestasServicio<Usuario> consultarUsuariosPorHotel(Usuario usuario) {
 		
 		List<Usuario> usuarios = null;
 		
@@ -61,14 +76,24 @@ public class UsuarioBusiness {
 			
 			usuarios = usuarioService.consultarUsuariosPorHotel(usuario.getHotelId());
 			
+			if(usuarios != null) {
+				respuestasServicio = genericos.retornoMensajes(usuarios, ImpresionVariables.NEGOCIO, ImpresionEntidades.DATOS_RETORNADOS + usuarios.size());
+			}else {
+				respuestasServicio = genericos.retornoMensajes(usuarios, ImpresionVariables.ADVERTENCIA, ImpresionEntidades.DATOS_RETORNADOS + 0);
+			}
+			
 		}catch (Exception e) {
+			respuestasServicio = genericos.retornoMensajes(usuarios, ImpresionVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
-		return usuarios;
+		return respuestasServicio;
 	}
 
-	public Usuario consultarUsuarioPorHotel(Usuario usuario, Integer usuarioId) {
+	/*
+	 * Consultar usuario por hotel
+	 */
+	public RespuestaServicio<Usuario> consultarUsuarioPorHotel(Usuario usuario, String usuarioId) {
 		
 		Usuario usuario1 = null;
 		
@@ -76,36 +101,49 @@ public class UsuarioBusiness {
 			
 			usuario1 = usuarioService.consultarUsuarioPorHotel(usuario.getHotelId(), usuarioId);
 			
+			if(usuario1 != null) {
+				respuestaServicio = genericos.retornoMensaje(usuario1, ImpresionVariables.NEGOCIO, ImpresionEntidades.DATOS_RETORNADOS);
+			}else {
+				respuestaServicio = genericos.retornoMensaje(null, ImpresionVariables.ADVERTENCIA, ImpresionEntidades.USUARIO_NO_ENCONTRADO);
+			}
+			
+			
 		}catch (Exception e) {
+			respuestaServicio = genericos.retornoMensaje(null, ImpresionVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return usuario1;
+		return respuestaServicio;
 	}
 	
+	/*
+	 * Metodo que se encarga de validar el usuario y contraseña ingresado, en caso de ser correcto, generará un token con 
+	 * la información del usuario para poder navegar con los demás servicios por medio del token generado, este token dará
+	 * los permisos necesarios a los servicios que este permitido consumir.
+	 */
 	public RespuestaServicio<LoginResponse> consultarUsuarioYContrasenia(String login, String contrasenia){
 		
-		Genericos<LoginResponse> genericos;
 		JwtToken jwtToken;
 		String token;
 		
 		RespuestaServicio<LoginResponse> respuestaServicio = null;
-		
+		Hotel hotel = null;
 		LoginResponse loginResponse = null;
-		List<String> lista = null;
-		
 		Usuario usuario = null;
-		
+		Genericos<LoginResponse> genericosLogin = null;
 		try {
 			
 			usuario = usuarioService.consultarUsuarioYContrasenia(login, contrasenia);
 			
-			if(usuario != null){
+			genericosLogin = new Genericos<LoginResponse>();
+			
+			if(usuario != null && !usuario.getUsuarioId().equals(ImpresionVariables.VALIDACION)){
 				
+				//Obtenemos el token, en donde se encuentra la información del usuario logueado
 				jwtToken = new JwtToken();
 				token = jwtToken.getJWTToken(usuario);
 				
-				Hotel hotel = new Hotel();
+				hotel = new Hotel();
 				hotel.setHotelId(usuario.getHotelId());
 				
 				List<Hotel> hotels = new ArrayList<Hotel>();
@@ -116,18 +154,14 @@ public class UsuarioBusiness {
 				loginResponse.setUser(usuario.getUsuario());
 				loginResponse.setHotels(hotels);
 				
-				lista = new ArrayList<String>();
-				lista.add("1");
+				respuestaServicio = genericosLogin.retornoMensaje(loginResponse, ImpresionVariables.NEGOCIO, ImpresionEntidades.USUARIO_LOGUEADO);
 				
-				genericos = new Genericos<LoginResponse>();
-				respuestaServicio = new RespuestaServicio<LoginResponse>();
-				respuestaServicio.setContenido(loginResponse);
-				respuestaServicio.setEstado("1");
-				respuestaServicio.setMensaje("Ok");
-				
+			}else {
+				respuestaServicio = genericosLogin.retornoMensaje(null, ImpresionVariables.ADVERTENCIA, ImpresionEntidades.USUARIO_NO_ENCONTRADO);
 			}
 			
 		}catch (Exception e) {
+			respuestaServicio = genericosLogin.retornoMensaje(null, ImpresionVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 				

@@ -51,7 +51,7 @@ public class HabitacionBusiness {
 	/*
 	 * 
 	 */
-	public Habitacion consultarHabitacionPorHotel(Usuario usuario, Integer habitacionId) {
+	public Habitacion consultarHabitacionPorHotel(Usuario usuario, String habitacionId) {
 		
 		Habitacion habitacion = null;
 		

@@ -23,7 +23,7 @@ public class PlanDao{
 		return "Ok";
 	}
 
-	public List<Plan> consultarPlanesPorHotel(Integer hotelId) throws Exception {
+	public List<Plan> consultarPlanesPorHotel(String hotelId) throws Exception {
 		
 		List<Plan> plans = null;
 		plans = iPlanRepository.findByHotelId(hotelId);
@@ -31,7 +31,7 @@ public class PlanDao{
 		return plans;
 	}
 
-	public Plan consultarPlanPorHotel(Integer hotelId, Integer planId) throws Exception {
+	public Plan consultarPlanPorHotel(String hotelId, String planId) throws Exception {
 		
 		Plan plan = null;
 		plan = iPlanRepository.findByHotelIdAndPlanId(hotelId, planId);

@@ -15,7 +15,7 @@ public class Rol implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer rolId;
+	private String rolId;
 	private String nombre;
 	private String descripcion;
 	private List<Permiso> permisos;

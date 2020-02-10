@@ -8,7 +8,7 @@ import lombok.Data;
 public class Cargo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private Integer cargoId;
+	private String cargoId;
 	private String nombre;
 	private String descripcion;
 	private Double salario;

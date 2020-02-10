@@ -8,7 +8,7 @@ import lombok.Data;
 public class Total implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private Integer totalId;
+	private String totalId;
 	private Double valorHabitacion;
 	private Double valorServicio;
 	

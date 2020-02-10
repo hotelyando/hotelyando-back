@@ -2,6 +2,7 @@ package co.com.hotelyando.database.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -12,8 +13,9 @@ public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer usuarioId;
-	private Integer hotelId;
+	@Id
+	private String usuarioId;
+	private String hotelId;
 	private String rol;
 	private Persona persona;
 	private String usuario;

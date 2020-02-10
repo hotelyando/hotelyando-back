@@ -25,7 +25,7 @@ public class UsuarioDao {
 	}
 
 	
-	public List<Usuario> consultarUsuariosPorHotel(Integer hotelId) throws Exception {
+	public List<Usuario> consultarUsuariosPorHotel(String hotelId) throws Exception {
 		
 		List<Usuario> usuarios = null;
 		usuarios = iUsuarioRepository.findByHotelId(hotelId);
@@ -34,7 +34,7 @@ public class UsuarioDao {
 	}
 
 	
-	public Usuario consultarUsuarioPorHotel(Integer hotelId, Integer usuarioId) throws Exception {
+	public Usuario consultarUsuarioPorHotel(String hotelId, String usuarioId) throws Exception {
 		
 		Usuario usuario = null;
 		usuario = iUsuarioRepository.findByHotelIdAndUsuarioId(hotelId, usuarioId);

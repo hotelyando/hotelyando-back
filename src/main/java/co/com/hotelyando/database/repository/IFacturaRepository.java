@@ -8,7 +8,7 @@ import co.com.hotelyando.database.model.Factura;
 
 public interface IFacturaRepository extends MongoRepository<Factura, Integer> {
 	
-	List<Factura> findByHotelId(Integer hotelId);
-	Factura findByHotelIdAndFacturaId(Integer hotelId, Integer facturaId);
+	List<Factura> findByHotelId(String hotelId);
+	Factura findByHotelIdAndFacturaId(String hotelId, String facturaId);
 	
 }

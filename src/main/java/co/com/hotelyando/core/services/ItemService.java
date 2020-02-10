@@ -25,7 +25,7 @@ public class ItemService {
 		return retornoMensaje;
 	}
 
-	public List<Item> consultarItemsPorHotel(Integer hotelId) throws Exception {
+	public List<Item> consultarItemsPorHotel(String hotelId) throws Exception {
 		
 		List<Item> items = null;
 		items = itemDao.consultarItemsPorHotel(hotelId);
@@ -33,7 +33,7 @@ public class ItemService {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(Integer hotelId, Integer itemId) throws Exception {
+	public Item consultarItemPorHotel(String hotelId, String itemId) throws Exception {
 		
 		Item item = null;
 		item = itemDao.consultarItemPorHotel(hotelId, itemId);

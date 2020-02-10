@@ -24,6 +24,10 @@ public class ImpresionVariables {
 	public static final String ROLE_USER = "ROLE_USER";
 	public static final String BEARER = "Bearer ";
 	
+	public static final String ERROR_TECNICO = "0";
+	public static final String NEGOCIO = "1";
+	public static final String ADVERTENCIA = "2";
+	public static final String VALIDACION = "4";
 	
 	
 	

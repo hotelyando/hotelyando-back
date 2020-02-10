@@ -27,7 +27,7 @@ public class ReservaService {
 	}
 
 	
-	public List<Reserva> consultarReservasPorHotel(Integer hotelId) throws Exception {
+	public List<Reserva> consultarReservasPorHotel(String hotelId) throws Exception {
 		
 		List<Reserva> reservas = null;
 		reservas = reservaDao.consultarReservasPorHotel(hotelId);
@@ -35,7 +35,7 @@ public class ReservaService {
 		return reservas;
 	}
 
-	public Reserva consultarReservaPorHotel(Integer hotelId, Integer reservaId) throws Exception {
+	public Reserva consultarReservaPorHotel(String hotelId, String reservaId) throws Exception {
 		
 		Reserva reserva = null;
 		reserva = reservaDao.consultarReservaPorHotel(hotelId, reservaId);

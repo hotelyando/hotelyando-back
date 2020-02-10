@@ -15,7 +15,7 @@ public class Hotel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer hotelId;
+	private String hotelId;
 	private String nit;
 	private String direccion;
 	private String nombre;

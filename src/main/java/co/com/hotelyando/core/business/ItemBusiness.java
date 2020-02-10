@@ -45,7 +45,7 @@ public class ItemBusiness {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(Usuario usuario, Integer itemId) {
+	public Item consultarItemPorHotel(Usuario usuario, String itemId) {
 		
 		Item item = null;
 		

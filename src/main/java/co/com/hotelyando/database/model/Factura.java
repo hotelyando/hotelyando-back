@@ -15,8 +15,8 @@ public class Factura implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer facturaId;
-	private Integer hotelId;
+	private String facturaId;
+	private String hotelId;
 	private String estado;
 	private String fechaRegistro;
 	private List<Total> totales;

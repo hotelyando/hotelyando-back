@@ -8,7 +8,7 @@ import co.com.hotelyando.database.model.Paquete;
 
 public interface IPaqueteRepository extends MongoRepository<Paquete, Integer> {
 	
-	List<Paquete> findByHotelId(Integer hotelId);
-	Paquete findByHotelIdAndPaqueteId(Integer hotelId, Integer paqueteId);
+	List<Paquete> findByHotelId(String hotelId);
+	Paquete findByHotelIdAndPaqueteId(String hotelId, String paqueteId);
 	
 }

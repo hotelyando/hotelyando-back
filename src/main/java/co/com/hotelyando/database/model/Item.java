@@ -15,8 +15,8 @@ public class Item implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer itemId;
-	private Integer hotelId;
+	private String itemId;
+	private String hotelId;
 	private Boolean activo;
 	private Integer cantidad;
 	private String descripcion;

@@ -83,7 +83,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 			permisos = iRolRepositoriy.findByNombre(usuario.getRol()).getPermisos();
 			
 			permisos.forEach((value) ->{
-				if(value.getMetodo().equals(metodo) && value.getPath().equals(url.replace("/", ""))) {
+				if(value.getMetodo().equals(metodo) && value.getNombre().equals(url.replace("/", ""))) {
 					permiso = true;
 				}
 			});

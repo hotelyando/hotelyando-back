@@ -8,8 +8,8 @@ import co.com.hotelyando.database.model.Habitacion;
 
 public interface IHabitacionRepository extends MongoRepository<Habitacion, Integer> {
 	
-	List<Habitacion> findByHotelId(Integer hotelId);
-	Habitacion findByHotelIdAndHabitacionId(Integer hotelId, Integer habitacionId);
+	List<Habitacion> findByHotelId(String hotelId);
+	Habitacion findByHotelIdAndHabitacionId(String hotelId, String habitacionId);
 	
 
 }

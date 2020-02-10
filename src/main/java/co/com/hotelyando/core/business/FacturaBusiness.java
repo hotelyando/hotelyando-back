@@ -46,7 +46,7 @@ public class FacturaBusiness {
 		return facturas;
 	}
 
-	public Factura consultarFacturaPorHotel(Usuario usuario, Integer facturaId) {
+	public Factura consultarFacturaPorHotel(Usuario usuario, String facturaId) {
 		
 		Factura factura = null;
 		

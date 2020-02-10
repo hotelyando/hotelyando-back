@@ -24,7 +24,7 @@ public class HabitacionDao{
 		return "Ok";
 	}
 
-	public List<Habitacion> consultarHabitacionesPorHotel(Integer hotelId) throws Exception {
+	public List<Habitacion> consultarHabitacionesPorHotel(String hotelId) throws Exception {
 		
 		List<Habitacion> habitacions = null;
 		habitacions = iHabitacionRepository.findByHotelId(hotelId);
@@ -32,7 +32,7 @@ public class HabitacionDao{
 		return habitacions;
 	}
 
-	public Habitacion consultarHabitacionPorHotel(Integer hotelId, Integer habitacionId) throws Exception {
+	public Habitacion consultarHabitacionPorHotel(String hotelId, String habitacionId) throws Exception {
 		
 		Habitacion habitacion = null;
 		habitacion = iHabitacionRepository.findByHotelIdAndHabitacionId(hotelId, habitacionId);

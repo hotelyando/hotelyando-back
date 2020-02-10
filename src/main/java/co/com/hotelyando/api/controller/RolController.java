@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.RolBusiness;
 import co.com.hotelyando.database.model.Rol;
+import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@Api(tags = "Rol")
 public class RolController {
 	
 	private final RolBusiness rolBusiness;

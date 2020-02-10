@@ -19,9 +19,11 @@ import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Persona;
 import co.com.hotelyando.database.model.Usuario;
+import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@Api(tags = "Persona")
 public class PersonaController {
 
 	private final PersonaBusiness personaBusiness;

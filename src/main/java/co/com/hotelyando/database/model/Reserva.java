@@ -14,8 +14,8 @@ public class Reserva implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer reservaId;
-	private Integer hotelId;
+	private String reservaId;
+	private String hotelId;
 	private String fechaReserva;
 	private String fechaIngreso;
 	private String fechaSalida;

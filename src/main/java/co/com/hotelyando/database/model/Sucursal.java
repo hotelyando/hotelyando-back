@@ -8,6 +8,6 @@ import lombok.Data;
 public class Sucursal implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private Integer sucursalId;
+	private String sucursalId;
 	private String nombre;
 }

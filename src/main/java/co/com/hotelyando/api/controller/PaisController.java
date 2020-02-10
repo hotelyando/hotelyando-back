@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PaisBusiness;
 import co.com.hotelyando.database.model.Pais;
+import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@Api(tags = "Pais")
 public class PaisController {
 
 	private final PaisBusiness paisBusiness;
@@ -23,7 +25,7 @@ public class PaisController {
 	}
 	
 	@PostMapping("/pais")
-	public ResponseEntity<String> registrarFactura(@RequestBody Pais pais){
+	public ResponseEntity<String> registrarPais(@RequestBody Pais pais){
 		
 		String retornoRespuesta = paisBusiness.registrarPais(pais);
 		

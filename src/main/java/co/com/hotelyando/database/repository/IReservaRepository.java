@@ -8,8 +8,8 @@ import co.com.hotelyando.database.model.Reserva;
 
 public interface IReservaRepository extends MongoRepository<Reserva, Integer> {
 	
-	List<Reserva> findByHotelId(Integer hotelId);
-	Reserva findByHotelIdAndReservaId(Integer hotelId, Integer reservaId);
+	List<Reserva> findByHotelId(String hotelId);
+	Reserva findByHotelIdAndReservaId(String hotelId, String reservaId);
 	
 	
 

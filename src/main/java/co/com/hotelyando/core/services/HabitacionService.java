@@ -26,7 +26,7 @@ public class HabitacionService {
 		return retornoMensaje;
 	}
 
-	public List<Habitacion> consultarHabitacionesPorHotel(Integer hotelId) throws Exception {
+	public List<Habitacion> consultarHabitacionesPorHotel(String hotelId) throws Exception {
 		
 		List<Habitacion> habitacions = null;
 		habitacions = habitacionDao.consultarHabitacionesPorHotel(hotelId);
@@ -34,7 +34,7 @@ public class HabitacionService {
 		return habitacions;
 	}
 
-	public Habitacion consultarHabitacionPorHotel(Integer hotelId, Integer habitacionId) throws Exception {
+	public Habitacion consultarHabitacionPorHotel(String hotelId, String habitacionId) throws Exception {
 		
 		Habitacion habitacion = null;
 		habitacion = habitacionDao.consultarHabitacionPorHotel(hotelId, habitacionId);

@@ -46,7 +46,7 @@ private final PlanService planService;
 		return plans;
 	}
 
-	public Plan consultarPlanPorHotel(Usuario usuario, Integer planId) {
+	public Plan consultarPlanPorHotel(Usuario usuario, String planId) {
 		
 		Plan plan = null;
 		

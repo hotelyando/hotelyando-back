@@ -25,7 +25,7 @@ public class FacturaService {
 		return retornoMensaje;
 	}
 
-	public List<Factura> consultarFacturasPorHotel(Integer hotelId) throws Exception {
+	public List<Factura> consultarFacturasPorHotel(String hotelId) throws Exception {
 		
 		List<Factura> facturas = null;
 		facturas = facturaDao.consultarFacturasPorHotel(hotelId);
@@ -33,7 +33,7 @@ public class FacturaService {
 		return facturas;
 	}
 
-	public Factura consultarFacturaPorHotel(Integer hotelId, Integer facturaId) throws Exception {
+	public Factura consultarFacturaPorHotel(String hotelId, String facturaId) throws Exception {
 		
 		Factura factura = null;
 		factura = facturaDao.consultarFacturaPorHotel(hotelId, facturaId);

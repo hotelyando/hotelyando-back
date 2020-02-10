@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import lombok.Data;
 
+/*
+ * Esta clase retorna la respuesta del servicio, pero cuando el objeto a retornar NO es una lista
+ */
+
 @Data
 public class RespuestaServicio<T> implements Serializable {
 	

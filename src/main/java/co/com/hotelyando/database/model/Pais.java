@@ -14,7 +14,7 @@ public class Pais implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer paisId;
+	private String paisId;
 	private String gentilicio;
 	private String nombre;
 

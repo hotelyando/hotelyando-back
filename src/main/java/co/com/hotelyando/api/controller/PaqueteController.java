@@ -20,9 +20,11 @@ import co.com.hotelyando.core.utilities.ImpresionVariables;
 import co.com.hotelyando.core.utilities.Utilidades;
 import co.com.hotelyando.database.model.Paquete;
 import co.com.hotelyando.database.model.Usuario;
+import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@Api(tags = "Paquete")
 public class PaqueteController {
 	
 	private final PaqueteBusiness paqueteBusiness;
@@ -51,7 +53,7 @@ public class PaqueteController {
 	}
 	
 	@GetMapping("/paquete/{paqueteId}")
-	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable Integer paqueteId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable String paqueteId, @RequestHeader Map<String, String> headers){
 		
 		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
 			

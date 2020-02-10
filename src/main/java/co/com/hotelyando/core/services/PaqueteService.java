@@ -26,7 +26,7 @@ public class PaqueteService {
 		return retornoMensaje;
 	}
 
-	public List<Paquete> consultarPaquetesPorHotel(Integer hotelId) throws Exception {
+	public List<Paquete> consultarPaquetesPorHotel(String hotelId) throws Exception {
 		
 		List<Paquete> paquetes = null;
 		paquetes = paqueteDao.consultarPaquetesPorHotel(hotelId);
@@ -34,7 +34,7 @@ public class PaqueteService {
 		return paquetes;
 	}
 
-	public Paquete consultarPaquetePorHotel(Integer hotelId, Integer paqueteId) throws Exception {
+	public Paquete consultarPaquetePorHotel(String hotelId, String paqueteId) throws Exception {
 		
 		Paquete paquete = null;
 		paquete = paqueteDao.consultarPaquetePorHotel(hotelId, paqueteId);

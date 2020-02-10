@@ -14,8 +14,8 @@ public class Plan implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Integer planId;
-	private Integer hotelId;
+	private String planId;
+	private String hotelId;
 	private String descripcion;
 	private String fechaInicial;
 	private String fechaFinal;
