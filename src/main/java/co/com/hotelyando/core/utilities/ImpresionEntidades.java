@@ -17,4 +17,25 @@ public class ImpresionEntidades {
 	public static final String DATOS_RETORNADOS = "Registros retornados, ";
 	public static final String USUARIO_LOGUEADO = "Usuario existente";
 
+	
+	/*
+	 * Persona
+	 */
+	public static final String VALIDACION_ID_PERSONA = "Debe ingresar un Id de persona.";
+	
+	public static final String PERSONA_NO_ENCONTRADA = "Persona no encontrada!.";
+	public static final String PERSONA_REGISTRADA = "La persona se registro correctamente";
+	public static final String PERSONA_EXISTENTE = "Persona existente";
+	
+	public static final String PERSONA_CELULAR = "Debe ingresar un número de celular.";
+	public static final String PERSONA_CORREO_ELECTRONICO = "Debe ingresar un correo electrónico.";
+	public static final String PERSONA_DIRECCION = "Debe ingresar una dirección de residencia.";
+	public static final String PERSONA_FECHA_NACIMIENTO = "Debe ingresar su fecha de nacimiento.";
+	public static final String PERSONA_NOMBRE_COMPLETO = "Debe ingresar su nombre completo.";
+	public static final String PERSONA_NUMERO_DOCUMENTO = "Debe ingresar su número de documento.";
+	public static final String PERSONA_TIPO_DOCUMENTO = "Debe ingresar su tipo de documento.";
+	public static final String PERSONA_TELEFONO_FIJO = "Debe ingresar un número de telefono fijo.";
+	
+	
+	
 }
