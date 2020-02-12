@@ -32,11 +32,7 @@ public class LoginController {
 		
 		respuestaServicio = usuarioBusiness.consultarUsuarioYContrasenia(loginRequest.getUsuario(), loginRequest.getContrasena());
 			
-		if(respuestaServicio != null) {
-			return new ResponseEntity<RespuestaServicio<LoginResponse>>(respuestaServicio, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<RespuestaServicio<LoginResponse>>(respuestaServicio, HttpStatus.PRECONDITION_REQUIRED);
-		}
+		return new ResponseEntity<RespuestaServicio<LoginResponse>>(respuestaServicio, HttpStatus.OK);
 	}
 
 }

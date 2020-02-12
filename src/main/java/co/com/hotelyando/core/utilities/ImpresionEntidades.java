@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.utilities;
 
+import co.com.hotelyando.database.model.Item;
+
 public class ImpresionEntidades {
 	
 	/*
@@ -35,6 +37,32 @@ public class ImpresionEntidades {
 	public static final String PERSONA_NUMERO_DOCUMENTO = "Debe ingresar su número de documento.";
 	public static final String PERSONA_TIPO_DOCUMENTO = "Debe ingresar su tipo de documento.";
 	public static final String PERSONA_TELEFONO_FIJO = "Debe ingresar un número de telefono fijo.";
+	
+	
+	/*
+	 * Habitacion
+	 */
+	public static final String HABITACION_NO_ENCONTRADA = "Habitación no encontrada!.";
+	public static final String HABITACION_REGISTRADA = "La habitación se registro correctamente!.";
+	public static final String HABITACION_EXISTENTE = "Habitación existente.";
+	
+	public static final String HABITACION_VALIDACION_ID = "Debe ingresar el id de habitación.";
+	public static final String HABITACION_HOTEL_ID = "Debe ingresar el ID de hotel.";
+	public static final String HABITACION_CHECK_IN = "Debe ingresar la fecha de checkIn.";
+	public static final String HABITACION_CHECK_OUT = "Debe ingresar la fecha de checkOut.";
+	public static final String HABITACION_TIPO = "Debe seleccionar el tipo de habitación.";
+	public static final String HABITACION_ITEM = "Debe seleccionar el item de la habitación.";
+	
+	
+	
+	public static final String TIPO_HABITACION_ID = "Debe ingresar el ID del tipo de habitación.";
+	public static final String TIPO_HABITACION_HOTEL_ID = "Debe ingresar el ID del hotel.";
+	public static final String TIPO_HABITACION_DESCRIPCION = "Debe ingresar la descripción del tipo de habitación.";
+	public static final String TIPO_HABITACION_PRECIO_DIA = "Debe ingresar el valor del día.";
+	public static final String TIPO_HABITACION_PRECIO_HORA = "Debe ingresar el valor de la hora.";
+	public static final String TIPO_HABITACION_REGISTRADA = "El tipo de habitación se registró correctamente!.";
+	
+	
 	
 	
 	

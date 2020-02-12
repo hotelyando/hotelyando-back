@@ -28,6 +28,7 @@ public class SwaggerConfig {
             .tags(new Tag("Usuario", "Controlador que gestiona las acciones de un usuario de un hotel"))
             .tags(new Tag("Factura", "Controlador que gestiona las acciones para una factura"))
             .tags(new Tag("Habitacion", "Controlador que gestiona las acciones para una habitación"))
+            .tags(new Tag("TipoHabitacion", "Controlador que gestiona las acciones para un tipo de habitación"))
             .tags(new Tag("Hotel", "Controlador que gestiona las acciones de un hotel"))
             .tags(new Tag("Item", "Controlador que gestiona las acciones de un item"))
             .tags(new Tag("Pais", "Controlador que gestiona las acciones para un pais"))

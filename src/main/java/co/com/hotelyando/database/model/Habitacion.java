@@ -15,12 +15,12 @@ public class Habitacion implements Serializable{
 	
 	@Id
 	private String habitacionId;
-	private String hotelId; // es necesario?
-	private String paqueteId;
-	private String uuidDetail; //¿?
-	private Integer cantidadPersona; //¿?
-	private String valores; //¿?
-	private Persona persona; //Huespedes?
+	private String hotelId;
+	private String checkIn;
+	private String checkOut;
+	private String tipo;
+	private Item item;
+	
 	
 
 }
