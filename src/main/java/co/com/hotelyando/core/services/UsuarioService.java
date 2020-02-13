@@ -29,7 +29,7 @@ public class UsuarioService {
 			retornoMensaje = ImpresionEntidades.VALIDACION_HOTEL_ID;
 		}else if(StringUtils.isBlank(usuario.getRol())) {
 			retornoMensaje = ImpresionEntidades.VALIDACION_ROL;
-		}else if(StringUtils.isBlank(usuario.getPersona())) {
+		}else if(StringUtils.isBlank(usuario.getPersonaId())) {
 			retornoMensaje = ImpresionEntidades.VALIDACION_PERSONA;
 		}else if(StringUtils.isBlank(usuario.getUsuario())) {
 			retornoMensaje = ImpresionEntidades.VALIDACION_USUARIO;

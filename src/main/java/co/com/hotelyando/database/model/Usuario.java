@@ -17,7 +17,7 @@ public class Usuario implements Serializable{
 	private String usuarioId;
 	private String hotelId;
 	private String rol;
-	private String persona;
+	private String personaId;
 	private String usuario;
 	private String contrasenia;
 	private String fechaRegistro;

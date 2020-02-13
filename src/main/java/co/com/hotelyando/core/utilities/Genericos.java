@@ -39,6 +39,7 @@ public class Genericos<T> {
 		RespuestaServicio<T> respuestaServicio = new RespuestaServicio<T>();
 		respuestaServicio.setContenido(contenido);
 		respuestaServicio.setMensaje(mensaje);
+		respuestaServicio.setEstado(estado);
 		
 		return respuestaServicio;
 		
