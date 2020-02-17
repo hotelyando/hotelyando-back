@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.ItemBusiness;
-import co.com.hotelyando.core.utilities.ImpresionVariables;
-import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Item;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -29,22 +29,22 @@ public class ItemController {
 	
 	private final ItemBusiness itemBusiness;
 	
-	private Utilidades utilidades;
-	private Usuario usuario;
+	private Utilities utilities;
+	private User user;
 	
 	public ItemController(ItemBusiness itemBusiness) {
 		this.itemBusiness = itemBusiness;
 		
-		utilidades = new Utilidades();
+		utilities = new Utilities();
 	}
 	
 	
 	@PostMapping("/item")
 	public ResponseEntity<String> registrarItem(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = itemBusiness.registrarItem(item, usuario);
+		String retornoRespuesta = itemBusiness.registrarItem(item, user);
 		
 		if(StringUtils.isEmpty(retornoRespuesta)) {
 			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
@@ -56,9 +56,9 @@ public class ItemController {
 	@GetMapping("/item/{itemId}")
 	public ResponseEntity<Item> consultarItemPorHotel(@PathVariable String itemId, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Item item = itemBusiness.consultarItemPorHotel(usuario, itemId);
+		Item item = itemBusiness.consultarItemPorHotel(user, itemId);
 			
 		if(item == null) {
 			return new ResponseEntity<Item>(item, HttpStatus.NO_CONTENT);
@@ -70,9 +70,9 @@ public class ItemController {
 	@GetMapping("/item")
 	public ResponseEntity<List<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Item> items = itemBusiness.consultarItemsPorHotel(usuario);
+		List<Item> items = itemBusiness.consultarItemsPorHotel(user);
 			
 		if(items == null) {
 			return new ResponseEntity<List<Item>>(items, HttpStatus.NOT_IMPLEMENTED);

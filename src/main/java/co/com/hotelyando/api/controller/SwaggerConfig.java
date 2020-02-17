@@ -25,18 +25,18 @@ public class SwaggerConfig {
             .paths(PathSelectors.regex("/.*"))
             .build().apiInfo(apiEndPointsInfo())
             .tags(new Tag("Login", "Controlador que gestiona el acceso de usuarios a la aplicación"))
-            .tags(new Tag("Usuario", "Controlador que gestiona las acciones de un usuario de un hotel"))
-            .tags(new Tag("Factura", "Controlador que gestiona las acciones para una factura"))
-            .tags(new Tag("Habitacion", "Controlador que gestiona las acciones para una habitación"))
-            .tags(new Tag("TipoHabitacion", "Controlador que gestiona las acciones para un tipo de habitación"))
+            .tags(new Tag("User", "Controlador que gestiona las acciones de un usuario de un hotel"))
+            .tags(new Tag("Invoice", "Controlador que gestiona las acciones para una factura"))
+            .tags(new Tag("Room", "Controlador que gestiona las acciones para una habitación"))
+            .tags(new Tag("RoomType", "Controlador que gestiona las acciones para un tipo de habitación"))
             .tags(new Tag("Hotel", "Controlador que gestiona las acciones de un hotel"))
             .tags(new Tag("Item", "Controlador que gestiona las acciones de un item"))
             .tags(new Tag("Pais", "Controlador que gestiona las acciones para un pais"))
             .tags(new Tag("Paquete", "Controlador que gestiona las acciones de un paquete de hotel"))
-            .tags(new Tag("Persona", "Controlador que gestiona las acciones para una persona"))
+            .tags(new Tag("Person", "Controlador que gestiona las acciones para una persona"))
             .tags(new Tag("Plan", "Controlador que gestiona las acciones de un plan de hotel"))
             .tags(new Tag("Reserva", "Controlador que gestiona las acciones de reserva para un hotel"))
-            .tags(new Tag("Rol", "Controlador que gestiona las acciones de los roles de usuario"));
+            .tags(new Tag("Role", "Controlador que gestiona las acciones de los roles de usuario"));
             
     }
     private ApiInfo apiEndPointsInfo() {

@@ -16,19 +16,19 @@ public class HotelService {
 	}
 	
 	
-	public String registrarHotel(Hotel hotel) throws Exception {
+	public String save(Hotel hotel) throws Exception {
 		
-		String mensajeRetorno = "";
+		String messageReturn = "";
 			
-		mensajeRetorno = hotelDao.registrarHotel(hotel);
+		messageReturn = hotelDao.save(hotel);
 		
-		return mensajeRetorno;
+		return messageReturn;
 	}
 
-	public Hotel consultarHotel(Integer hotelId) throws Exception {
+	public Hotel findByUuid(String uuid) throws Exception {
 		
 		Hotel hotel = null;
-		hotel = hotelDao.consultarHotel(hotelId);
+		hotel = hotelDao.findByUuid(uuid);
 		
 		return hotel;
 	}

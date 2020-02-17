@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PaqueteBusiness;
-import co.com.hotelyando.core.utilities.ImpresionVariables;
-import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Paquete;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -29,21 +29,21 @@ public class PaqueteController {
 	
 	private final PaqueteBusiness paqueteBusiness;
 	
-	private Utilidades utilidades;
-	private Usuario usuario;
+	private Utilities utilities;
+	private User user;
 	
 	public PaqueteController(PaqueteBusiness paqueteBusiness) {
 		this.paqueteBusiness = paqueteBusiness;
 		
-		utilidades = new Utilidades();
+		utilities = new Utilities();
 	}
 	
 	@PostMapping("/paquete")
 	public ResponseEntity<String> registrarPaquete(@RequestBody Paquete paquete, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = paqueteBusiness.registrarPaquete(paquete, usuario);
+		String retornoRespuesta = paqueteBusiness.registrarPaquete(paquete, user);
 
 		if(StringUtils.isEmpty(retornoRespuesta)) {
 			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
@@ -55,9 +55,9 @@ public class PaqueteController {
 	@GetMapping("/paquete/{paqueteId}")
 	public ResponseEntity<Paquete> consultarPaquetePorHotel(@PathVariable String paqueteId, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Paquete	paquete = paqueteBusiness.consultarPaquetePorHotel(usuario, paqueteId);
+		Paquete	paquete = paqueteBusiness.consultarPaquetePorHotel(user, paqueteId);
 			
 		if(paquete == null) {
 			return new ResponseEntity<Paquete>(paquete, HttpStatus.NO_CONTENT);
@@ -69,9 +69,9 @@ public class PaqueteController {
 	@GetMapping("/paquete")
 	public ResponseEntity<List<Paquete>> consultarPaquetesPorHotel(@RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Paquete> paquetes = paqueteBusiness.consultarPaquetesPorHotel(usuario);
+		List<Paquete> paquetes = paqueteBusiness.consultarPaquetesPorHotel(user);
 			
 		if(paquetes == null) {
 			return new ResponseEntity<List<Paquete>>(paquetes, HttpStatus.NO_CONTENT);

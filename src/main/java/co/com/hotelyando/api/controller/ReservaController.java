@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.ReservaBusiness;
-import co.com.hotelyando.core.utilities.ImpresionVariables;
-import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Reserva;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -29,21 +29,21 @@ public class ReservaController {
 	
 	private final ReservaBusiness reservaBusiness;
 	
-	private Utilidades utilidades;
-	private Usuario usuario;
+	private Utilities utilities;
+	private User user;
 	
 	public ReservaController(ReservaBusiness reservaBusiness) {
 		this.reservaBusiness = reservaBusiness;
 		
-		utilidades = new Utilidades();
+		utilities = new Utilities();
 	}
 	
 	@PostMapping("/reserva")
 	public ResponseEntity<String> registrarReserva(@RequestBody Reserva reserva, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = reservaBusiness.registrarReserva(reserva, usuario);
+		String retornoRespuesta = reservaBusiness.registrarReserva(reserva, user);
 		
 		if(StringUtils.isEmpty(retornoRespuesta)) {
 			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
@@ -55,9 +55,9 @@ public class ReservaController {
 	@GetMapping("/reserva/{reservaId}")
 	public ResponseEntity<Reserva> consultarReservaPorHotel(@PathVariable String reservaId, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Reserva	reserva = reservaBusiness.consultarReservaPorHotel(usuario, reservaId);
+		Reserva	reserva = reservaBusiness.consultarReservaPorHotel(user, reservaId);
 			
 		if(reserva == null){
 			return new ResponseEntity<Reserva>(reserva, HttpStatus.NO_CONTENT);
@@ -69,9 +69,9 @@ public class ReservaController {
 	@GetMapping("/reserva")
 	public ResponseEntity<List<Reserva>> consultarReservasPorHotel(@RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Reserva> reservas = reservaBusiness.consultarReservasPorHotel(usuario);
+		List<Reserva> reservas = reservaBusiness.consultarReservasPorHotel(user);
 		
 		if(reservas == null){
 			return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.NO_CONTENT);

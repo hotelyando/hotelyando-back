@@ -41,6 +41,7 @@ public class HotelyandoApplication {
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/role").permitAll()
 				.antMatchers("/v2/api-docs").permitAll()
 				.antMatchers("/configuration/**").permitAll()
 				.antMatchers("/swagger*/**").permitAll()

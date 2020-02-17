@@ -15,17 +15,17 @@ public class HotelDao {
 	}
 	
 	
-	public String registrarHotel(Hotel hotel) throws Exception {
+	public String save(Hotel hotel) throws Exception {
 		
 		iHotelRepository.save(hotel);
 		
 		return "Ok";
 	}
 
-	public Hotel consultarHotel(Integer hotelId) throws Exception {
+	public Hotel findByUuid(String uuid) throws Exception {
 		
 		Hotel hotel = null;
-		hotel = iHotelRepository.findByHotelId(hotelId);
+		hotel = iHotelRepository.findByUuid(uuid);
 		
 		return hotel;
 	}

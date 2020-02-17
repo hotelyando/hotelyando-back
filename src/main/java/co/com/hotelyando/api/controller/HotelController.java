@@ -27,22 +27,22 @@ public class HotelController {
 	}
 	
 	@PostMapping("/hotel")
-	public ResponseEntity<String> registrarHotel(@RequestBody Hotel hotel){
+	public ResponseEntity<String> save(@RequestBody Hotel hotel){
 		
-		String retornoRespuesta = hotelBusiness.registrarHotel(hotel); 
+		String serviceResponse = hotelBusiness.save(hotel); 
 		
-		if(StringUtils.isEmpty(retornoRespuesta)) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		if(StringUtils.isEmpty(serviceResponse)) {
+			return new ResponseEntity<String>(serviceResponse, HttpStatus.NO_CONTENT);
 		}else {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+			return new ResponseEntity<String>(serviceResponse, HttpStatus.OK);
 		}
 		
 	}
 	
 	@GetMapping("/hotel/{hotelId}")
-	public ResponseEntity<Hotel> consultarHotel(@PathVariable Integer hotelId){
+	public ResponseEntity<Hotel> findByUuid(@PathVariable String hotelId){
 	
-		Hotel hotel = hotelBusiness.consultarHotel(hotelId);
+		Hotel hotel = hotelBusiness.findByUuid(hotelId);
 		
 		if(hotel == null) {
 			return new ResponseEntity<Hotel>(hotel, HttpStatus.NO_CONTENT);

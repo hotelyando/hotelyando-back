@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.ItemService;
 import co.com.hotelyando.database.model.Item;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 
 @Service
 public class ItemBusiness {
@@ -17,7 +17,7 @@ public class ItemBusiness {
 		this.itemService = itemService;
 	}
 	
-	public String registrarItem(Item item, Usuario usuario) {
+	public String registrarItem(Item item, User user) {
 		
 		String retornoMensaje = "";
 		
@@ -30,13 +30,13 @@ public class ItemBusiness {
 		return retornoMensaje;
 	}
 
-	public List<Item> consultarItemsPorHotel(Usuario usuario) {
+	public List<Item> consultarItemsPorHotel(User user) {
 		
 		List<Item> items = null;
 		
 		try {
 			
-			items = itemService.consultarItemsPorHotel(usuario.getHotelId());
+			items = itemService.consultarItemsPorHotel(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -45,13 +45,13 @@ public class ItemBusiness {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(Usuario usuario, String itemId) {
+	public Item consultarItemPorHotel(User user, String itemId) {
 		
 		Item item = null;
 		
 		try {
 			
-			item = itemService.consultarItemPorHotel(usuario.getHotelId(), itemId);
+			item = itemService.consultarItemPorHotel(user.getHotelId(), itemId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

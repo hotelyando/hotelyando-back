@@ -13,11 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import co.com.hotelyando.core.utilities.ImpresionVariables;
-import co.com.hotelyando.core.utilities.Utilidades;
-import co.com.hotelyando.database.model.Permiso;
-import co.com.hotelyando.database.model.Usuario;
-import co.com.hotelyando.database.repository.IRolRepository;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
+import co.com.hotelyando.database.model.Permit;
+import co.com.hotelyando.database.model.User;
+import co.com.hotelyando.database.repository.IRoleRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -26,10 +26,10 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter{
 	
-	private IRolRepository iRolRepositoriy;
+	private IRoleRepository iRolRepositoriy;
 	private boolean permiso = false;
 	
-	public JWTAuthorizationFilter(IRolRepository iRolRepository) {
+	public JWTAuthorizationFilter(IRoleRepository iRolRepository) {
 		this.iRolRepositoriy = iRolRepository;
 	
 	}
@@ -37,22 +37,22 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 		
-		Utilidades utilidades = null;
-		Usuario usuario = null;
+		Utilities utilities = null;
+		User user = null;
 		Boolean existeToken = false;
 		Boolean permisoAcceso = false;
 		
 		try {
 			
-			utilidades = new Utilidades();
+			utilities = new Utilities();
 			
-			existeToken = utilidades.existeJWTToken(request, response);
+			existeToken = utilities.existeJWTToken(request, response);
 			
 			if (existeToken) {
 				
-				usuario = utilidades.retornoTenant(request, ImpresionVariables.TOKEN_HEADER);
+				user = utilities.retornoTenant(request, PrintVariables.TOKEN_HEADER);
 				
-				permisoAcceso = validaPermiso(request.getMethod(), request.getRequestURI(), usuario);
+				permisoAcceso = validaPermiso(request.getMethod(), request.getRequestURI(), user);
 				
 				if(!permisoAcceso) {
 					SecurityContextHolder.clearContext();
@@ -74,16 +74,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 		return;
 	}	
 	
-	public boolean validaPermiso(String metodo, String url, Usuario usuario) {
+	public boolean validaPermiso(String metodo, String url, User user) {
 		
-		List<Permiso> permisos = new ArrayList<Permiso>();
+		List<Permit> permits = new ArrayList<Permit>();
 		
 		try {
 			
-			permisos = iRolRepositoriy.findByNombre(usuario.getRol()).getPermisos();
+			permits = iRolRepositoriy.findByName(user.getRol()).getPermits();
 			
-			permisos.forEach((value) ->{
-				if(value.getMetodo().equals(metodo) && value.getNombre().equals(url.replace("/", ""))) {
+			permits.forEach((value) ->{
+				if(value.getMethod().equals(metodo) && value.getName().equals(url.replace("/", ""))) {
 					permiso = true;
 				}
 			});

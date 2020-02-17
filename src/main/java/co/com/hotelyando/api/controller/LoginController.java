@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.com.hotelyando.core.business.UsuarioBusiness;
+import co.com.hotelyando.core.business.UserBusiness;
 import co.com.hotelyando.core.model.LoginRequest;
 import co.com.hotelyando.core.model.LoginResponse;
-import co.com.hotelyando.core.model.RespuestaServicio;
+import co.com.hotelyando.core.model.ServiceResponse;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -20,19 +20,19 @@ import io.swagger.annotations.Api;
 public class LoginController {
 	
 	
-	private final UsuarioBusiness usuarioBusiness;
-	private RespuestaServicio<LoginResponse> respuestaServicio = null;
+	private final UserBusiness userBusiness;
+	private ServiceResponse<LoginResponse> serviceResponse = null;
 	
-	public LoginController(UsuarioBusiness usuarioBusiness) {
-		this.usuarioBusiness = usuarioBusiness;
+	public LoginController(UserBusiness userBusiness) {
+		this.userBusiness = userBusiness;
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<RespuestaServicio<LoginResponse>> login(@RequestBody LoginRequest loginRequest){
+	public ResponseEntity<ServiceResponse<LoginResponse>> login(@RequestBody LoginRequest loginRequest){
 		
-		respuestaServicio = usuarioBusiness.consultarUsuarioYContrasenia(loginRequest.getUsuario(), loginRequest.getContrasena());
+		serviceResponse = userBusiness.findByUserAndPassword(loginRequest.getUser(), loginRequest.getPassword());
 			
-		return new ResponseEntity<RespuestaServicio<LoginResponse>>(respuestaServicio, HttpStatus.OK);
+		return new ResponseEntity<ServiceResponse<LoginResponse>>(serviceResponse, HttpStatus.OK);
 	}
 
 }

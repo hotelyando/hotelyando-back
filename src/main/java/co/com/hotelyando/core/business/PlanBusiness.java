@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.PlanService;
 import co.com.hotelyando.database.model.Plan;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 
 @Service
 public class PlanBusiness {
@@ -18,7 +18,7 @@ private final PlanService planService;
 		this.planService = planService;
 	}
 	
-	public String registrarPlan(Plan plan, Usuario usuario) {
+	public String registrarPlan(Plan plan, User user) {
 		
 		String retornoMensaje = "";
 		
@@ -31,13 +31,13 @@ private final PlanService planService;
 		return retornoMensaje;
 	}
 
-	public List<Plan> consultarPlansPorHotel(Usuario usuario) {
+	public List<Plan> consultarPlansPorHotel(User user) {
 		
 		List<Plan> plans = null;
 		
 		try {
 			
-			plans = planService.consultarPlanesPorHotel(usuario.getHotelId());
+			plans = planService.consultarPlanesPorHotel(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -46,13 +46,13 @@ private final PlanService planService;
 		return plans;
 	}
 
-	public Plan consultarPlanPorHotel(Usuario usuario, String planId) {
+	public Plan consultarPlanPorHotel(User user, String planId) {
 		
 		Plan plan = null;
 		
 		try {
 			
-			plan = planService.consultarPlanPorHotel(usuario.getHotelId(), planId);
+			plan = planService.consultarPlanPorHotel(user.getHotelId(), planId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

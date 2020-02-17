@@ -3,18 +3,18 @@ package co.com.hotelyando.core.business;
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.PaisService;
-import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Pais;
 
 @Service
 public class PaisBusiness {
 	
 	private final PaisService paisService;
-	private Utilidades utilidades = null;
+	private Utilities utilities = null;
 	
 	public PaisBusiness(PaisService paisService) {
 		this.paisService = paisService;
-		utilidades = new Utilidades();
+		utilities = new Utilities();
 	}
 	
 	public String registrarPais(Pais pais) {
@@ -23,7 +23,7 @@ public class PaisBusiness {
 		
 		try {
 			
-			pais.setPaisId(utilidades.generadorId());
+			pais.setPaisId(utilities.generadorId());
 			
 			retornoMensaje = paisService.registrarPais(pais);
 			

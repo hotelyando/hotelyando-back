@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.PaqueteService;
 import co.com.hotelyando.database.model.Paquete;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 
 @Service
 public class PaqueteBusiness {
@@ -17,13 +17,13 @@ private final PaqueteService paqueteService;
 		this.paqueteService = paqueteService;
 	}
 	
-	public String registrarPaquete(Paquete paquete, Usuario usuario) {
+	public String registrarPaquete(Paquete paquete, User user) {
 		
 		String retornoMensaje = "";
 		
 		try {
 			
-			paquete.setHotelId(usuario.getHotelId());
+			paquete.setHotelId(user.getHotelId());
 			
 			retornoMensaje = paqueteService.registrarPaquete(paquete);
 		}catch (Exception e) {
@@ -33,13 +33,13 @@ private final PaqueteService paqueteService;
 		return retornoMensaje;
 	}
 
-	public List<Paquete> consultarPaquetesPorHotel(Usuario usuario) {
+	public List<Paquete> consultarPaquetesPorHotel(User user) {
 		
 		List<Paquete> paquetes = null;
 		
 		try {
 			
-			paquetes = paqueteService.consultarPaquetesPorHotel(usuario.getHotelId());
+			paquetes = paqueteService.consultarPaquetesPorHotel(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -48,13 +48,13 @@ private final PaqueteService paqueteService;
 		return paquetes;
 	}
 
-	public Paquete consultarPaquetePorHotel(Usuario usuario, String paqueteId) {
+	public Paquete consultarPaquetePorHotel(User user, String paqueteId) {
 		
 		Paquete paquete = null;
 		
 		try {
 			
-			paquete = paqueteService.consultarPaquetePorHotel(usuario.getHotelId(), paqueteId);
+			paquete = paqueteService.consultarPaquetePorHotel(user.getHotelId(), paqueteId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

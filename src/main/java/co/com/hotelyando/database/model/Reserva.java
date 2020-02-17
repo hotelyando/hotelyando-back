@@ -8,11 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "hotelyando.reserva")
+@Document(collection = "reserva")
 public class Reserva implements Serializable{
 
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 2311499782849326239L;
+
 	@Id
 	private String reservaId;
 	private String hotelId;
@@ -23,5 +23,5 @@ public class Reserva implements Serializable{
 	private Integer cantidadNinos;
 	private Boolean pagoTotal;
 	private Double adelantaPago;
-	private Persona persona;
+	private Person person;
 }

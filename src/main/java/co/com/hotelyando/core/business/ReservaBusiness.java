@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.ReservaService;
 import co.com.hotelyando.database.model.Reserva;
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 
 @Service
 public class ReservaBusiness {
@@ -17,7 +17,7 @@ private final ReservaService reservaService;
 		this.reservaService = reservaService;
 	}
 	
-	public String registrarReserva(Reserva reserva, Usuario usuario) {
+	public String registrarReserva(Reserva reserva, User user) {
 		
 		String retornoMensaje = "";
 		
@@ -30,13 +30,13 @@ private final ReservaService reservaService;
 		return retornoMensaje;
 	}
 
-	public List<Reserva> consultarReservasPorHotel(Usuario usuario) {
+	public List<Reserva> consultarReservasPorHotel(User user) {
 		
 		List<Reserva> reservas = null;
 		
 		try {
 			
-			reservas = reservaService.consultarReservasPorHotel(usuario.getHotelId());
+			reservas = reservaService.consultarReservasPorHotel(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -45,13 +45,13 @@ private final ReservaService reservaService;
 		return reservas;
 	}
 
-	public Reserva consultarReservaPorHotel(Usuario usuario, String reservaId) {
+	public Reserva consultarReservaPorHotel(User user, String reservaId) {
 		
 		Reserva reserva = null;
 		
 		try {
 			
-			reserva = reservaService.consultarReservaPorHotel(usuario.getHotelId(), reservaId);
+			reserva = reservaService.consultarReservaPorHotel(user.getHotelId(), reservaId);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

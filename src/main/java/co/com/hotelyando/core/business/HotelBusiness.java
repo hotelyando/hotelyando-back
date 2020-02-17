@@ -16,25 +16,25 @@ public class HotelBusiness {
 	}
 	
 	
-	public String registrarHotel(Hotel hotel) {
+	public String save(Hotel hotel) {
 		
-		String mensajeRetorno = "";
+		String messageReturn = "";
 		
 		try {
-			mensajeRetorno = hotelService.registrarHotel(hotel);
+			messageReturn = hotelService.save(hotel);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return mensajeRetorno;
+		return messageReturn;
 	}
 
-	public Hotel consultarHotel(Integer hotelId) {
+	public Hotel findByUuid(String uuid) {
 		
 		Hotel hotel = null;
 		
 		try {
-			hotel = hotelService.consultarHotel(hotelId);
+			hotel = hotelService.findByUuid(uuid);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
