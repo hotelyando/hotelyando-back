@@ -17,26 +17,26 @@ public class ItemBusiness {
 		this.itemService = itemService;
 	}
 	
-	public String registrarItem(Item item, User user) {
+	public String save(Item item, User user) {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 		
 		try {
-			retornoMensaje = itemService.registrarItem(item);
+			messageReturn = itemService.save(item);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return retornoMensaje;
+		return messageReturn;
 	}
 
-	public List<Item> consultarItemsPorHotel(User user) {
+	public List<Item> findByHotelId(User user) {
 		
 		List<Item> items = null;
 		
 		try {
 			
-			items = itemService.consultarItemsPorHotel(user.getHotelId());
+			items = itemService.findByHotelId(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -45,13 +45,13 @@ public class ItemBusiness {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(User user, String itemId) {
+	public Item findByHotelIdAndUuid(User user, String uuid) {
 		
 		Item item = null;
 		
 		try {
 			
-			item = itemService.consultarItemPorHotel(user.getHotelId(), itemId);
+			item = itemService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

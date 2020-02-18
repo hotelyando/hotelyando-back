@@ -5,9 +5,9 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Sucursal implements Serializable{
+public class BranchOffice implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String sucursalId;
-	private String nombre;
+	private String uuid;
+	private String name;
 }

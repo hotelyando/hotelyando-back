@@ -34,7 +34,7 @@ public class RoomService {
 			retornoMensaje = PrintEntity.HABITACION_CHECK_OUT;
 		}else if(StringUtils.isBlank(room.getType())) {
 			retornoMensaje = PrintEntity.HABITACION_TIPO;
-		}else if(StringUtils.isBlank(room.getItem().getItemId())) {
+		}else if(StringUtils.isBlank(room.getItem().getUuid())) {
 			retornoMensaje = PrintEntity.HABITACION_ITEM;
 		}else {
 			roomDao.save(room);

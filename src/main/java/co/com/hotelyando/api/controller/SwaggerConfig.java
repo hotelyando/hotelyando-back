@@ -31,11 +31,11 @@ public class SwaggerConfig {
             .tags(new Tag("RoomType", "Controlador que gestiona las acciones para un tipo de habitación"))
             .tags(new Tag("Hotel", "Controlador que gestiona las acciones de un hotel"))
             .tags(new Tag("Item", "Controlador que gestiona las acciones de un item"))
-            .tags(new Tag("Pais", "Controlador que gestiona las acciones para un pais"))
-            .tags(new Tag("Paquete", "Controlador que gestiona las acciones de un paquete de hotel"))
+            .tags(new Tag("Country", "Controlador que gestiona las acciones para un pais"))
+            .tags(new Tag("PackageHotel", "Controlador que gestiona las acciones de un paquete de hotel"))
             .tags(new Tag("Person", "Controlador que gestiona las acciones para una persona"))
             .tags(new Tag("Plan", "Controlador que gestiona las acciones de un plan de hotel"))
-            .tags(new Tag("Reserva", "Controlador que gestiona las acciones de reserva para un hotel"))
+            .tags(new Tag("Reservation", "Controlador que gestiona las acciones de reserva para un hotel"))
             .tags(new Tag("Role", "Controlador que gestiona las acciones de los roles de usuario"));
             
     }

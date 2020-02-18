@@ -9,19 +9,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "hotelyando.item")
+@Document(collection = "item")
 public class Item implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String itemId;
+	private String uuid;
 	private String hotelId;
-	private Boolean activo;
-	private Integer cantidad;
-	private String descripcion;
-	private Integer precio;
-	private Integer stock; // en español?
-	private List<Tipo> tipo;
+	private Boolean active;
+	private Integer quantity;
+	private String description;
+	private Integer price;
+	private Integer stock;
+	private List<Type> types;
 
 }

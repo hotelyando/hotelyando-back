@@ -21,7 +21,7 @@ public class Invoice implements Serializable{
 	private String registrationDate;
 	private String userRegistration;
 	private List<Total> totals;
-	private Servicio servicio;
+	private Service service;
 	private Room room;
 	
 }

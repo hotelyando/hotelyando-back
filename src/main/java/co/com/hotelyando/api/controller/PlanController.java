@@ -39,25 +39,25 @@ public class PlanController {
 	}
 	
 	@PostMapping("/plan")
-	public ResponseEntity<String> registrarPlan(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<String> save(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = planBusiness.registrarPlan(plan, user);
+		String messageReturn = planBusiness.save(plan, user);
 		
-		if(StringUtils.isEmpty(retornoRespuesta)) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		if(StringUtils.isEmpty(messageReturn)) {
+			return new ResponseEntity<String>(messageReturn, HttpStatus.NO_CONTENT);
 		}else {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+			return new ResponseEntity<String>(messageReturn, HttpStatus.OK);
 		}
 	}
 	
 	@GetMapping("/plan/{planId}")
-	public ResponseEntity<Plan> consultarPlanPorHotel(@PathVariable String planId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<Plan> findByHotelIdAndUuid(@PathVariable String planId, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Plan plan = planBusiness.consultarPlanPorHotel(user, planId);
+		Plan plan = planBusiness.findByHotelIdAndUuid(user, planId);
 			
 		if(plan == null) {
 			return new ResponseEntity<Plan>(plan, HttpStatus.NO_CONTENT);
@@ -67,11 +67,11 @@ public class PlanController {
 	}
 	
 	@GetMapping("/plan")
-	public ResponseEntity<List<Plan>> consultarPlansPorHotel(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<List<Plan>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Plan> plans = planBusiness.consultarPlansPorHotel(user);
+		List<Plan> plans = planBusiness.findByHotelId(user);
 			
 		if(plans == null) {
 			return new ResponseEntity<List<Plan>>(plans, HttpStatus.NO_CONTENT);
