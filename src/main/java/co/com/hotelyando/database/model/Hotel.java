@@ -25,7 +25,7 @@ public class Hotel implements Serializable{
 	private String phone;
 	private String cellPhone;
 	private Plan plan;
-	private List<Sucursal> sucursales;
+	private List<BranchOffice> sucursales;
 	
 
 }

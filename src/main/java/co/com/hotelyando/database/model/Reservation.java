@@ -9,19 +9,19 @@ import lombok.Data;
 
 @Data
 @Document(collection = "reserva")
-public class Reserva implements Serializable{
+public class Reservation implements Serializable{
 
 	private static final long serialVersionUID = 2311499782849326239L;
 
 	@Id
-	private String reservaId;
+	private String uuid;
 	private String hotelId;
-	private String fechaReserva;
-	private String fechaIngreso;
-	private String fechaSalida;
-	private Integer cantidadAdultos;
-	private Integer cantidadNinos;
-	private Boolean pagoTotal;
-	private Double adelantaPago;
+	private String reservationDate;
+	private String startDate;
+	private String exitDate;
+	private Integer adultQuantity;
+	private Integer childrenQuantity;
+	private Boolean fullPayment;
+	private Double advancedPayment;
 	private Person person;
 }

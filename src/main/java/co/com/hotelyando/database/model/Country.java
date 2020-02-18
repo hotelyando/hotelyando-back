@@ -8,14 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "hotelyando.pais")
-public class Pais implements Serializable{
+@Document(collection = "country")
+public class Country implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3267070986025878566L;
 	
 	@Id
-	private String paisId;
-	private String gentilicio;
-	private String nombre;
+	private String uuid;
+	private String demonym;
+	private String name;
 
 }

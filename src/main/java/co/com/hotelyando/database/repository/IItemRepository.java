@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import co.com.hotelyando.database.model.Item;
 
-public interface IItemRepository extends MongoRepository<Item, Integer> {
+public interface IItemRepository extends MongoRepository<Item, String> {
 	
 	List<Item> findByHotelId(String hotelId);
-	Item findByHotelIdAndItemId(String hotelId, String itemId);
+	Item findByHotelIdAndUuid(String hotelId, String uuid);
 	
 
 }

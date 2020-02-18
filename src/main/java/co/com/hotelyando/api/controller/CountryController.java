@@ -9,30 +9,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.com.hotelyando.core.business.PaisBusiness;
-import co.com.hotelyando.database.model.Pais;
+import co.com.hotelyando.core.business.CountryBusiness;
+import co.com.hotelyando.database.model.Country;
 import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-@Api(tags = "Pais")
-public class PaisController {
+@Api(tags = "Country")
+public class CountryController {
 
-	private final PaisBusiness paisBusiness;
+	private final CountryBusiness countryBusiness;
 	
-	public PaisController(PaisBusiness paisBusiness) {
-		this.paisBusiness = paisBusiness;
+	public CountryController(CountryBusiness countryBusiness) {
+		this.countryBusiness = countryBusiness;
 	}
 	
-	@PostMapping("/pais")
-	public ResponseEntity<String> registrarPais(@RequestBody Pais pais){
+	@PostMapping("/country")
+	public ResponseEntity<String> save(@RequestBody Country country){
 		
-		String retornoRespuesta = paisBusiness.registrarPais(pais);
+		String messageReturn = countryBusiness.save(country);
 		
-		if(StringUtils.isEmpty(retornoRespuesta)) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		if(StringUtils.isEmpty(messageReturn)) {
+			return new ResponseEntity<String>(messageReturn, HttpStatus.NO_CONTENT);
 		}else {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+			return new ResponseEntity<String>(messageReturn, HttpStatus.OK);
 		}
 	}
 }

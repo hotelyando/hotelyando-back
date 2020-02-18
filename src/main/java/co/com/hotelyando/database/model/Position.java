@@ -5,10 +5,12 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class Tipo implements Serializable{
+public class Position implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String tipoId;
-	private String descripcion;
+	private String uuid;
+	private String name;
+	private String description;
+	private Double salary;
 
 }

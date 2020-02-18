@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import co.com.hotelyando.database.model.Plan;
 
-public interface IPlanRepository extends MongoRepository<Plan, Integer> {
+public interface IPlanRepository extends MongoRepository<Plan, String> {
 	
 	List<Plan> findByHotelId(String hotelId);
-	Plan findByHotelIdAndPlanId(String hotelId, String planId);
+	Plan findByHotelIdAndUuid(String hotelId, String uuid);
 
 }

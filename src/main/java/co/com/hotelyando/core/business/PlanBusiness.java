@@ -18,26 +18,26 @@ private final PlanService planService;
 		this.planService = planService;
 	}
 	
-	public String registrarPlan(Plan plan, User user) {
+	public String save(Plan plan, User user) {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 		
 		try {
-			retornoMensaje = planService.registrarPlan(plan);
+			messageReturn = planService.save(plan);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return retornoMensaje;
+		return messageReturn;
 	}
 
-	public List<Plan> consultarPlansPorHotel(User user) {
+	public List<Plan> findByHotelId(User user) {
 		
 		List<Plan> plans = null;
 		
 		try {
 			
-			plans = planService.consultarPlanesPorHotel(user.getHotelId());
+			plans = planService.findByHotelId(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -46,13 +46,13 @@ private final PlanService planService;
 		return plans;
 	}
 
-	public Plan consultarPlanPorHotel(User user, String planId) {
+	public Plan findByHotelIdAndUuid(User user, String uuid) {
 		
 		Plan plan = null;
 		
 		try {
 			
-			plan = planService.consultarPlanPorHotel(user.getHotelId(), planId);
+			plan = planService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
 		}catch (Exception e) {
 			e.printStackTrace();
