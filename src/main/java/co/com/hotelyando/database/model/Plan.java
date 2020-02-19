@@ -19,8 +19,6 @@ public class Plan implements Serializable{
 	private String description;
 	private String startDate;
 	private String endDate;
-	private String registrationDate;
-	private String userRegistration;
 	private Boolean active; // es la misma variable ESTADO?
 	private Boolean test;
 	

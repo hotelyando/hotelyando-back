@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "reserva")
+@Document(collection = "reservation")
 public class Reservation implements Serializable{
 
 	private static final long serialVersionUID = 2311499782849326239L;

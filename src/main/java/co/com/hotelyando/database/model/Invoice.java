@@ -18,8 +18,6 @@ public class Invoice implements Serializable{
 	private String uuid;
 	private String hotelId;
 	private String state;
-	private String registrationDate;
-	private String userRegistration;
 	private List<Total> totals;
 	private Service service;
 	private Room room;
