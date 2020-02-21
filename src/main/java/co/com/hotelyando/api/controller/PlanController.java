@@ -1,6 +1,5 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PlanBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Plan;
@@ -53,31 +54,25 @@ public class PlanController {
 	}
 	
 	@GetMapping("/plan/{planId}")
-	public ResponseEntity<Plan> findByHotelIdAndUuid(@PathVariable String planId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Plan>> findByHotelIdAndUuid(@PathVariable String planId, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Plan plan = planBusiness.findByHotelIdAndUuid(user, planId);
+		ServiceResponse<Plan> serviceResponse = planBusiness.findByHotelIdAndUuid(user, planId);
 			
-		if(plan == null) {
-			return new ResponseEntity<Plan>(plan, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<Plan>(plan, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Plan>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/plan")
-	public ResponseEntity<List<Plan>> findByHotelId(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Plan>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Plan> plans = planBusiness.findByHotelId(user);
+		ServiceResponses<Plan> serviceResponses = planBusiness.findByHotelId(user);
 			
-		if(plans == null) {
-			return new ResponseEntity<List<Plan>>(plans, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<List<Plan>>(plans, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponses<Plan>>(serviceResponses, HttpStatus.OK);
+		
 	}
 
 }

@@ -1,6 +1,5 @@
 package co.com.hotelyando.api.controller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.HotelBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.database.model.Hotel;
 import io.swagger.annotations.Api;
 
@@ -27,28 +27,21 @@ public class HotelController {
 	}
 	
 	@PostMapping("/hotel")
-	public ResponseEntity<String> save(@RequestBody Hotel hotel){
+	public ResponseEntity<ServiceResponse<Hotel>> save(@RequestBody Hotel hotel){
 		
-		String serviceResponse = hotelBusiness.save(hotel); 
+		ServiceResponse<Hotel> serviceResponse = hotelBusiness.save(hotel); 
 		
-		if(StringUtils.isEmpty(serviceResponse)) {
-			return new ResponseEntity<String>(serviceResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<String>(serviceResponse, HttpStatus.OK);
-		}
-		
+		return new ResponseEntity<ServiceResponse<Hotel>>(serviceResponse, HttpStatus.OK);
+				
 	}
 	
 	@GetMapping("/hotel/{hotelId}")
-	public ResponseEntity<Hotel> findByUuid(@PathVariable String hotelId){
+	public ResponseEntity<ServiceResponse<Hotel>> findByUuid(@PathVariable String hotelId){
 	
-		Hotel hotel = hotelBusiness.findByUuid(hotelId);
+		ServiceResponse<Hotel> serviceResponse = hotelBusiness.findByUuid(hotelId);
 		
-		if(hotel == null) {
-			return new ResponseEntity<Hotel>(hotel, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Hotel>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 

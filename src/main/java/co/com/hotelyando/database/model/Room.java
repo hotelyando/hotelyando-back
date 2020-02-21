@@ -19,8 +19,5 @@ public class Room implements Serializable{
 	private String checkIn;
 	private String checkOut;
 	private String type;
-	private Item item;
-	
-	
 
 }

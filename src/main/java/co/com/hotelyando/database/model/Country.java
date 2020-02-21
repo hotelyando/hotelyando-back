@@ -9,13 +9,12 @@ import lombok.Data;
 
 @Data
 @Document(collection = "country")
-public class Country implements Serializable{
+public class Country implements Serializable {
 
-	private static final long serialVersionUID = -3267070986025878566L;
-	
-	@Id
-	private String uuid;
-	private String demonym;
-	private String name;
+  private static final long serialVersionUID = 1L;
+
+  @Id
+  private String code;
+  private String name;
 
 }

@@ -23,5 +23,6 @@ public class Person implements Serializable {
   private String phone;
   private String cellPhone;
   private String address;
+  private Country country;
   
 }

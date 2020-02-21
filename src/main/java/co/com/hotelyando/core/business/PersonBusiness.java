@@ -2,11 +2,13 @@ package co.com.hotelyando.core.business;
 
 import org.springframework.stereotype.Service;
 
+import ch.qos.logback.classic.pattern.Util;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.services.PersonService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintEntity;
 import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Person;
 import co.com.hotelyando.database.model.User;
 
@@ -16,12 +18,14 @@ public class PersonBusiness {
 	private final PersonService personService;
 	private ServiceResponse<Person> serviceResponse = null;
 	private Generic<Person> generic = null;
+	private Utilities utilities = null;
 	
 	public PersonBusiness(PersonService personService) {
 		this.personService = personService;
 		
 		serviceResponse = new ServiceResponse<Person>();
 		generic = new Generic<Person>();
+		utilities = new Utilities();
 	}
 	
 	
@@ -53,6 +57,8 @@ public class PersonBusiness {
 		String retornoMensaje = "";
 		
 		try {
+			
+			person.setUuid(utilities.generadorId());
 			
 			retornoMensaje = personService.save(person);
 			

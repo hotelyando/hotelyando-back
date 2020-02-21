@@ -17,9 +17,25 @@ public class Invoice implements Serializable{
 	@Id
 	private String uuid;
 	private String hotelId;
+	private String date;
 	private String state;
-	private List<Total> totals;
-	private Service service;
+	private Client client;
+	private Double total;
+	private List<Item> items;
 	private Room room;
 	
+	@Data
+	class Item {
+		private String uuid;
+		private String quantity;
+		private String values;
+		private String total;
+	}
+	
+	@Data 
+	class Client {
+		private String typeDocument;
+		private String document;
+		private String name;
+	}
 }

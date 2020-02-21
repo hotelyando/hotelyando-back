@@ -1,7 +1,6 @@
 package co.com.hotelyando.database.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,6 +21,5 @@ public class Item implements Serializable{
 	private String description;
 	private Integer price;
 	private Integer stock;
-	private List<Type> types;
 
 }

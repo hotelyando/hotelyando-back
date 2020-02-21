@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.CountryBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.database.model.Country;
+import co.com.hotelyando.database.model.Hotel;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -25,14 +27,11 @@ public class CountryController {
 	}
 	
 	@PostMapping("/country")
-	public ResponseEntity<String> save(@RequestBody Country country){
+	public ResponseEntity<ServiceResponse<Country>> save(@RequestBody Country country){
 		
-		String messageReturn = countryBusiness.save(country);
+		ServiceResponse<Country> serviceResponse = countryBusiness.save(country);
 		
-		if(StringUtils.isEmpty(messageReturn)) {
-			return new ResponseEntity<String>(messageReturn, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<String>(messageReturn, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Country>>(serviceResponse, HttpStatus.OK);
+		
 	}
 }

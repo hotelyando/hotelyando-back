@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import co.com.hotelyando.core.utilities.PrintEntity;
 import co.com.hotelyando.database.dao.RoomDao;
 import co.com.hotelyando.database.model.Room;
-import co.com.hotelyando.database.model.Item;
 
 @Service
 public class RoomService {
@@ -34,8 +33,6 @@ public class RoomService {
 			retornoMensaje = PrintEntity.HABITACION_CHECK_OUT;
 		}else if(StringUtils.isBlank(room.getType())) {
 			retornoMensaje = PrintEntity.HABITACION_TIPO;
-		}else if(StringUtils.isBlank(room.getItem().getUuid())) {
-			retornoMensaje = PrintEntity.HABITACION_ITEM;
 		}else {
 			roomDao.save(room);
 		}

@@ -1,9 +1,7 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.RoleBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Role;
+import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -25,32 +28,33 @@ public class RoleController {
 	
 	private final RoleBusiness roleBusiness;
 	
+	private Utilities utilities;
+	private User user;
+	
 	public RoleController(RoleBusiness roleBusiness) {
 		this.roleBusiness = roleBusiness;
+		
+		utilities = new Utilities();
 	}
 	
 	@PostMapping("/role")
-	public ResponseEntity<String> save(@RequestBody Role role, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Role>> save(@RequestBody Role role, @RequestHeader Map<String, String> headers){
 		
-		String returnResponse = roleBusiness.save(role);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
-		if(StringUtils.isEmpty(returnResponse)) {
-			return new ResponseEntity<String>(returnResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<String>(returnResponse, HttpStatus.OK);
-		}
+		ServiceResponse<Role> serviceResponse = roleBusiness.save(role, user);
+		
+		return new ResponseEntity<ServiceResponse<Role>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/role")
-	public ResponseEntity<List<Role>> findAll(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Role>> findAll(@RequestHeader Map<String, String> headers){
 		
-		List<Role> roles = roleBusiness.findAll();
+		ServiceResponses<Role> serviceResponses = roleBusiness.findAll();
 		
-		if(roles == null){
-			return new ResponseEntity<List<Role>>(roles, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponses<Role>>(serviceResponses, HttpStatus.OK);
+		
 	}
 
 }

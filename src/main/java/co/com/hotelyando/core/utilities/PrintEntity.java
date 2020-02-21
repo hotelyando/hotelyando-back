@@ -1,7 +1,5 @@
 package co.com.hotelyando.core.utilities;
 
-import co.com.hotelyando.database.model.Item;
-
 public class PrintEntity {
 	
 	/*

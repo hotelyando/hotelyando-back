@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.MongoException;
+
 import co.com.hotelyando.database.model.Role;
 import co.com.hotelyando.database.repository.IRoleRepository;
 
@@ -16,14 +18,14 @@ public class RoleDao {
 		this.iRoleRepository = iRoleRepository;
 	}
 
-	public String save(Role role) throws Exception {
+	public String save(Role role) throws MongoException, Exception {
 		
 		iRoleRepository.save(role);
 		
 		return "Ok";
 	}
 	
-	public List<Role> findAll() throws Exception {
+	public List<Role> findAll() throws MongoException, Exception {
 		
 		List<Role> roles = null;
 		roles = iRoleRepository.findAll();
@@ -32,7 +34,7 @@ public class RoleDao {
 		
 	}
 	
-	public Role findByName(String name) throws Exception {
+	public Role findByName(String name) throws MongoException, Exception {
 		
 		Role role = null;
 		

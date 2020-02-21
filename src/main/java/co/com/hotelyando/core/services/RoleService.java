@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mongodb.MongoException;
+
 import co.com.hotelyando.database.dao.RoleDao;
 import co.com.hotelyando.database.model.Role;
 
@@ -16,7 +18,7 @@ public class RoleService {
 		this.roleDao = roleDao;
 	}
 	
-	public String save(Role role) throws Exception {
+	public String save(Role role) throws MongoException, Exception {
 		
 		String messageReturn = "";
 		
@@ -25,7 +27,7 @@ public class RoleService {
 		return messageReturn;
 	}
 	
-	public List<Role> findAll() throws Exception {
+	public List<Role> findAll() throws MongoException, Exception {
 		
 		List<Role> roles = null;
 		roles = roleDao.findAll();
@@ -34,7 +36,7 @@ public class RoleService {
 		
 	}
 	
-	public Role findByName(String name) throws Exception {
+	public Role findByName(String name) throws MongoException, Exception {
 		
 		Role role = null;
 		
