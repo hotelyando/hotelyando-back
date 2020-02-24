@@ -21,7 +21,6 @@ public class RoleBusiness {
 	private final RoleService roleService;
 	private Generic<Role> generic = null;
 	private ServiceResponse<Role> serviceResponse;
-	private ServiceResponses<Role> serviceResponses;
 	private Utilities utilities = null;
 	
 	
@@ -30,7 +29,6 @@ public class RoleBusiness {
 		
 		generic = new Generic<Role>();
 		serviceResponse = new ServiceResponse<Role>();
-		serviceResponses = new ServiceResponses<Role>();
 		utilities = new Utilities();
 		
 	}
@@ -42,10 +40,16 @@ public class RoleBusiness {
 		try {
 			
 			role.setUuid(utilities.generadorId());
+			role.setHotelId(user.getHotelId());
 			
 			messageReturn = roleService.save(role);
 			
-			serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, "Registro correcto!.");
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, "Registro correcto!.");
+			}else {
+				serviceResponse = generic.messageReturn(role, PrintVariables.ADVERTENCIA, messageReturn);
+			}
+			
 			
 		}catch (MongoException be) {
 			be.printStackTrace();

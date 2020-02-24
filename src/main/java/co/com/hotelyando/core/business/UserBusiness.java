@@ -124,13 +124,17 @@ public class UserBusiness {
 	public ServiceResponse<LoginResponse> findByUserAndPassword(String login, String password){
 		
 		JwtToken jwtToken;
+		
 		String token;
 		
 		ServiceResponse<LoginResponse> serviceResponse = null;
+		Generic<LoginResponse> genericosLogin = null;
+		
 		Hotel hotel = null;
 		LoginResponse loginResponse = null;
 		User user = null;
-		Generic<LoginResponse> genericosLogin = null;
+		
+		
 		try {
 			
 			user = userService.findByUserAndPassword(login, password);

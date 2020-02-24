@@ -36,7 +36,7 @@ public class CountryBusiness {
 		
 		try {
 			
-			//country.setUuid(utilities.generadorId());
+			country.setUuid(utilities.generadorId());
 			
 			messageReturn = countryService.save(country);
 			

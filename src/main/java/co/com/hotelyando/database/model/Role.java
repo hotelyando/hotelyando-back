@@ -16,6 +16,7 @@ public class Role implements Serializable{
 	
 	@Id
 	private String uuid;
+	private String hotelId;
 	private String name;
 	private String description;
 	private List<Permit> permits;

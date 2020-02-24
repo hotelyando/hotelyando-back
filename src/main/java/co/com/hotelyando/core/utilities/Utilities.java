@@ -1,8 +1,7 @@
 package co.com.hotelyando.core.utilities;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,10 +96,8 @@ public class Utilities {
 	 */
 	public String generadorId() {
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		String retornoId = String.valueOf(System.currentTimeMillis()) + String.valueOf(UUID.randomUUID()).replace("-", "");
 		
-		String retornoId = simpleDateFormat.format(new Date()).replace("-", "").replace(" ", "").replace(":", "");
-		retornoId = retornoId + String.valueOf(System.currentTimeMillis());
 		return retornoId;
 		
 	}

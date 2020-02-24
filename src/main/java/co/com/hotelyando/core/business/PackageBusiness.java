@@ -5,16 +5,20 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.services.PackageService;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.PackageHotel;
 import co.com.hotelyando.database.model.User;
 
 @Service
 public class PackageBusiness {
 
-private final PackageService packageService;
+	private final PackageService packageService;
+	private Utilities utilities = null;
 	
 	public PackageBusiness(PackageService packageService) {
 		this.packageService = packageService;
+		
+		utilities = new Utilities();
 	}
 	
 	public String save(PackageHotel packageHotel, User user) {
@@ -23,6 +27,7 @@ private final PackageService packageService;
 		
 		try {
 			
+			packageHotel.setUuid(utilities.generadorId());
 			packageHotel.setHotelId(user.getHotelId());
 			
 			messageReturn = packageService.save(packageHotel);
