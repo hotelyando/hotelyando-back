@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import co.com.hotelyando.database.model.Usuario;
+import co.com.hotelyando.database.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -18,20 +18,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtToken {
 	
-	public String getJWTToken(Usuario usuario) {
+	public String getJWTToken(User user) {
 		
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(ImpresionVariables.ROLE_USER);
-		Genericos<Usuario> genericos = new Genericos<>();
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(PrintVariables.ROLE_USER);
+		Generic<User> genericos = new Generic<>();
 		
 		String token = Jwts
 				.builder()
-				.setId(ImpresionVariables.TENANTJWT)
-				.setSubject(genericos.convertirObjetoAJson(usuario))
-				.claim(ImpresionVariables.AUTHORITIES, grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.setId(PrintVariables.TENANTJWT)
+				.setSubject(genericos.convertirObjetoAJson(user))
+				.claim(PrintVariables.AUTHORITIES, grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 600000))
-				.signWith(SignatureAlgorithm.HS512, ImpresionVariables.SECRET.getBytes()).compact();
+				.signWith(SignatureAlgorithm.HS512, PrintVariables.SECRET.getBytes()).compact();
 
-		return ImpresionVariables.BEARER + token;
+		return PrintVariables.BEARER + token;
 	}
 }

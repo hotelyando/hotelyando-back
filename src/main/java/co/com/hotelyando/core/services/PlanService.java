@@ -17,27 +17,27 @@ public class PlanService {
 		this.planDao = planDao;
 	}
 	
-	public String registrarPlan(Plan plan) throws Exception {
+	public String save(Plan plan) throws Exception {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 		
-		retornoMensaje = planDao.registrarPlan(plan);
+		messageReturn = planDao.save(plan);
 		
-		return retornoMensaje;
+		return messageReturn;
 	}
 
-	public List<Plan> consultarPlanesPorHotel(Integer hotelId) throws Exception {
+	public List<Plan> findByHotelId(String hotelId) throws Exception {
 		
 		List<Plan> plans = null;
-		plans = planDao.consultarPlanesPorHotel(hotelId);
+		plans = planDao.findByHotelId(hotelId);
 		
 		return plans;
 	}
 
-	public Plan consultarPlanPorHotel(Integer hotelId, Integer planId) throws Exception {
+	public Plan findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
 		Plan plan = null;
-		plan = planDao.consultarPlanPorHotel(hotelId, planId);
+		plan = planDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return plan;
 	}

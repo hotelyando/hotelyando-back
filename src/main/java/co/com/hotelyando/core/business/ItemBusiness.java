@@ -2,46 +2,49 @@ package co.com.hotelyando.core.business;
 
 import java.util.List;
 
-import co.com.hotelyando.core.services.ItemService;
-import co.com.hotelyando.core.utilities.Genericos;
-import co.com.hotelyando.database.model.Item;
-import co.com.hotelyando.database.model.Usuario;
+import org.springframework.stereotype.Service;
 
+import co.com.hotelyando.core.services.ItemService;
+import co.com.hotelyando.core.utilities.Utilities;
+import co.com.hotelyando.database.model.Item;
+import co.com.hotelyando.database.model.User;
+
+@Service
 public class ItemBusiness {
 	
 	private final ItemService itemService;
-	
-	private Genericos<Usuario> genericos;
-	private Usuario objetoUsuario;
+	private Utilities utilities = null;
 	
 	public ItemBusiness(ItemService itemService) {
 		this.itemService = itemService;
 		
-		genericos = new Genericos<>();
+		utilities = new Utilities();
 	}
 	
-	public String registrarItem(Item item, String usuario) {
+	public String save(Item item, User user) {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 		
 		try {
-			retornoMensaje = itemService.registrarItem(item);
+			
+			item.setUuid(utilities.generadorId());
+			item.setHotelId(user.getHotelId());
+			
+			messageReturn = itemService.save(item);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return retornoMensaje;
+		return messageReturn;
 	}
 
-	public List<Item> consultarItemsPorHotel(String usuario) {
+	public List<Item> findByHotelId(User user) {
 		
 		List<Item> items = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			items = itemService.consultarItemsPorHotel(objetoUsuario.getHotelId());
+			items = itemService.findByHotelId(user.getHotelId());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -50,15 +53,13 @@ public class ItemBusiness {
 		return items;
 	}
 
-	public Item consultarItemPorHotel(String usuario, Integer itemId) {
+	public Item findByHotelIdAndUuid(User user, String uuid) {
 		
 		Item item = null;
 		
 		try {
 			
-			objetoUsuario = genericos.convertirJsonAObjeto(usuario);
-			
-			item = itemService.consultarItemPorHotel(objetoUsuario.getHotelId(), itemId);
+			item = itemService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
 		}catch (Exception e) {
 			e.printStackTrace();

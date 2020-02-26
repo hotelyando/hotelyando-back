@@ -36,7 +36,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 				
 				Claims claims = validateToken(httpServletRequest);
 				
-				if(claims.get(ImpresionVariables.AUTHORITIES) != null){
+				if(claims.get(PrintVariables.AUTHORITIES) != null){
 					setUpSpringAuthentication(claims);
 				}else {
 					SecurityContextHolder.clearContext();
@@ -59,9 +59,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		Claims claims = null;
 		String jwtToken;
 		
-		jwtToken = httpServletRequest.getHeader(ImpresionVariables.HEADER).replace(ImpresionVariables.PREFIX, "");
+		jwtToken = httpServletRequest.getHeader(PrintVariables.HEADER).replace(PrintVariables.PREFIX, "");
 		
-		claims = Jwts.parser().setSigningKey(ImpresionVariables.SECRET.getBytes()).parseClaimsJws(jwtToken).getBody(); 
+		claims = Jwts.parser().setSigningKey(PrintVariables.SECRET.getBytes()).parseClaimsJws(jwtToken).getBody(); 
 		
 		return claims;
 	}
@@ -77,7 +77,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		List<String> authorities;
 		UsernamePasswordAuthenticationToken authenticationToken;
 		
-		authorities = (List<String>) claims.get(ImpresionVariables.AUTHORITIES);
+		authorities = (List<String>) claims.get(PrintVariables.AUTHORITIES);
 		authenticationToken = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 		
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -86,9 +86,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private boolean existeJWTToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		
-		String authenticationHeader = httpServletRequest.getHeader(ImpresionVariables.HEADER);
+		String authenticationHeader = httpServletRequest.getHeader(PrintVariables.HEADER);
 		
-		if (authenticationHeader == null || !authenticationHeader.startsWith(ImpresionVariables.PREFIX)) {
+		if (authenticationHeader == null || !authenticationHeader.startsWith(PrintVariables.PREFIX)) {
 			return false;
 		}
 			

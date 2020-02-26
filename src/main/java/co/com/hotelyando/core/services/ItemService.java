@@ -16,27 +16,27 @@ public class ItemService {
 		this.itemDao = itemDao;
 	}
 	
-	public String registrarItem(Item item) throws Exception {
+	public String save(Item item) throws Exception {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 			
-		retornoMensaje = itemDao.registrarItem(item);
+		messageReturn = itemDao.save(item);
 			
-		return retornoMensaje;
+		return messageReturn;
 	}
 
-	public List<Item> consultarItemsPorHotel(Integer hotelId) throws Exception {
+	public List<Item> findByHotelId(String hotelId) throws Exception {
 		
 		List<Item> items = null;
-		items = itemDao.consultarItemsPorHotel(hotelId);
+		items = itemDao.findByHotelId(hotelId);
 			
 		return items;
 	}
 
-	public Item consultarItemPorHotel(Integer hotelId, Integer itemId) throws Exception {
+	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
 		Item item = null;
-		item = itemDao.consultarItemPorHotel(hotelId, itemId);
+		item = itemDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return item;
 	}

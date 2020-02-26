@@ -1,22 +1,25 @@
 package co.com.hotelyando.database.model;
 
-import java.util.List;
+import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
 @Data
-@Document(collection = "hotelyando.item")
-public class Item {
+@Document(collection = "item")
+public class Item implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
-	private Integer itemId;
-	private Integer hotelId;
-	private Boolean activo;
-	private Integer cantidad;
-	private String descripcion;
-	private Integer precio;
-	private Integer stock; // en español?
-	private List<Tipo> tipo;
+	@Id
+	private String uuid;
+	private String hotelId;
+	private Boolean active;
+	private Integer quantity;
+	private String description;
+	private Integer price;
+	private Integer stock;
 
 }

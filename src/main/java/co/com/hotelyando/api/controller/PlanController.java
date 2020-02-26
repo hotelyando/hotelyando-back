@@ -1,6 +1,5 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,67 +15,64 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PlanBusiness;
-import co.com.hotelyando.core.utilities.ImpresionVariables;
-import co.com.hotelyando.core.utilities.Utilidades;
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Plan;
+import co.com.hotelyando.database.model.User;
+import io.swagger.annotations.Api;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@Api(tags = "Plan")
 public class PlanController {
 	
-private PlanBusiness planBusiness;
+	private final PlanBusiness planBusiness;
 	
-	private Utilidades utilidades;
-	private String usuario;
+	private Utilities utilities;
+	private User user;
 	
 	public PlanController(PlanBusiness planBusiness) {
 		this.planBusiness = planBusiness;
-	}
-	
-	public PlanController() {
-		utilidades = new Utilidades();
+		
+		utilities = new Utilities();
 	}
 	
 	@PostMapping("/plan")
-	public ResponseEntity<String> registrarPlan(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<String> save(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String retornoRespuesta = planBusiness.registrarPlan(plan, usuario);
+		String messageReturn = planBusiness.save(plan, user);
 		
-		if(StringUtils.isEmpty(retornoRespuesta)) {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.NO_CONTENT);
+		if(StringUtils.isEmpty(messageReturn)) {
+			return new ResponseEntity<String>(messageReturn, HttpStatus.NO_CONTENT);
 		}else {
-			return new ResponseEntity<String>(retornoRespuesta, HttpStatus.OK);
+			return new ResponseEntity<String>(messageReturn, HttpStatus.OK);
 		}
 	}
 	
 	@GetMapping("/plan/{planId}")
-	public ResponseEntity<Plan> consultarPlanPorHotel(@PathVariable Integer planId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Plan>> findByHotelIdAndUuid(@PathVariable String planId, @RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Plan plan = planBusiness.consultarPlanPorHotel(usuario, planId);
+		ServiceResponse<Plan> serviceResponse = planBusiness.findByHotelIdAndUuid(user, planId);
 			
-		if(plan == null) {
-			return new ResponseEntity<Plan>(plan, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<Plan>(plan, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Plan>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/plan")
-	public ResponseEntity<List<Plan>> consultarPlansPorHotel(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Plan>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
-		usuario = utilidades.retornoTenant(headers, ImpresionVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Plan> plans = planBusiness.consultarPlansPorHotel(usuario);
+		ServiceResponses<Plan> serviceResponses = planBusiness.findByHotelId(user);
 			
-		if(plans == null) {
-			return new ResponseEntity<List<Plan>>(plans, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<List<Plan>>(plans, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponses<Plan>>(serviceResponses, HttpStatus.OK);
+		
 	}
 
 }
