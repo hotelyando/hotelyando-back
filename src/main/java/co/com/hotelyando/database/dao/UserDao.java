@@ -17,13 +17,13 @@ public class UserDao {
 		
 	}
 	
-	public String save(User user) throws Exception {
-		
+	public void save(User user) throws Exception {
 		iUsuarioRepository.save(user);
-		
-		return "Ok";
 	}
 
+	public void update(User user) throws Exception {
+		iUsuarioRepository.save(user);
+	}
 	
 	public List<User> findByHotelId(String hotelId) throws Exception {
 		
@@ -32,7 +32,6 @@ public class UserDao {
 		
 		return users;
 	}
-
 	
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		

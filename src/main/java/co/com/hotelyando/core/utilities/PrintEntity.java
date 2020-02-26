@@ -1,5 +1,12 @@
 package co.com.hotelyando.core.utilities;
 
+import java.util.List;
+
+import co.com.hotelyando.database.model.BranchOffice;
+import co.com.hotelyando.database.model.Permit;
+import co.com.hotelyando.database.model.Person;
+import co.com.hotelyando.database.model.Plan;
+
 public class PrintEntity {
 	
 	/*
@@ -60,6 +67,68 @@ public class PrintEntity {
 	public static final String TIPO_HABITACION_PRECIO_HORA = "Debe ingresar el valor de la hora.";
 	public static final String TIPO_HABITACION_REGISTRADA = "El tipo de habitación se registró correctamente!.";
 	
+	
+	/*
+	 * Role
+	 */
+	public static final String ROLE_ID = "Debe ingresar el ID del rol.";
+	public static final String ROLE_HOTEL_ID = "Debe ingresar el ID del hotel.";
+	public static final String ROLE_NAME = "Debe ingresar el nombre del rol.";
+	public static final String ROLE_DESCRIPTION = "Debe ingresar una descripción del rol.";
+	public static final String ROLE_PERMITS = "Debe ingresar al menos un permiso para el rol.";
+	
+	
+	/*
+	 * 
+	 * Reservation 
+	 */
+	public static final String RESERVATION_ID = "Debe ingresar el ID de la reservación.";
+	public static final String RESERVATION_HOTEL_ID = "Debe ingresar el ID del hotel.";
+	public static final String RESERVATION_DATE = "Debe ingresar la fecha de la reservación.";
+	public static final String RESERVATION_START_DATE = "Debe ingresar la fecha de ingreso.";
+	public static final String RESERVATION_EXIT_DATE = "Debe ingresar la fecha de salida.";
+	public static final String RESERVATION_ADULT_QUANTITY = "Debe ingresar la cantidad de personas adultas.";
+	public static final String RESERVATION_CHILDREN_QUANTITY = "Debe ingresar la cantidad de personas menores.";
+	public static final String RESERVATION_FULL_PAYMENT = "Debe ingresar el valor de pago completo.";
+	public static final String RESERVATION_ADVANCED_PAYMENT = "Debe ingresar el valor de pago por adelantado.";
+	public static final String RESERVATION_PERSON = "Debe ingresar la información de la persona que reserva.";
+	
+	
+	/*
+	 * Item
+	 * 
+	 */
+	public static final String ITEM_ID = "Debe ingresar el ID del item.";
+	public static final String ITEM_HOTEL_ID = "Debe ingresar el ID del hotel.";
+	public static final String ITEM_ACTIVE = "Debe validar si está habilitado o no.";
+	public static final String ITEM_QUANTITY = "Debe ingresar la cantidad del item.";
+	public static final String ITEM_DESCRIPTION = "Debe ingresar la descripción del item.";
+	public static final String ITEM_PRICE = "Debe ingresar el valor del item.";
+	public static final String ITEM_STOCK = "Debe ingresar la cantidad en stock.";
+	
+	
+	/*
+	 * Country
+	 */
+	public static final String COUNTRY_ID = "Debe ingresar el ID del pais.";
+	public static final String COUNTRY_CODE = "Debe ingresar el código del pais.";
+	public static final String COUNTRY_NAME = "Debe ingresar el nombre del pais.";
+	
+	
+	/*
+	 * Hotel
+	 */
+	public static final String HOTEL_ID = "Debe ingresar el ID del hotel.";
+	public static final String HOTEL_NIT = "Debe ingresar el NIT del hotel.";
+	public static final String HOTEL_ADDRESS = "Debe ingresar la dirección de ubicación del hotel.";
+	public static final String HOTEL_NAME = "Debe ingresar el nombre del hotel.";
+	public static final String HOTEL_ALTITUDE = "Debe ingresar la referencia de altitud del hotel.";
+	public static final String HOTEL_LATITUD = "Debe ingresar la referencia de latitud del hotel.";
+	public static final String HOTEL_SOCIAL_NETWORKS = "Debe ingresar al menos una red social del hotel.";
+	public static final String HOTEL_PHONE = "Debe ingresar un número de teléfono fijo del hotel.";
+	public static final String HOTEL_CELL_PHONE = "Debe ingresar un número de celular del hotel.";
+	public static final String HOTEL_PLAN = "Debe ingresar al menos un plan que ofrezca el hotel.";
+	public static final String HOTEL_SUCURSAL = "Debe ingresar al menos una sucursal, así sea ella misma.";
 	
 	
 	

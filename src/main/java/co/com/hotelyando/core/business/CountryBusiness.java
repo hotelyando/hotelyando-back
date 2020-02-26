@@ -50,5 +50,25 @@ public class CountryBusiness {
 		return serviceResponse;
 		
 	}
+	
+	
+	public ServiceResponse<Country> update(Country country) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = countryService.update(country);
+			
+			serviceResponse = generic.messageReturn(country, PrintVariables.NEGOCIO, "Registro Bien");
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+		
+	}
 
 }

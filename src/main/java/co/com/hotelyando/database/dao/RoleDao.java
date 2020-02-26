@@ -18,11 +18,12 @@ public class RoleDao {
 		this.iRoleRepository = iRoleRepository;
 	}
 
-	public String save(Role role) throws MongoException, Exception {
-		
+	public void save(Role role) throws MongoException, Exception {
 		iRoleRepository.save(role);
-		
-		return "Ok";
+	}
+	
+	public void update(Role role) throws MongoException, Exception {
+		iRoleRepository.save(role);
 	}
 	
 	public List<Role> findAll() throws MongoException, Exception {
@@ -31,17 +32,14 @@ public class RoleDao {
 		roles = iRoleRepository.findAll();
 		
 		return roles;
-		
 	}
 	
 	public Role findByName(String name) throws MongoException, Exception {
 		
 		Role role = null;
-		
 		role = iRoleRepository.findByName(name);
 		
 		return role;
-		
 	}
 	
 }

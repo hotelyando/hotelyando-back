@@ -1,21 +1,22 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.ItemBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Item;
@@ -40,45 +41,47 @@ public class ItemController {
 	
 	
 	@PostMapping("/item")
-	public ResponseEntity<String> save(@RequestBody Item item, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Item>> save(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String messageReturn = itemBusiness.save(item, user);
+		ServiceResponse<Item> serviceResponse = itemBusiness.save(item, user);
 		
-		if(StringUtils.isEmpty(messageReturn)) {
-			return new ResponseEntity<String>(messageReturn, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<String>(messageReturn, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping("/item")
+	public ResponseEntity<ServiceResponse<Item>> update(@RequestBody Item item, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+			
+		ServiceResponse<Item> serviceResponse = itemBusiness.update(item, user);
+		
+		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/item/{itemId}")
-	public ResponseEntity<Item> findByHotelIdAndUuid(@PathVariable String itemId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Item>> findByHotelIdAndUuid(@PathVariable String itemId, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Item item = itemBusiness.findByHotelIdAndUuid(user, itemId);
+		ServiceResponse<Item> serviceResponse = itemBusiness.findByHotelIdAndUuid(user, itemId);
 			
-		if(item == null) {
-			return new ResponseEntity<Item>(item, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<Item>(item, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/item")
-	public ResponseEntity<List<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Item> items = itemBusiness.findByHotelId(user);
+		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user);
 			
-		if(items == null) {
-			return new ResponseEntity<List<Item>>(items, HttpStatus.NOT_IMPLEMENTED);
-		}else {
-			return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponses<Item>>(serviceResponses, HttpStatus.OK);
+		
 	}
 
 }

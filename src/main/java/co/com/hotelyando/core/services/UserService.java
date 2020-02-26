@@ -21,27 +21,54 @@ public class UserService {
 	
 	public String save(User user) throws Exception {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 	
 		if(StringUtils.isBlank(user.getUuid())) {
-			retornoMensaje = PrintEntity.VALIDACION_ID_USUARIO;
+			messageReturn = PrintEntity.VALIDACION_ID_USUARIO;
 		}else if(StringUtils.isBlank(user.getHotelId())) {
-			retornoMensaje = PrintEntity.VALIDACION_HOTEL_ID;
+			messageReturn = PrintEntity.VALIDACION_HOTEL_ID;
 		}else if(StringUtils.isBlank(user.getRol())) {
-			retornoMensaje = PrintEntity.VALIDACION_ROL;
+			messageReturn = PrintEntity.VALIDACION_ROL;
 		}else if(StringUtils.isBlank(user.getPersonId())) {
-			retornoMensaje = PrintEntity.VALIDACION_PERSONA;
-		}else if(StringUtils.isBlank(user.getUser())) {
-			retornoMensaje = PrintEntity.VALIDACION_USUARIO;
+			messageReturn = PrintEntity.VALIDACION_PERSONA;
+		}else if(!StringUtils.isBlank(user.getUser())) {
+			messageReturn = PrintEntity.VALIDACION_USUARIO;
 		}else if(StringUtils.isBlank(user.getPassword())) {
-			retornoMensaje = PrintEntity.VALIDACION_CONTRASENA;
+			messageReturn = PrintEntity.VALIDACION_CONTRASENA;
 		}else {
 			userDao.save(user);
 		}
 		
-		return retornoMensaje;
+		//Se debe validar un nombre unico de usuario
+		
+		return messageReturn;
 	}
-
+	
+	
+	public String update(User user) throws Exception {
+		
+		String messageReturn = "";
+	
+		if(StringUtils.isBlank(user.getUuid())) {
+			messageReturn = PrintEntity.VALIDACION_ID_USUARIO;
+		}else if(StringUtils.isBlank(user.getHotelId())) {
+			messageReturn = PrintEntity.VALIDACION_HOTEL_ID;
+		}else if(StringUtils.isBlank(user.getRol())) {
+			messageReturn = PrintEntity.VALIDACION_ROL;
+		}else if(StringUtils.isBlank(user.getPersonId())) {
+			messageReturn = PrintEntity.VALIDACION_PERSONA;
+		}else if(StringUtils.isBlank(user.getUser())) {
+			messageReturn = PrintEntity.VALIDACION_USUARIO;
+		}else if(StringUtils.isBlank(user.getPassword())) {
+			messageReturn = PrintEntity.VALIDACION_CONTRASENA;
+		}else {
+			userDao.update(user);
+		}
+		
+		//Se debe validar un nombre unico de usuario
+		
+		return messageReturn;
+	}
 	
 	public List<User> findByHotelId(String hotelId) throws Exception {
 		

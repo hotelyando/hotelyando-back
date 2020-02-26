@@ -17,13 +17,14 @@ public class RoomTypeDao{
 	}
 	
 	
-	public String save(RoomType roomType) throws Exception {
-		
+	public void save(RoomType roomType) throws Exception {
 		iRoomTypeRepository.save(roomType);
-		
-		return "Ok";
 	}
 
+	public void update(RoomType roomType) throws Exception {
+		iRoomTypeRepository.save(roomType);
+	}
+	
 	public List<RoomType> findByHotelId(String hotelId) throws Exception {
 		
 		List<RoomType> roomTypes = null;

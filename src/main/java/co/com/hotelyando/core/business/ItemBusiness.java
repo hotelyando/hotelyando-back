@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.ItemService;
+import co.com.hotelyando.core.utilities.Generic;
+import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.User;
@@ -14,14 +18,20 @@ public class ItemBusiness {
 	
 	private final ItemService itemService;
 	private Utilities utilities = null;
+	private ServiceResponse<Item> serviceResponse;
+	private ServiceResponses<Item> serviceResponses;
+	private Generic<Item> generic = null;
 	
 	public ItemBusiness(ItemService itemService) {
 		this.itemService = itemService;
 		
+		serviceResponse = new ServiceResponse<Item>();
+		serviceResponses = new ServiceResponses<Item>();
 		utilities = new Utilities();
+		generic = new Generic<Item>();
 	}
 	
-	public String save(Item item, User user) {
+	public ServiceResponse<Item> save(Item item, User user) {
 		
 		String messageReturn = "";
 		
@@ -31,14 +41,46 @@ public class ItemBusiness {
 			item.setHotelId(user.getHotelId());
 			
 			messageReturn = itemService.save(item);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, "Registro exitoso!.");
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, "Problemas registrando el item!.");
+			}
+			
 		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
-		return messageReturn;
+		return serviceResponse;
+	}
+	
+	public ServiceResponse<Item> update(Item item, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			item.setHotelId(user.getHotelId());
+			
+			messageReturn = itemService.update(item);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, "Registro exitoso!.");
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, "Problemas registrando el item!.");
+			}
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+			
+		return serviceResponse;
 	}
 
-	public List<Item> findByHotelId(User user) {
+	public ServiceResponses<Item> findByHotelId(User user) {
 		
 		List<Item> items = null;
 		
@@ -46,14 +88,22 @@ public class ItemBusiness {
 			
 			items = itemService.findByHotelId(user.getHotelId());
 			
+			if(items != null) {
+				serviceResponses = generic.messagesReturn(items, PrintVariables.NEGOCIO, "Consulta");
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariables.ADVERTENCIA, "Problemas consultando los items!.");
+			}
+			
+			
 		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
-		return items;
+		return serviceResponses;
 	}
 
-	public Item findByHotelIdAndUuid(User user, String uuid) {
+	public ServiceResponse<Item> findByHotelIdAndUuid(User user, String uuid) {
 		
 		Item item = null;
 		
@@ -61,10 +111,17 @@ public class ItemBusiness {
 			
 			item = itemService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
+			if(item != null) {
+				serviceResponse = generic.messageReturn(item, PrintVariables.NEGOCIO, "Consulta");
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, "Problemas consultando los items!.");
+			}
+			
 		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return item;
+		return serviceResponse;
 	}
 }

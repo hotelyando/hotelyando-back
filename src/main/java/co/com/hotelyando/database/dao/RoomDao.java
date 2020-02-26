@@ -17,11 +17,12 @@ public class RoomDao{
 	}
 	
 	
-	public String save(Room room) throws Exception {
-		
+	public void save(Room room) throws Exception {
 		iRoomRepository.save(room);
-		
-		return "Ok";
+	}
+	
+	public void update(Room room) throws Exception {
+		iRoomRepository.save(room);
 	}
 
 	public List<Room> findByHotelId(String hotelId) throws Exception {

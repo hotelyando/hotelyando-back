@@ -53,6 +53,27 @@ public class ReservationBusiness {
 			
 		return serviceResponse;
 	}
+	
+	
+	public ServiceResponse<Reservation> update(Reservation reservation, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			reservation.setHotelId(user.getHotelId());
+			
+			messageReturn = reservationService.update(reservation);
+			
+			serviceResponse = generic.messageReturn(reservation, PrintVariables.NEGOCIO, "Mensaje registrado!");
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+			
+		return serviceResponse;
+	}
 
 	public ServiceResponses<Reservation> findByHotelId(User user) {
 		

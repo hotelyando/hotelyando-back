@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +45,17 @@ public class ReservationController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.save(reservation, user);
+		
+		return new ResponseEntity<ServiceResponse<Reservation>>(serviceResponse, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping("/reservation")
+	public ResponseEntity<ServiceResponse<Reservation>> update(@RequestBody Reservation reservation, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+			
+		ServiceResponse<Reservation> serviceResponse = reservationBusiness.update(reservation, user);
 		
 		return new ResponseEntity<ServiceResponse<Reservation>>(serviceResponse, HttpStatus.OK);
 		

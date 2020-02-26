@@ -50,6 +50,42 @@ public class PersonService {
 			personDao.save(person);
 		}
 		
+		//Validar que la persona aun no existe
+		//validar formato de correo electronico
+		//VAlidar fechas
+		
+		return messagesReturn;
+	}
+	
+	
+	public String update(Person person) throws Exception {
+		
+		String messagesReturn = "";
+		
+		if(StringUtils.isBlank(person.getCellPhone())) {
+			messagesReturn = PrintEntity.PERSONA_CELULAR;
+		}else if(StringUtils.isBlank(person.getEmail())) {
+			messagesReturn = PrintEntity.PERSONA_CORREO_ELECTRONICO;
+		}else if(StringUtils.isBlank(person.getAddress())) {
+			messagesReturn = PrintEntity.PERSONA_DIRECCION;
+		}else if(StringUtils.isBlank(person.getBirthdate())) {
+			messagesReturn = PrintEntity.PERSONA_FECHA_NACIMIENTO;
+		}else if(StringUtils.isBlank(person.getName())) {
+			messagesReturn = PrintEntity.PERSONA_NOMBRE_COMPLETO;
+		}else if(StringUtils.isBlank(person.getDocument())) {
+			messagesReturn = PrintEntity.PERSONA_NUMERO_DOCUMENTO;
+		}else if(StringUtils.isBlank(person.getPhone())) {
+			messagesReturn = PrintEntity.PERSONA_TELEFONO_FIJO;
+		}else if(StringUtils.isBlank(person.getDocumentType().getCode())) {
+			messagesReturn = PrintEntity.PERSONA_TIPO_DOCUMENTO;
+		}else {
+			personDao.update(person);
+		}
+		
+		//Validar que la persona aun no existe
+		//validar formato de correo electronico
+		//VAlidar fechas
+		
 		return messagesReturn;
 	}
 

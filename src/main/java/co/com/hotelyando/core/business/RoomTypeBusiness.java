@@ -57,6 +57,31 @@ public class RoomTypeBusiness {
 		
 		return serviceResponse;
 	}
+	
+	
+	public ServiceResponse<RoomType> update(RoomType roomType, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			roomType.setHotelId(user.getHotelId());
+			
+			messageReturn = roomTypeService.update(roomType);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.TIPO_HABITACION_REGISTRADA);
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, messageReturn);
+			}
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
 
 	/*
 	 * 

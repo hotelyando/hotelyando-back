@@ -63,6 +63,31 @@ public class UserBusiness {
 			
 		return serviceResponse;
 	}
+	
+	
+	public ServiceResponse<User> update(User user, User user1) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			user.setHotelId(user1.getHotelId());
+			
+			messageReturn = userService.update(user);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.USUARIO_REGISTRADO);
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, messageReturn);
+			}
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+			
+		return serviceResponse;
+	}
 
 	/*
 	 * Metodo que consultará los usuarios por hotel, la información del hotel viene en el token, no hay necesidad de 

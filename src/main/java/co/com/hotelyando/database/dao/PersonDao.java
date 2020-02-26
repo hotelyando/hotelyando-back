@@ -25,11 +25,12 @@ public class PersonDao{
 		return person;
 	}
 
-	public String save(Person person) throws Exception {
-		
+	public void save(Person person) throws Exception {
 		iPersonRepository.save(person);
-		
-		return "Ok";
+	}
+	
+	public void update(Person person) throws Exception {
+		iPersonRepository.save(person);
 	}
 
 	public Person findByDocument(String documentNumber) throws MongoException, Exception {
@@ -38,7 +39,6 @@ public class PersonDao{
 		person = iPersonRepository.findByDocument(documentNumber);
 		
 		return person;
-		
 	}
 
 }

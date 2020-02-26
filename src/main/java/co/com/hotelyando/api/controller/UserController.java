@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/user")
-	public ResponseEntity<ServiceResponse<User>> registrarUsuario(@RequestBody User user, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<User>> save(@RequestBody User user, @RequestHeader Map<String, String> headers){
 		
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
@@ -51,8 +52,22 @@ public class UserController {
 		}
 	}
 	
+	@PutMapping("/user")
+	public ResponseEntity<ServiceResponse<User>> update(@RequestBody User user, @RequestHeader Map<String, String> headers){
+		
+		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+			
+		ServiceResponse<User> serviceResponse = userBusiness.update(user, userJson);
+		
+		if(serviceResponse.getState().equals("0")) {
+			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.OK);
+		}
+	}
+	
 	@GetMapping("/user/{userId}")
-	public ResponseEntity<ServiceResponse<User>> consultarUsuarioPorHotel(@PathVariable String userId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<User>> findByHotelIdAndUuid(@PathVariable String userId, @RequestHeader Map<String, String> headers){
 		
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
@@ -66,7 +81,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<ServiceResponses<User>> consultarUsuariosPorHotel(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<User>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			

@@ -61,6 +61,33 @@ public class RoleBusiness {
 		return serviceResponse;
 	}
 	
+	public ServiceResponse<Role> update(Role role, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			role.setHotelId(user.getHotelId());
+			
+			messageReturn = roleService.update(role);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, "Actualización correcto!.");
+			}else {
+				serviceResponse = generic.messageReturn(role, PrintVariables.ADVERTENCIA, messageReturn);
+			}
+			
+			
+		}catch (MongoException be) {
+			be.printStackTrace();
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
+	
 	public ServiceResponses<Role> findAll() {
 		
 		List<Role> roles = null;

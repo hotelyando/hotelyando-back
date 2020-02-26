@@ -14,12 +14,12 @@ public class CountryDao {
 		this.iCountryRepository = iCountryRepository;
 	}
 	
-	public String save(Country country) throws Exception {
-		
+	public void save(Country country) throws Exception {
 		iCountryRepository.save(country);
-		
-		return "Ok";
-		
+	}
+	
+	public void update(Country country) throws Exception {
+		iCountryRepository.save(country);
 	}
 	
 	

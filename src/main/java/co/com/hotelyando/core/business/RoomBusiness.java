@@ -56,6 +56,31 @@ public class RoomBusiness {
 		
 		return serviceResponse;
 	}
+	
+	
+	public ServiceResponse<Room> update(Room room, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			room.setHotelId(user.getHotelId());
+			
+			messageReturn = roomService.update(room);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.HABITACION_REGISTRADA);
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, messageReturn);
+			}
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
 
 	/*
 	 * 

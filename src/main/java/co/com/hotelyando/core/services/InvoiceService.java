@@ -19,8 +19,21 @@ public class InvoiceService {
 	public String save(Invoice invoice) throws Exception {
 		
 		String retornoMensaje = "";
+		
+		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
+		
+		invoiceDao.save(invoice);
 			
-		retornoMensaje = invoiceDao.save(invoice);
+		return retornoMensaje;
+	}
+	
+	public String update(Invoice invoice) throws Exception {
+		
+		String retornoMensaje = "";
+		
+		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
+		
+		invoiceDao.update(invoice);
 			
 		return retornoMensaje;
 	}

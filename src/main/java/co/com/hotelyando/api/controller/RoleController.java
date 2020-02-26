@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +44,17 @@ public class RoleController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
 		ServiceResponse<Role> serviceResponse = roleBusiness.save(role, user);
+		
+		return new ResponseEntity<ServiceResponse<Role>>(serviceResponse, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping("/role")
+	public ResponseEntity<ServiceResponse<Role>> update(@RequestBody Role role, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		
+		ServiceResponse<Role> serviceResponse = roleBusiness.update(role, user);
 		
 		return new ResponseEntity<ServiceResponse<Role>>(serviceResponse, HttpStatus.OK);
 		

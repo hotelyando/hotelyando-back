@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +38,7 @@ public class RoomTypeController {
 		utilities = new Utilities();
 	}
 	
-	@PostMapping("/tipoTipoHabitacion")
+	@PostMapping("/roomtype")
 	public ResponseEntity<ServiceResponse<RoomType>> save(@RequestBody RoomType roomType, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
@@ -47,7 +48,17 @@ public class RoomTypeController {
 		
 	}
 	
-	@GetMapping("/tipoTipoHabitacion")
+	@PutMapping("/roomtype")
+	public ResponseEntity<ServiceResponse<RoomType>> update(@RequestBody RoomType roomType, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.update(roomType, user);
+		
+		return new ResponseEntity<ServiceResponse<RoomType>>(serviceResponse, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/roomtype")
 	public ResponseEntity<ServiceResponses<RoomType>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);

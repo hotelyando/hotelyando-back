@@ -16,13 +16,14 @@ public class ReservationDao {
 		this.iReservationRepository = iReservationRepository;
 	}
 	
-	public String save(Reservation reservation) throws Exception {
-		
+	public void save(Reservation reservation) throws Exception {
 		iReservationRepository.save(reservation);
-		
-		return "Ok";
 	}
 
+	public void update(Reservation reservation) throws Exception {
+		iReservationRepository.save(reservation);
+	}
+	
 	public List<Reservation> findByHotelId(String hotelId) throws Exception {
 		
 		List<Reservation> reservations = null;

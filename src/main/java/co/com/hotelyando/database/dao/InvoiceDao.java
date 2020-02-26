@@ -16,18 +16,18 @@ public class InvoiceDao {
 		this.iInvoiceRepository = iInvoiceRepository;
 	}
 	
-	public String save(Invoice invoice) throws Exception {
-		
+	public void save(Invoice invoice) throws Exception {
 		iInvoiceRepository.save(invoice);
-		
-		return "Ok";
 	}
 
+	public void update(Invoice invoice) throws Exception {
+		iInvoiceRepository.save(invoice);
+	}
+	
 	
 	public List<Invoice> findByHotelId(String hotelId) throws Exception {
-		
+	
 		List<Invoice> invoices = null;
-		
 		invoices = iInvoiceRepository.findByHotelId(hotelId);
 		
 		return invoices;
@@ -37,7 +37,6 @@ public class InvoiceDao {
 	public Invoice findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
 		Invoice invoice = null;
-		
 		invoice = iInvoiceRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return invoice;

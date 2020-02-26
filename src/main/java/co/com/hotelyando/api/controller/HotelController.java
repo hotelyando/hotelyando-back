@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,15 @@ public class HotelController {
 	public ResponseEntity<ServiceResponse<Hotel>> save(@RequestBody Hotel hotel){
 		
 		ServiceResponse<Hotel> serviceResponse = hotelBusiness.save(hotel); 
+		
+		return new ResponseEntity<ServiceResponse<Hotel>>(serviceResponse, HttpStatus.OK);
+				
+	}
+	
+	@PutMapping("/hotel")
+	public ResponseEntity<ServiceResponse<Hotel>> update(@RequestBody Hotel hotel){
+		
+		ServiceResponse<Hotel> serviceResponse = hotelBusiness.update(hotel); 
 		
 		return new ResponseEntity<ServiceResponse<Hotel>>(serviceResponse, HttpStatus.OK);
 				

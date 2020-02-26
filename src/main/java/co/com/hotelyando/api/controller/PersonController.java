@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +44,23 @@ public class PersonController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.save(person, user);
+		
+		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
+			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
+		}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)){
+			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
+		}
+	}
+	
+	
+	@PutMapping("/person")
+	public ResponseEntity<ServiceResponse<Person>> update(@RequestBody Person person, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		
+		ServiceResponse<Person> serviceResponse = personBusiness.update(person, user);
 		
 		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
 			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);

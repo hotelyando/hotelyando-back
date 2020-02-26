@@ -1,21 +1,22 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.InvoiceBusiness;
+import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Invoice;
@@ -39,45 +40,46 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/invoice")
-	public ResponseEntity<String> registrarFactura(@RequestBody Invoice invoice, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Invoice>> save(@RequestBody Invoice invoice, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		String serviceResponse = invoiceBusiness.save(invoice, user);
+		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.save(invoice, user);
 		
-		if(StringUtils.isEmpty(serviceResponse)) {
-			return new ResponseEntity<String>(serviceResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<String>(serviceResponse, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Invoice>>(serviceResponse, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping("/invoice")
+	public ResponseEntity<ServiceResponse<Invoice>> update(@RequestBody Invoice invoice, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+			
+		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.update(invoice, user);
+		
+		return new ResponseEntity<ServiceResponse<Invoice>>(serviceResponse, HttpStatus.OK);
 	}
 	
 	@GetMapping("/invoice/{invoiceId}")
-	public ResponseEntity<Invoice> findByHotelIdAndUuid(@PathVariable String invoiceId, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Invoice>> findByHotelIdAndUuid(@PathVariable String invoiceId, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		Invoice	invoice = invoiceBusiness.findByHotelIdAndUuid(user, invoiceId);
+		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.findByHotelIdAndUuid(user, invoiceId);
 			
-		if(invoice == null) {
-			return new ResponseEntity<Invoice>(invoice, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<Invoice>(invoice, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponse<Invoice>>(serviceResponse, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping("/invoice")
-	public ResponseEntity<List<Invoice>> findByHotelId(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Invoice>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		List<Invoice> invoices = invoiceBusiness.findByHotelId(user);
+		ServiceResponses<Invoice> serviceResponses = invoiceBusiness.findByHotelId(user);
 			
-		if(invoices == null) {
-			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
-		}
+		return new ResponseEntity<ServiceResponses<Invoice>>(serviceResponses, HttpStatus.OK);
+		
 	}
 
 

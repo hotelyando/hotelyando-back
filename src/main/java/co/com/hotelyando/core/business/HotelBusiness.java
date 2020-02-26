@@ -50,6 +50,26 @@ public class HotelBusiness {
 			
 		return serviceResponse;
 	}
+	
+	
+	public ServiceResponse<Hotel> update(Hotel hotel) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = hotelService.update(hotel);
+			
+			serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, "Registro realizado correctamente!");
+			
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+			
+		return serviceResponse;
+	}
 
 	public ServiceResponse<Hotel> findByUuid(String uuid) {
 		

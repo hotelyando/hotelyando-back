@@ -76,6 +76,30 @@ public class PersonBusiness {
 		return serviceResponse;
 	}
 
+	
+	public ServiceResponse<Person> update(Person person, User user) {
+		
+		String retornoMensaje = "";
+		
+		try {
+			
+			retornoMensaje = personService.update(person);
+			
+			if(retornoMensaje.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.USUARIO_REGISTRADO);
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, retornoMensaje);
+			}
+			
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
+
+	
 	public ServiceResponse<Person> findByDocument(String documentNumber, User user) {
 		
 		Person person = null;

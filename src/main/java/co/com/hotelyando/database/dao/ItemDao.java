@@ -16,18 +16,17 @@ private final IItemRepository iItemRepository;
 		this.iItemRepository = iItemRepository;
 	}
 	
-	public String save(Item item) throws Exception {
-		
+	public void save(Item item) throws Exception {
 		iItemRepository.save(item);
-		
-		return "Ok";
 	}
 
+	public void update(Item item) throws Exception {
+		iItemRepository.save(item);
+	}
 	
 	public List<Item> findByHotelId(String hotelId) throws Exception {
 		
 		List<Item> items = null;
-		
 		items = iItemRepository.findByHotelId(hotelId);
 		
 		return items;
@@ -37,7 +36,6 @@ private final IItemRepository iItemRepository;
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
 		Item item = null;
-		
 		item = iItemRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return item;

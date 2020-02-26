@@ -21,23 +21,45 @@ public class RoomService {
 	
 	public String save(Room room) throws Exception {
 		
-		String retornoMensaje = "";
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(room.getUuid())) {
-			retornoMensaje = PrintEntity.HABITACION_VALIDACION_ID;
+			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
 		}else if(StringUtils.isBlank(room.getHotelId())) {
-			retornoMensaje = PrintEntity.HABITACION_HOTEL_ID;
+			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
 		}else if(StringUtils.isBlank(room.getCheckIn())) {
-			retornoMensaje = PrintEntity.HABITACION_CHECK_IN;
+			messageReturn = PrintEntity.HABITACION_CHECK_IN;
 		}else if(StringUtils.isBlank(room.getCheckOut())) {
-			retornoMensaje = PrintEntity.HABITACION_CHECK_OUT;
+			messageReturn = PrintEntity.HABITACION_CHECK_OUT;
 		}else if(StringUtils.isBlank(room.getType())) {
-			retornoMensaje = PrintEntity.HABITACION_TIPO;
+			messageReturn = PrintEntity.HABITACION_TIPO;
 		}else {
 			roomDao.save(room);
 		}
 		
-		return retornoMensaje;
+		return messageReturn;
+	}
+	
+	
+	public String update(Room room) throws Exception {
+		
+		String messageReturn = "";
+		
+		if(StringUtils.isBlank(room.getUuid())) {
+			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
+		}else if(StringUtils.isBlank(room.getHotelId())) {
+			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
+		}else if(StringUtils.isBlank(room.getCheckIn())) {
+			messageReturn = PrintEntity.HABITACION_CHECK_IN;
+		}else if(StringUtils.isBlank(room.getCheckOut())) {
+			messageReturn = PrintEntity.HABITACION_CHECK_OUT;
+		}else if(StringUtils.isBlank(room.getType())) {
+			messageReturn = PrintEntity.HABITACION_TIPO;
+		}else {
+			roomDao.update(room);
+		}
+		
+		return messageReturn;
 	}
 
 	public List<Room> findByHotelId(String hotelId) throws Exception {
