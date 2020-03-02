@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import co.com.hotelyando.core.utilities.JWTAuthorizationFilter;
+import co.com.hotelyando.core.authorization.JWTAuthorizationFilter;
 
 @SpringBootApplication
 public class HotelyandoApplication {

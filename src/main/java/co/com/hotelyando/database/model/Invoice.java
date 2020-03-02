@@ -22,7 +22,7 @@ public class Invoice implements Serializable{
 	private Client client;
 	private Double total;
 	private List<Item> items;
-	private Room room;
+	private List<Room> rooms;
 	
 	@Data
 	class Item {

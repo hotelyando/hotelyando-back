@@ -7,14 +7,6 @@ package co.com.hotelyando.core.utilities;
 
 public class PrintVariables {
 	
-	public static final int STATUS_CODE_OK = 0;
-	public static final int STATUS_CODE_ERROR = 1;
-	
-	public static final String STATUS = "ACTIVE";
-	public static final String STATUS_TRANSACTION = "APPROVED";
-	public static final String STATUS_DESC_OK = "SUCCES";
-	public static final String STATUS_DESC_ERROR = "ERROR";
-	
 	public static final String HEADER = "Authorization";
 	public static final String TOKEN_HEADER = "authorization";
 	public static final String PREFIX = "Bearer ";
@@ -24,10 +16,11 @@ public class PrintVariables {
 	public static final String ROLE_USER = "ROLE_USER";
 	public static final String BEARER = "Bearer ";
 	
-	public static final String ERROR_TECNICO = "0";
-	public static final String NEGOCIO = "1";
-	public static final String ADVERTENCIA = "2";
-	public static final String VALIDACION = "4";
+	public static final String ERROR_BD = "Error base de datos";
+	public static final String ERROR_TECNICO = "Error técnico";
+	public static final String NEGOCIO = "Negocio";
+	public static final String ADVERTENCIA = "Advertencia";
+	public static final String VALIDACION = "Validación de datos";
 	
 	
 	

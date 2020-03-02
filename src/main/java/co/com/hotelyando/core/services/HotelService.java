@@ -1,49 +1,78 @@
 package co.com.hotelyando.core.services;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import co.com.hotelyando.core.utilities.PrintEntity;
+import com.mongodb.MongoException;
+
+import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.HotelDao;
 import co.com.hotelyando.database.model.Hotel;
 
 @Service
 public class HotelService {
 
+	@Autowired
+	private MessageSource messageSource;
+	
+	private RegularExpression regularExpression = null;
 	
 	private final HotelDao hotelDao;
 	
 	public HotelService(HotelDao hotelDao) {
 		this.hotelDao = hotelDao;
+		
+		regularExpression = new RegularExpression();
 	}
 	
 	
-	public String save(Hotel hotel) throws Exception {
+	/*
+	 * Método para el registro de un HOTEL
+	 * @return String
+	 */
+	public String save(Hotel hotel) throws MongoException, Exception {
 		
 		String messageReturn = "";
 		
 		if(StringUtils.isBlank(hotel.getUuid())) {
-			messageReturn = PrintEntity.HOTEL_ID;
+			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAddress())) {
-			messageReturn = PrintEntity.HOTEL_ADDRESS;
+			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
-			messageReturn = PrintEntity.HOTEL_ALTITUDE;
+			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getCellPhone())) {
-			messageReturn = PrintEntity.HOTEL_CELL_PHONE;
+			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
+			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
-			messageReturn = PrintEntity.HOTEL_LATITUD;
+			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getName())) {
-			messageReturn = PrintEntity.HOTEL_NAME;
+			messageReturn = messageSource.getMessage("hotel.name", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
+			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
+		}else if(nameValidate(hotel.getName())) {
+			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
-			messageReturn = PrintEntity.HOTEL_NIT;
+			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
+		}else if(nitValidate(hotel.getNit())) {
+			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getPhone())) {
-			messageReturn = PrintEntity.HOTEL_PHONE;
+			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateNumeric(hotel.getPhone())) {
+			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(hotel.getEmail())) {
+			messageReturn = messageSource.getMessage("hotel.email", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateEmail(hotel.getEmail())) {
+			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getPlan() == null) {
-			messageReturn = PrintEntity.HOTEL_PLAN;
+			messageReturn = messageSource.getMessage("hotel.plan", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getSocialNetworks() == null) {
-			messageReturn = PrintEntity.HOTEL_SOCIAL_NETWORKS;
-		}else if(hotel.getSucursales() == null) {
-			messageReturn = PrintEntity.HOTEL_SUCURSAL;
+			messageReturn = messageSource.getMessage("hotel.social_networks", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getBranchOffices() == null) {
+			messageReturn = messageSource.getMessage("hotel.sucursal", null, LocaleContextHolder.getLocale());
 		}else {
 			hotelDao.save(hotel);
 		}
@@ -54,32 +83,51 @@ public class HotelService {
 		return messageReturn;
 	}
 	
-	public String update(Hotel hotel) throws Exception {
+	
+	/*
+	 * Método para la actualización de un HOTEL
+	 * @return String
+	 */
+	public String update(Hotel hotel) throws MongoException, Exception {
 		
 		String messageReturn = "";
 		
 		if(StringUtils.isBlank(hotel.getUuid())) {
-			messageReturn = PrintEntity.HOTEL_ID;
+			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAddress())) {
-			messageReturn = PrintEntity.HOTEL_ADDRESS;
+			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
-			messageReturn = PrintEntity.HOTEL_ALTITUDE;
+			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getCellPhone())) {
-			messageReturn = PrintEntity.HOTEL_CELL_PHONE;
+			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
+			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
-			messageReturn = PrintEntity.HOTEL_LATITUD;
+			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getName())) {
-			messageReturn = PrintEntity.HOTEL_NAME;
+			messageReturn = messageSource.getMessage("hotel.name", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
+			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
+		}else if(nameValidate(hotel.getName())) {
+			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
-			messageReturn = PrintEntity.HOTEL_NIT;
+			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
+		}else if(nitValidate(hotel.getNit())) {
+			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getPhone())) {
-			messageReturn = PrintEntity.HOTEL_PHONE;
+			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
+			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(hotel.getEmail())) {
+			messageReturn = messageSource.getMessage("hotel.email", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateEmail(hotel.getEmail())) {
+			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getPlan() == null) {
-			messageReturn = PrintEntity.HOTEL_PLAN;
+			messageReturn = messageSource.getMessage("hotel.plan", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getSocialNetworks() == null) {
-			messageReturn = PrintEntity.HOTEL_SOCIAL_NETWORKS;
-		}else if(hotel.getSucursales() == null) {
-			messageReturn = PrintEntity.HOTEL_SUCURSAL;
+			messageReturn = messageSource.getMessage("hotel.social_networks", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getBranchOffices() == null) {
+			messageReturn = messageSource.getMessage("hotel.sucursal", null, LocaleContextHolder.getLocale());
 		}else {
 			hotelDao.update(hotel);
 		}
@@ -90,12 +138,51 @@ public class HotelService {
 		return messageReturn;
 	}
 
-	public Hotel findByUuid(String uuid) throws Exception {
+	
+	/*
+	 * Método para retornar la información por uuid
+	 * @return Hotel
+	 */
+	public Hotel findByUuid(String uuid) throws MongoException, Exception {
 		
 		Hotel hotel = null;
 		hotel = hotelDao.findByUuid(uuid);
 		
 		return hotel;
+	}
+	
+	
+	/*
+	 * Método para validar si el nombre existe en la base de datos
+	 * @return boolean
+	 */
+	private boolean nameValidate(String nameHotel) throws MongoException, Exception {
+		
+		Hotel hotel = null;
+		hotel = hotelDao.findByName(nameHotel);
+		
+		if(hotel != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	/*
+	 * Método para validar si el nit existe en la base de datos
+	 * @return boolean
+	 */
+	private boolean nitValidate(String nitHotel) throws MongoException, Exception {
+		
+		Hotel hotel = null;
+		hotel = hotelDao.findByNit(nitHotel);
+		
+		if(hotel != null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

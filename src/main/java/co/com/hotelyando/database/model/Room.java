@@ -16,8 +16,9 @@ public class Room implements Serializable{
 	@Id
 	private String uuid;
 	private String hotelId;
-	private String checkIn;
-	private String checkOut;
+	private String name;
+	private String state;
+	private String description;
 	private String type;
 
 }

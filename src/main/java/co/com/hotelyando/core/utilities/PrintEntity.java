@@ -107,28 +107,6 @@ public class PrintEntity {
 	public static final String ITEM_STOCK = "Debe ingresar la cantidad en stock.";
 	
 	
-	/*
-	 * Country
-	 */
-	public static final String COUNTRY_ID = "Debe ingresar el ID del pais.";
-	public static final String COUNTRY_CODE = "Debe ingresar el código del pais.";
-	public static final String COUNTRY_NAME = "Debe ingresar el nombre del pais.";
-	
-	
-	/*
-	 * Hotel
-	 */
-	public static final String HOTEL_ID = "Debe ingresar el ID del hotel.";
-	public static final String HOTEL_NIT = "Debe ingresar el NIT del hotel.";
-	public static final String HOTEL_ADDRESS = "Debe ingresar la dirección de ubicación del hotel.";
-	public static final String HOTEL_NAME = "Debe ingresar el nombre del hotel.";
-	public static final String HOTEL_ALTITUDE = "Debe ingresar la referencia de altitud del hotel.";
-	public static final String HOTEL_LATITUD = "Debe ingresar la referencia de latitud del hotel.";
-	public static final String HOTEL_SOCIAL_NETWORKS = "Debe ingresar al menos una red social del hotel.";
-	public static final String HOTEL_PHONE = "Debe ingresar un número de teléfono fijo del hotel.";
-	public static final String HOTEL_CELL_PHONE = "Debe ingresar un número de celular del hotel.";
-	public static final String HOTEL_PLAN = "Debe ingresar al menos un plan que ofrezca el hotel.";
-	public static final String HOTEL_SUCURSAL = "Debe ingresar al menos una sucursal, así sea ella misma.";
 	
 	
 	

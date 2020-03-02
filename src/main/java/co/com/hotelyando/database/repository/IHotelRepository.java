@@ -9,5 +9,7 @@ import co.com.hotelyando.database.model.Hotel;
 public interface IHotelRepository extends MongoRepository<Hotel, String> {
 	
 	Hotel findByUuid(String uuid);
+	Hotel findByName(String name);
+	Hotel findByNit(String nit);
 
 }

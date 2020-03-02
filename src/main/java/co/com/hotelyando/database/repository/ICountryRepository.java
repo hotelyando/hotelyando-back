@@ -8,6 +8,7 @@ import co.com.hotelyando.database.model.Country;
 @JaversSpringDataAuditable
 public interface ICountryRepository extends MongoRepository<Country, String> {
 	
+	Country findByName(String name);
 	
 
 }

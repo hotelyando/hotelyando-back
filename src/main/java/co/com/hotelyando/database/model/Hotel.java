@@ -19,13 +19,14 @@ public class Hotel implements Serializable{
 	private String nit;
 	private String address;
 	private String name;
+	private String email;
 	private String altitude;
 	private String latitude;
 	private List<String> socialNetworks;
 	private String phone;
 	private String cellPhone;
 	private Plan plan;
-	private List<BranchOffice> sucursales;
+	private List<BranchOffice> branchOffices;
 	
 
 }

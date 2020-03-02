@@ -1,4 +1,4 @@
-package co.com.hotelyando.core.utilities;
+package co.com.hotelyando.core.authorization;
 
 import java.util.Date;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
+import co.com.hotelyando.core.utilities.Generic;
+import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.database.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

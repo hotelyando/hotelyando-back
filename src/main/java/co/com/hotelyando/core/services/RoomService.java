@@ -27,10 +27,6 @@ public class RoomService {
 			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
 		}else if(StringUtils.isBlank(room.getHotelId())) {
 			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
-		}else if(StringUtils.isBlank(room.getCheckIn())) {
-			messageReturn = PrintEntity.HABITACION_CHECK_IN;
-		}else if(StringUtils.isBlank(room.getCheckOut())) {
-			messageReturn = PrintEntity.HABITACION_CHECK_OUT;
 		}else if(StringUtils.isBlank(room.getType())) {
 			messageReturn = PrintEntity.HABITACION_TIPO;
 		}else {
@@ -49,10 +45,6 @@ public class RoomService {
 			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
 		}else if(StringUtils.isBlank(room.getHotelId())) {
 			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
-		}else if(StringUtils.isBlank(room.getCheckIn())) {
-			messageReturn = PrintEntity.HABITACION_CHECK_IN;
-		}else if(StringUtils.isBlank(room.getCheckOut())) {
-			messageReturn = PrintEntity.HABITACION_CHECK_OUT;
 		}else if(StringUtils.isBlank(room.getType())) {
 			messageReturn = PrintEntity.HABITACION_TIPO;
 		}else {

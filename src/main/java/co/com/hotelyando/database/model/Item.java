@@ -16,6 +16,7 @@ public class Item implements Serializable{
 	@Id
 	private String uuid;
 	private String hotelId;
+	private String name;
 	private Boolean active;
 	private Integer quantity;
 	private String description;

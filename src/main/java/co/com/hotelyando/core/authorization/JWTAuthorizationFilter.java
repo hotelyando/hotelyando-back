@@ -1,4 +1,4 @@
-package co.com.hotelyando.core.utilities;
+package co.com.hotelyando.core.authorization;
 
 /*
  * Clase : JWTAuthorizationFilter.java
@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import co.com.hotelyando.core.utilities.PrintVariables;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

@@ -3,8 +3,12 @@ package co.com.hotelyando.core.business;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import co.com.hotelyando.core.authorization.JwtToken;
 import co.com.hotelyando.core.model.LoginResponse;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
@@ -12,7 +16,6 @@ import co.com.hotelyando.core.services.UserService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintEntity;
 import co.com.hotelyando.core.utilities.PrintVariables;
-import co.com.hotelyando.core.utilities.JwtToken;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Hotel;
 import co.com.hotelyando.database.model.User;
@@ -20,7 +23,9 @@ import co.com.hotelyando.database.model.User;
 @Service
 public class UserBusiness {
 	
-
+	@Autowired
+	private MessageSource messageSource;
+	
 	private final UserService userService;
 	private ServiceResponse<User> serviceResponse;
 	private ServiceResponses<User> serviceResponses;
@@ -183,10 +188,10 @@ public class UserBusiness {
 				loginResponse.setUser(user.getUser());
 				loginResponse.setHotels(hotels);
 				
-				serviceResponse = genericosLogin.messageReturn(loginResponse, PrintVariables.NEGOCIO, PrintEntity.USUARIO_LOGUEADO);
+				serviceResponse = genericosLogin.messageReturn(loginResponse, PrintVariables.NEGOCIO, messageSource.getMessage("user.use_found", null, LocaleContextHolder.getLocale()));
 				
 			}else {
-				serviceResponse = genericosLogin.messageReturn(null, PrintVariables.ADVERTENCIA, PrintEntity.USUARIO_NO_ENCONTRADO);
+				serviceResponse = genericosLogin.messageReturn(null, PrintVariables.ADVERTENCIA, messageSource.getMessage("user.use_not_found", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {
