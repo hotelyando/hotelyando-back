@@ -1,7 +1,5 @@
 package co.com.hotelyando.core.business;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.model.ServiceResponse;
@@ -40,7 +38,6 @@ public class RoomTypeBusiness {
 		try {
 			
 			roomType.setUuid(utilities.generadorId());
-			roomType.setHotelId(user.getHotelId());
 			
 			messageReturn = roomTypeService.save(roomType);
 			
@@ -65,8 +62,6 @@ public class RoomTypeBusiness {
 		
 		try {
 			
-			roomType.setHotelId(user.getHotelId());
-			
 			messageReturn = roomTypeService.update(roomType);
 			
 			if(messageReturn.equals("")) {
@@ -82,25 +77,5 @@ public class RoomTypeBusiness {
 		
 		return serviceResponse;
 	}
-
-	/*
-	 * 
-	 */
-	public ServiceResponses<RoomType> findByHotelId(User user) {
-		
-		List<RoomType> roomTypes = null;
-		
-		try {
-			
-			roomTypes = roomTypeService.findByHotelId(user.getHotelId());
-			
-			serviceResponses = generic.messagesReturn(roomTypes, PrintVariables.NEGOCIO, PrintEntity.DATOS_RETORNADOS);
-			
-		}catch (Exception e) {
-			serviceResponses = generic.messagesReturn(roomTypes, PrintVariables.ERROR_TECNICO, e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return serviceResponses;
-	}
+	
 }

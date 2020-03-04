@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.RoomTypeBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
-import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.RoomType;
@@ -58,15 +56,4 @@ public class RoomTypeController {
 		
 	}
 	
-	@GetMapping("/roomtype")
-	public ResponseEntity<ServiceResponses<RoomType>> findByHotelId(@RequestHeader Map<String, String> headers){
-		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
-		ServiceResponses<RoomType> serviceResponses = roomTypeBusiness.findByHotelId(user);
-			
-		return new ResponseEntity<ServiceResponses<RoomType>>(serviceResponses, HttpStatus.OK);
-		
-	}
-
-
 }

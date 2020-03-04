@@ -31,7 +31,6 @@ private final IItemRepository iItemRepository;
 		
 		return items;
 	}
-
 	
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		

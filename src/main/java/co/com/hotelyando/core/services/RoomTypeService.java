@@ -1,7 +1,5 @@
 package co.com.hotelyando.core.services;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,6 @@ public class RoomTypeService {
 		
 		if(StringUtils.isBlank(tipoRoomType.getUuid())) {
 			messageReturn = PrintEntity.TIPO_HABITACION_ID;
-		}else if(StringUtils.isBlank(tipoRoomType.getHotelId())) {
-			messageReturn = PrintEntity.TIPO_HABITACION_HOTEL_ID;
 		}else if(StringUtils.isBlank(tipoRoomType.getDescription())) {
 			messageReturn = PrintEntity.TIPO_HABITACION_DESCRIPCION;
 		}else if(StringUtils.isBlank(tipoRoomType.getPriceDay().toString())) {
@@ -50,8 +46,6 @@ public class RoomTypeService {
 		
 		if(StringUtils.isBlank(tipoRoomType.getUuid())) {
 			messageReturn = PrintEntity.TIPO_HABITACION_ID;
-		}else if(StringUtils.isBlank(tipoRoomType.getHotelId())) {
-			messageReturn = PrintEntity.TIPO_HABITACION_HOTEL_ID;
 		}else if(StringUtils.isBlank(tipoRoomType.getDescription())) {
 			messageReturn = PrintEntity.TIPO_HABITACION_DESCRIPCION;
 		}else if(StringUtils.isBlank(tipoRoomType.getPriceDay().toString())) {
@@ -67,13 +61,5 @@ public class RoomTypeService {
 		
 		return messageReturn;
 	}
-
-	public List<RoomType> findByHotelId(String hotelId) throws Exception {
-		
-		List<RoomType> tipoRoomTypes = null;
-		tipoRoomTypes = tipoRoomTypeDao.findByHotelId(hotelId);
-		
-		return tipoRoomTypes;
-	}
-
+	
 }

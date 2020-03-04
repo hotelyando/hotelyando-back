@@ -27,8 +27,6 @@ public class RoomService {
 			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
 		}else if(StringUtils.isBlank(room.getHotelId())) {
 			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
-		}else if(StringUtils.isBlank(room.getType())) {
-			messageReturn = PrintEntity.HABITACION_TIPO;
 		}else {
 			roomDao.save(room);
 		}
@@ -45,8 +43,6 @@ public class RoomService {
 			messageReturn = PrintEntity.HABITACION_VALIDACION_ID;
 		}else if(StringUtils.isBlank(room.getHotelId())) {
 			messageReturn = PrintEntity.HABITACION_HOTEL_ID;
-		}else if(StringUtils.isBlank(room.getType())) {
-			messageReturn = PrintEntity.HABITACION_TIPO;
 		}else {
 			roomDao.update(room);
 		}
