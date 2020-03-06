@@ -2,7 +2,6 @@ package co.com.hotelyando.api.controller;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PersonBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Person;
@@ -31,11 +31,13 @@ public class PersonController {
 	
 	private Utilities utilities;
 	private User user;
+	private Generic<Person> generic = null;
 	
 	public PersonController(PersonBusiness personBusiness) {
 		this.personBusiness = personBusiness;
 		
 		utilities = new Utilities();
+		generic = new Generic<Person>();
 	}
 	
 	@PostMapping("/person")
@@ -43,15 +45,10 @@ public class PersonController {
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
-		ServiceResponse<Person> serviceResponse = personBusiness.save(person, user);
+		ServiceResponse<Person> serviceResponse = personBusiness.save(person, user); 
+		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)){
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
 	
 	
@@ -61,14 +58,9 @@ public class PersonController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.update(person, user);
+		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)){
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
 	
 	@GetMapping("/person/{typeDocument}/{documentNumber}")
@@ -77,31 +69,9 @@ public class PersonController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.findByDocumentTypeAndDocument(typeDocument, documentNumber, user);
+		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)){
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
-	
-	@GetMapping("/person/{documentNumber}")
-	public ResponseEntity<ServiceResponse<Person>> findByDocument(@PathVariable String documentNumber, @RequestHeader Map<String, String> headers){
-		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
-		
-		ServiceResponse<Person> serviceResponse = personBusiness.findByDocument(documentNumber, user);
-		
-		if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)){
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<ServiceResponse<Person>>(serviceResponse, HttpStatus.OK);
-		}
-	}
-	
 	
 }

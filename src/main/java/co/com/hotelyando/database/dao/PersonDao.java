@@ -16,20 +16,11 @@ public class PersonDao{
 		this.iPersonRepository = iPersonRepository;
 	}
 	
-	
-	public Person findByDocumentTypeAndDocument(String typeDocument, String documentNumber) throws MongoException, Exception {
-		
-		Person person = null;
-		//person = iPersonRepository.findByDocumentTypeDocumentTypeAndDocument(typeDocument, documentNumber);
-		
-		return person;
-	}
-
-	public void save(Person person) throws Exception {
+	public void save(Person person) throws MongoException, Exception {
 		iPersonRepository.save(person);
 	}
 	
-	public void update(Person person) throws Exception {
+	public void update(Person person) throws MongoException, Exception {
 		iPersonRepository.save(person);
 	}
 

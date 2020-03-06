@@ -116,7 +116,8 @@ public class HotelBusiness {
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
-		}		
+		}	
+		
 		return serviceResponse;
 	}
 

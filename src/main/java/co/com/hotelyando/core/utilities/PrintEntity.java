@@ -28,20 +28,7 @@ public class PrintEntity {
 	/*
 	 * Persona
 	 */
-	public static final String VALIDACION_ID_PERSONA = "Debe ingresar un Id de persona.";
 	
-	public static final String PERSONA_NO_ENCONTRADA = "Persona no encontrada!.";
-	public static final String PERSONA_REGISTRADA = "La persona se registro correctamente";
-	public static final String PERSONA_EXISTENTE = "Persona existente";
-	
-	public static final String PERSONA_CELULAR = "Debe ingresar un número de celular.";
-	public static final String PERSONA_CORREO_ELECTRONICO = "Debe ingresar un correo electrónico.";
-	public static final String PERSONA_DIRECCION = "Debe ingresar una dirección de residencia.";
-	public static final String PERSONA_FECHA_NACIMIENTO = "Debe ingresar su fecha de nacimiento.";
-	public static final String PERSONA_NOMBRE_COMPLETO = "Debe ingresar su nombre completo.";
-	public static final String PERSONA_NUMERO_DOCUMENTO = "Debe ingresar su número de documento.";
-	public static final String PERSONA_TIPO_DOCUMENTO = "Debe ingresar su tipo de documento.";
-	public static final String PERSONA_TELEFONO_FIJO = "Debe ingresar un número de telefono fijo.";
 	
 	
 	/*
@@ -92,23 +79,6 @@ public class PrintEntity {
 	public static final String RESERVATION_FULL_PAYMENT = "Debe ingresar el valor de pago completo.";
 	public static final String RESERVATION_ADVANCED_PAYMENT = "Debe ingresar el valor de pago por adelantado.";
 	public static final String RESERVATION_PERSON = "Debe ingresar la información de la persona que reserva.";
-	
-	
-	/*
-	 * Item
-	 * 
-	 */
-	public static final String ITEM_ID = "Debe ingresar el ID del item.";
-	public static final String ITEM_HOTEL_ID = "Debe ingresar el ID del hotel.";
-	public static final String ITEM_ACTIVE = "Debe validar si está habilitado o no.";
-	public static final String ITEM_QUANTITY = "Debe ingresar la cantidad del item.";
-	public static final String ITEM_DESCRIPTION = "Debe ingresar la descripción del item.";
-	public static final String ITEM_PRICE = "Debe ingresar el valor del item.";
-	public static final String ITEM_STOCK = "Debe ingresar la cantidad en stock.";
-	
-	
-	
-	
 	
 	
 }

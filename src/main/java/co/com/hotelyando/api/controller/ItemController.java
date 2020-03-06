@@ -2,7 +2,6 @@ package co.com.hotelyando.api.controller;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.hotelyando.core.business.ItemBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Item;
@@ -32,11 +32,13 @@ public class ItemController {
 	
 	private Utilities utilities;
 	private User user;
+	private Generic<Item> generic = null;
 	
 	public ItemController(ItemBusiness itemBusiness) {
 		this.itemBusiness = itemBusiness;
 		
 		utilities = new Utilities();
+		generic = new Generic<Item>();
 	}
 	
 	
@@ -44,10 +46,11 @@ public class ItemController {
 	public ResponseEntity<ServiceResponse<Item>> save(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
-			
-		ServiceResponse<Item> serviceResponse = itemBusiness.save(item, user);
 		
-		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		ServiceResponse<Item> serviceResponse = itemBusiness.save(item, user); 
+		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
 		
 	}
 	
@@ -56,9 +59,10 @@ public class ItemController {
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		ServiceResponse<Item> serviceResponse = itemBusiness.update(item, user);
+		ServiceResponse<Item> serviceResponse = itemBusiness.update(item, user); 
+		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		return responseEntity;
 		
 	}
 	
@@ -67,9 +71,10 @@ public class ItemController {
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		ServiceResponse<Item> serviceResponse = itemBusiness.findByHotelIdAndUuid(user, itemId);
-			
-		return new ResponseEntity<ServiceResponse<Item>>(serviceResponse, HttpStatus.OK);
+		ServiceResponse<Item> serviceResponse = itemBusiness.findByHotelIdAndUuid(user, itemId); 
+		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
 		
 	}
 	
@@ -78,9 +83,10 @@ public class ItemController {
 		
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
-		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user);
-			
-		return new ResponseEntity<ServiceResponses<Item>>(serviceResponses, HttpStatus.OK);
+		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user); 
+		ResponseEntity<ServiceResponses<Item>> responseEntity = generic.returnResponseController(serviceResponses);
+		
+		return responseEntity;
 		
 	}
 
