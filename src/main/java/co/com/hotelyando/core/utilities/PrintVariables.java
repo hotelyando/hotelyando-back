@@ -22,6 +22,9 @@ public class PrintVariables {
 	public static final String ADVERTENCIA = "Advertencia";
 	public static final String VALIDACION = "Validación de datos";
 	
+	public static final String SAVE = "Save";
+	public static final String UPDATE = "Update";
+	
 	
 	
 	

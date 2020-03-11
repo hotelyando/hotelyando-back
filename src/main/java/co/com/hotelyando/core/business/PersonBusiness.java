@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.business;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.MongoException;
 
 import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.PersonService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
@@ -23,6 +26,7 @@ public class PersonBusiness {
 	
 	private final PersonService personService;
 	private ServiceResponse<Person> serviceResponse = null;
+	private ServiceResponses<Person> serviceResponses = null;
 	private Generic<Person> generic = null;
 	private Utilities utilities = null;
 	
@@ -30,6 +34,7 @@ public class PersonBusiness {
 		this.personService = personService;
 		
 		serviceResponse = new ServiceResponse<Person>();
+		serviceResponses = new ServiceResponses<Person>();
 		generic = new Generic<Person>();
 		utilities = new Utilities();
 	}
@@ -121,6 +126,36 @@ public class PersonBusiness {
 		}
 		
 		return serviceResponse;
+	}
+	
+	
+	/*
+	 * Método que retorna una persona por tipo y número de documento
+	 * @ ServiceResponse<Person>
+	 */
+	public ServiceResponses<Person> findAll() {
+		
+		List<Person> persons = null;
+		
+		try {
+			
+			persons = personService.findAll();
+			
+			if(persons != null) {
+				serviceResponses = generic.messagesReturn(persons, PrintVariables.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariables.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponses;
+		
 	}
 
 

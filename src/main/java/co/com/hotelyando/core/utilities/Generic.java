@@ -45,6 +45,7 @@ public class Generic<T> {
 		ServiceResponses<T> serviceResponses = new ServiceResponses<T>();
 		serviceResponses.setContent(contents);
 		serviceResponses.setMessage(message);
+		serviceResponses.setState(state);
 		
 		return serviceResponses;
 		

@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.services;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -132,6 +134,20 @@ public class PersonService {
 		person = personDao.findByDocument(documentNumber);
 		
 		return person;
+	}
+	
+	
+	/*
+	 * Método que retorna la lista de las personas registradas
+	 * @return List<Person>
+	 */
+	public List<Person> findAll() throws MongoException, Exception {
+		
+		List<Person> persons = null;
+		persons = personDao.findAll();
+		
+		return persons;
+		
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PersonBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
@@ -70,6 +71,17 @@ public class PersonController {
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.findByDocumentTypeAndDocument(typeDocument, documentNumber, user);
 		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+	}
+	
+	@GetMapping("/person")
+	public ResponseEntity<ServiceResponses<Person>> findAll(@RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		
+		ServiceResponses<Person> serviceResponses = personBusiness.findAll();
+		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;
 	}

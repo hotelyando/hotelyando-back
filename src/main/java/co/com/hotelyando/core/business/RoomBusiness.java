@@ -93,7 +93,7 @@ public class RoomBusiness {
 			
 			rooms = roomService.findByHotelId(user.getHotelId());
 			
-			serviceResponses = generic.messagesReturn(rooms, PrintVariables.NEGOCIO, PrintEntity.DATOS_RETORNADOS);
+			serviceResponses = generic.messagesReturn(rooms, PrintVariables.NEGOCIO, "");
 			
 		}catch (Exception e) {
 			serviceResponses = generic.messagesReturn(rooms, PrintVariables.ERROR_TECNICO, e.getMessage());
@@ -114,7 +114,7 @@ public class RoomBusiness {
 			
 			room = roomService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
-			serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, PrintEntity.DATOS_RETORNADOS);
+			serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, "");
 			
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(room, PrintVariables.ERROR_TECNICO, e.getMessage());

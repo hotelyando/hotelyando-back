@@ -2,7 +2,6 @@ package co.com.hotelyando.api.controller;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.hotelyando.core.business.UserBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.User;
@@ -31,11 +31,13 @@ public class UserController {
 	
 	private Utilities utilities;
 	private User userJson;
+	private Generic<User> generic = null;
 	
 	public UserController(UserBusiness userBusiness) {
 		this.userBusiness = userBusiness;
 		
 		utilities = new Utilities();
+		generic = new Generic<User>();
 	}
 	
 	@PostMapping("/user")
@@ -44,12 +46,9 @@ public class UserController {
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<User> serviceResponse = userBusiness.save(user, userJson);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse.getState().equals("0")) {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
 	
 	@PutMapping("/user")
@@ -58,12 +57,9 @@ public class UserController {
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<User> serviceResponse = userBusiness.update(user, userJson);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse.getState().equals("0")) {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
 	
 	@GetMapping("/user/{userId}")
@@ -72,12 +68,9 @@ public class UserController {
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<User> serviceResponse = userBusiness.findByHotelIdAndUuid(userJson, userId);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		if(serviceResponse == null) {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<ServiceResponse<User>>(serviceResponse, HttpStatus.OK);
-		}
+		return responseEntity;
 	}
 	
 	@GetMapping("/user")
@@ -86,11 +79,8 @@ public class UserController {
 		userJson = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponses<User> serviceResponse = userBusiness.findByHotelId(userJson);
-			
-		if(serviceResponse == null) {
-			return new ResponseEntity<ServiceResponses<User>>(serviceResponse, HttpStatus.NOT_IMPLEMENTED);
-		}else {
-			return new ResponseEntity<ServiceResponses<User>>(serviceResponse, HttpStatus.OK);
-		}
+		ResponseEntity<ServiceResponses<User>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
 	}
 }

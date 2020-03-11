@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.MongoException;
+
 import co.com.hotelyando.database.model.User;
 import co.com.hotelyando.database.repository.IUserRepository;
 
@@ -17,15 +19,15 @@ public class UserDao {
 		
 	}
 	
-	public void save(User user) throws Exception {
+	public void save(User user) throws MongoException, Exception {
 		iUsuarioRepository.save(user);
 	}
 
-	public void update(User user) throws Exception {
+	public void update(User user) throws MongoException, Exception {
 		iUsuarioRepository.save(user);
 	}
 	
-	public List<User> findByHotelId(String hotelId) throws Exception {
+	public List<User> findByHotelId(String hotelId) throws MongoException, Exception {
 		
 		List<User> users = null;
 		users = iUsuarioRepository.findByHotelId(hotelId);
@@ -33,7 +35,7 @@ public class UserDao {
 		return users;
 	}
 	
-	public User findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
+	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
 		User user = null;
 		user = iUsuarioRepository.findByHotelIdAndUuid(hotelId, uuid);
@@ -41,12 +43,21 @@ public class UserDao {
 		return user;
 	}
 	
-	public User findByUserAndPassword(String user, String password) throws Exception {
+	public User findByUserAndPassword(String login, String password) throws MongoException, Exception {
 		
-		User user1 = null;
-		user1 = iUsuarioRepository.findByUserAndPassword(user, password);
+		User user = null;
+		user = iUsuarioRepository.findByUserAndPassword(login, password);
 		
-		return user1;
+		return user;
 	}
+	
+	public User findByUser(String hotelId, String login) throws MongoException, Exception {
+		
+		User user = null;
+		user = iUsuarioRepository.findByHotelIdAndUser(hotelId, login);
+		
+		return user;
+	}
+	
 
 }

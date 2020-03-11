@@ -56,5 +56,21 @@ public class RegularExpression {
 	    return !result;
 		
 	}
+	
+	
+	/*
+     * Método que valida el formato de una fecha
+     * @return Boolean
+     */
+	public boolean validateFormatDate(String text) {
+		
+		pattern = Pattern.compile("");
+	    matcher = pattern.matcher(text);
+	    
+	    result = matcher.find();
+	    //Se retorna el valor contrario para guarda el estandar de que devuelva false, cuando aplica la expresion regular.
+	    return false;
+		
+	}
 
 }

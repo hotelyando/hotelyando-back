@@ -2,7 +2,6 @@ package co.com.hotelyando.api.controller;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.hotelyando.core.business.ReservationBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Reservation;
@@ -30,6 +30,7 @@ public class ReservationController {
 	
 	private final ReservationBusiness reservationBusiness;
 	
+	private Generic<Reservation> generic;
 	private Utilities utilities;
 	private User user;
 	
@@ -37,6 +38,7 @@ public class ReservationController {
 		this.reservationBusiness = reservationBusiness;
 		
 		utilities = new Utilities();
+		generic = new Generic<Reservation>();
 	}
 	
 	@PostMapping("/reservation")
@@ -45,8 +47,10 @@ public class ReservationController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.save(reservation, user);
+		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		return new ResponseEntity<ServiceResponse<Reservation>>(serviceResponse, HttpStatus.OK);
+		return responseEntity;
+		
 		
 	}
 	
@@ -56,8 +60,9 @@ public class ReservationController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.update(reservation, user);
+		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
 		
-		return new ResponseEntity<ServiceResponse<Reservation>>(serviceResponse, HttpStatus.OK);
+		return responseEntity;
 		
 	}
 	
@@ -67,8 +72,9 @@ public class ReservationController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.findByHotelIdAndUuid(user, reservaId);
-			
-		return new ResponseEntity<ServiceResponse<Reservation>>(serviceResponse, HttpStatus.OK);
+		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
 			
 	}
 	
@@ -78,8 +84,9 @@ public class ReservationController {
 		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
 			
 		ServiceResponses<Reservation> serviceResponses = reservationBusiness.findByHotelId(user);
+		ResponseEntity<ServiceResponses<Reservation>> responseEntity = generic.returnResponseController(serviceResponses);
 		
-		return new ResponseEntity<ServiceResponses<Reservation>>(serviceResponses, HttpStatus.OK);
+		return responseEntity;
 		
 	}
 

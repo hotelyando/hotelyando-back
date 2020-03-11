@@ -1,5 +1,7 @@
 package co.com.hotelyando.database.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.MongoException;
@@ -30,6 +32,15 @@ public class PersonDao{
 		person = iPersonRepository.findByDocument(documentNumber);
 		
 		return person;
+	}
+	
+	public List<Person> findAll() throws MongoException, Exception {
+		
+		List<Person> persons = null;
+		persons = iPersonRepository.findAll();
+		
+		return persons;
+		
 	}
 
 }

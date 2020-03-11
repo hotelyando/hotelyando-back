@@ -122,9 +122,9 @@ public class ItemBusiness {
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}	
 			

@@ -12,17 +12,7 @@ public class PrintEntity {
 	/*
 	 * Usuarios
 	 */
-	public static final String VALIDACION_ID_USUARIO = "Debe ingresar un Id de usuario.";
-	public static final String VALIDACION_HOTEL_ID = "Debe ingresar un Id de hotel.";
-	public static final String VALIDACION_ROL = "Debe ingresar al menos un rol para el usuario.";
-	public static final String VALIDACION_PERSONA = "El usuario debe estar vinculado a una persona.";
-	public static final String VALIDACION_USUARIO = "Debe ingresar un nombre de usuario.";
-	public static final String VALIDACION_CONTRASENA = "Debe ingresar una contraseña.";
 	
-	public static final String USUARIO_NO_ENCONTRADO = "User no encontrado!.";
-	public static final String USUARIO_REGISTRADO = "El usuario se registro correctamente";
-	public static final String DATOS_RETORNADOS = "Registros retornados, ";
-	public static final String USUARIO_LOGUEADO = "User existente";
 
 	
 	/*
@@ -69,16 +59,7 @@ public class PrintEntity {
 	 * 
 	 * Reservation 
 	 */
-	public static final String RESERVATION_ID = "Debe ingresar el ID de la reservación.";
-	public static final String RESERVATION_HOTEL_ID = "Debe ingresar el ID del hotel.";
-	public static final String RESERVATION_DATE = "Debe ingresar la fecha de la reservación.";
-	public static final String RESERVATION_START_DATE = "Debe ingresar la fecha de ingreso.";
-	public static final String RESERVATION_EXIT_DATE = "Debe ingresar la fecha de salida.";
-	public static final String RESERVATION_ADULT_QUANTITY = "Debe ingresar la cantidad de personas adultas.";
-	public static final String RESERVATION_CHILDREN_QUANTITY = "Debe ingresar la cantidad de personas menores.";
-	public static final String RESERVATION_FULL_PAYMENT = "Debe ingresar el valor de pago completo.";
-	public static final String RESERVATION_ADVANCED_PAYMENT = "Debe ingresar el valor de pago por adelantado.";
-	public static final String RESERVATION_PERSON = "Debe ingresar la información de la persona que reserva.";
+	
 	
 	
 }
