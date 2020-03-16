@@ -2,13 +2,17 @@ package co.com.hotelyando.core.business;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+
+import com.mongodb.MongoException;
 
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.RoomService;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintEntity;
 import co.com.hotelyando.core.utilities.PrintVariables;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Room;
@@ -17,6 +21,9 @@ import co.com.hotelyando.database.model.User;
 @Service
 public class RoomBusiness {
 
+	@Autowired
+	private MessageSource messageSource;
+	
 	private RoomService roomService;
 	private ServiceResponse<Room> serviceResponse;
 	private ServiceResponses<Room> serviceResponses;
@@ -32,6 +39,11 @@ public class RoomBusiness {
 		generic = new Generic<Room>();
 	}
 	
+	
+	/*
+	 * Método que registra una habitación de hotel
+	 * @return ServiceResponse<Room>
+	 */
 	public ServiceResponse<Room> save(Room room, User user) {
 		
 		String messageReturn = "";
@@ -44,11 +56,13 @@ public class RoomBusiness {
 			messageReturn = roomService.save(room);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.HABITACION_REGISTRADA);
+				serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, messageSource.getMessage("room.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
 			}
 			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
@@ -58,6 +72,10 @@ public class RoomBusiness {
 	}
 	
 	
+	/*
+	 * Método que actualiza una habitación de hotel
+	 * @return ServiceResponse<Room>
+	 */
 	public ServiceResponse<Room> update(Room room, User user) {
 		
 		String messageReturn = "";
@@ -69,11 +87,13 @@ public class RoomBusiness {
 			messageReturn = roomService.update(room);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, PrintEntity.HABITACION_REGISTRADA);
+				serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, messageSource.getMessage("room.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
 			}
 			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
@@ -82,8 +102,10 @@ public class RoomBusiness {
 		return serviceResponse;
 	}
 
+	
 	/*
-	 * 
+	 * Método que retorna la lista de habitaciones de un hotel
+	 * @ServiceResponses<Room>
 	 */
 	public ServiceResponses<Room> findByHotelId(User user) {
 		
@@ -93,18 +115,26 @@ public class RoomBusiness {
 			
 			rooms = roomService.findByHotelId(user.getHotelId());
 			
-			serviceResponses = generic.messagesReturn(rooms, PrintVariables.NEGOCIO, "");
+			if(rooms != null) {
+				serviceResponses = generic.messagesReturn(rooms, PrintVariables.NEGOCIO, messageSource.getMessage("room.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
+			}
 			
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponses = generic.messagesReturn(rooms, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
 		return serviceResponses;
 	}
 
+
 	/*
-	 * 
+	 * Método que retorna una habitación de un hotel
+	 * @ServiceResponses<Room>
 	 */
 	public ServiceResponse<Room> findByHotelIdAndUuid(User user, String uuid) {
 		
@@ -114,10 +144,16 @@ public class RoomBusiness {
 			
 			room = roomService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
-			serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, "");
+			if(room != null) {
+				serviceResponse = generic.messageReturn(room, PrintVariables.NEGOCIO, messageSource.getMessage("room.use_found", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("room.use_not_found", null, LocaleContextHolder.getLocale()));
+			}
 			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(room, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		

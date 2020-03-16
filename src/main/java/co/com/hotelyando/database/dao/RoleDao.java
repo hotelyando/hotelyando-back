@@ -26,18 +26,18 @@ public class RoleDao {
 		iRoleRepository.save(role);
 	}
 	
-	public List<Role> findAll() throws MongoException, Exception {
+	public List<Role> findByHotelId(String hotelId) throws MongoException, Exception {
 		
 		List<Role> roles = null;
-		roles = iRoleRepository.findAll();
+		roles = iRoleRepository.findByHotelId(hotelId);
 		
 		return roles;
 	}
 	
-	public Role findByName(String name) throws MongoException, Exception {
+	public Role findByName(String hotelId, String name) throws MongoException, Exception {
 		
 		Role role = null;
-		role = iRoleRepository.findByName(name);
+		role = iRoleRepository.findByName(hotelId, name);
 		
 		return role;
 	}

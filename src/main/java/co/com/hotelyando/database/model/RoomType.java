@@ -17,6 +17,7 @@ public class RoomType implements Serializable{
 	 
 	@Id
 	private String uuid;
+	private String hotelId;
 	private String description;
 	private Double priceDay;
 	private Double priceHour;
@@ -26,12 +27,14 @@ public class RoomType implements Serializable{
 	@Data
 	class PriceDetails{
 		
+		private String uuid;
 		private String day;
 		private Double priceDay;
 		private Double priceHour;
 		private Integer startTime;
 		private Integer endTime;
 		private Boolean holiday;
+		private String state;
 		
 	}
 }

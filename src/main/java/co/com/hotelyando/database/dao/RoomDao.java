@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.MongoException;
+
 import co.com.hotelyando.database.model.Room;
 import co.com.hotelyando.database.repository.IRoomRepository;
 
@@ -17,15 +19,15 @@ public class RoomDao{
 	}
 	
 	
-	public void save(Room room) throws Exception {
+	public void save(Room room) throws MongoException, Exception {
 		iRoomRepository.save(room);
 	}
 	
-	public void update(Room room) throws Exception {
+	public void update(Room room) throws MongoException, Exception {
 		iRoomRepository.save(room);
 	}
 
-	public List<Room> findByHotelId(String hotelId) throws Exception {
+	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {
 		
 		List<Room> rooms = null;
 		rooms = iRoomRepository.findByHotelId(hotelId);
@@ -33,7 +35,7 @@ public class RoomDao{
 		return rooms;
 	}
 
-	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
+	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
 		Room room = null;
 		room = iRoomRepository.findByHotelIdAndUuid(hotelId, uuid);

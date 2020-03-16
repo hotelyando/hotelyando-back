@@ -2,6 +2,9 @@ package co.com.hotelyando.core.business;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
@@ -18,6 +21,9 @@ import co.com.hotelyando.database.model.User;
 @Service
 public class RoleBusiness {
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	private final RoleService roleService;
 	private Generic<Role> generic = null;
 	private ServiceResponse<Role> serviceResponse;
@@ -33,6 +39,11 @@ public class RoleBusiness {
 		
 	}
 	
+	
+	/*
+	 * Método que registra un rol para un hotel
+	 * @return ServiceResponse<Role>
+	 */
 	public ServiceResponse<Role> save(Role role, User user) {
 		
 		String messageReturn = "";
@@ -45,14 +56,13 @@ public class RoleBusiness {
 			messageReturn = roleService.save(role);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, "Registro correcto!.");
+				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(role, PrintVariables.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
 			}
 			
-			
-		}catch (MongoException be) {
-			be.printStackTrace();
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
@@ -61,6 +71,11 @@ public class RoleBusiness {
 		return serviceResponse;
 	}
 	
+	
+	/*
+	 * Método que actualiza un rol de un hotel 
+	 * @return ServiceResponse<Role>
+	 */
 	public ServiceResponse<Role> update(Role role, User user) {
 		
 		String messageReturn = "";
@@ -72,14 +87,13 @@ public class RoleBusiness {
 			messageReturn = roleService.update(role);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, "Actualización correcto!.");
+				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(role, PrintVariables.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
 			}
 			
-			
-		}catch (MongoException be) {
-			be.printStackTrace();
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
 			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
@@ -88,23 +102,64 @@ public class RoleBusiness {
 		return serviceResponse;
 	}
 	
-	public ServiceResponses<Role> findAll() {
+	
+	/*
+	 * Método que retorna un rol por su nombre
+	 * @return ServiceResponse<Role>
+	 */
+	public ServiceResponse<Role> findByName(User user, String name) {
+		
+		Role role = null;
+		ServiceResponse<Role> serviceResponse = null;
+		
+		try {
+			
+			role = roleService.findByName(user.getHotelId(), name);
+			
+			if(role != null) {
+				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+			}
+			
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}	
+		
+		return serviceResponse;
+		
+	}
+	
+	
+	/*
+	 * Método que retorna una lista de roles de un hotel
+	 * @return ServiceResponses<Role>
+	 */
+	public ServiceResponses<Role> findByHotelId(User user) {
 		
 		List<Role> roles = null;
 		ServiceResponses<Role> serviceResponses = null;
 		
 		try {
 			
-			roles = roleService.findAll();
+			roles = roleService.findByHotelId(user.getHotelId());
 			
-			serviceResponses = generic.messagesReturn(roles, PrintVariables.NEGOCIO, "Ok"); 
+			if(roles != null) {
+				serviceResponses = generic.messagesReturn(roles, PrintVariables.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+			}
 			
-		}catch (MongoException be) {
-			be.printStackTrace();
-		} catch (Exception e) {
-			serviceResponses = generic.messagesReturn(roles, PrintVariables.ERROR_TECNICO, e.getMessage());
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
-		}
+		}	
 		
 		return serviceResponses;
 		
