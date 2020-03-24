@@ -34,7 +34,6 @@ public class RoomType implements Serializable{
 		private Integer startTime;
 		private Integer endTime;
 		private Boolean holiday;
-		private String state;
 		
 	}
 }

@@ -19,14 +19,12 @@ public class RoomService {
 	@Autowired
 	private MessageSource messageSource;
 	
-	//private RegularExpression regularExpression = null;
+	private String messageReturn = "";
 	
 	private RoomDao roomDao;
 	
 	public RoomService(RoomDao roomDao) {
 		this.roomDao = roomDao;
-		
-		//regularExpression = new RegularExpression();
 	}
 	
 	
@@ -35,8 +33,6 @@ public class RoomService {
 	 * @return String 
 	 */
 	public String save(Room room) throws MongoException, Exception {
-		
-		String messageReturn = "";
 		
 		if(StringUtils.isBlank(room.getUuid())) {
 			messageReturn = messageSource.getMessage("room.id", null, LocaleContextHolder.getLocale());
@@ -80,8 +76,6 @@ public class RoomService {
 	 */
 	public String update(Room room) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(room.getUuid())) {
 			messageReturn = messageSource.getMessage("room.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getHotelId())) {
@@ -124,8 +118,7 @@ public class RoomService {
 	 */
 	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Room> rooms = null;
-		rooms = roomDao.findByHotelId(hotelId);
+		List<Room> rooms = roomDao.findByHotelId(hotelId);
 		
 		return rooms;
 	}
@@ -137,8 +130,7 @@ public class RoomService {
 	 */
 	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		Room room = null;
-		room = roomDao.findByHotelIdAndUuid(hotelId, uuid);
+		Room room = roomDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return room;
 	}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.hotelyando.core.business.InvoiceBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Invoice;
 import co.com.hotelyando.database.model.User;
@@ -42,7 +42,7 @@ public class InvoiceController {
 	@PostMapping("/invoice")
 	public ResponseEntity<ServiceResponse<Invoice>> save(@RequestBody Invoice invoice, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.save(invoice, user);
 		
@@ -53,7 +53,7 @@ public class InvoiceController {
 	@PutMapping("/invoice")
 	public ResponseEntity<ServiceResponse<Invoice>> update(@RequestBody Invoice invoice, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.update(invoice, user);
 		
@@ -63,7 +63,7 @@ public class InvoiceController {
 	@GetMapping("/invoice/{invoiceId}")
 	public ResponseEntity<ServiceResponse<Invoice>> findByHotelIdAndUuid(@PathVariable String invoiceId, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Invoice> serviceResponse = invoiceBusiness.findByHotelIdAndUuid(user, invoiceId);
 			
@@ -74,7 +74,7 @@ public class InvoiceController {
 	@GetMapping("/invoice")
 	public ResponseEntity<ServiceResponses<Invoice>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponses<Invoice> serviceResponses = invoiceBusiness.findByHotelId(user);
 			

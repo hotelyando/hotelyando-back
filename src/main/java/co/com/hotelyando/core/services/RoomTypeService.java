@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
-import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.RoomTypeDao;
 import co.com.hotelyando.database.model.RoomType;
 
@@ -20,14 +19,12 @@ public class RoomTypeService {
 	@Autowired
 	private MessageSource messageSource;
 
-	private RegularExpression regularExpression = null;
-
 	private RoomTypeDao roomTypeDao;
 
+	private String messageReturn = "";
+	
 	public RoomTypeService(RoomTypeDao roomTypeDao) {
 		this.roomTypeDao = roomTypeDao;
-
-		regularExpression = new RegularExpression();
 	}
 
 	
@@ -36,8 +33,6 @@ public class RoomTypeService {
 	 * @return String
 	 */
 	public String save(RoomType tipoRoomType) throws MongoException, Exception {
-
-		String messageReturn = "";
 
 		if (StringUtils.isBlank(tipoRoomType.getUuid())) {
 			messageReturn = messageSource.getMessage("roomtype.id", null, LocaleContextHolder.getLocale());
@@ -66,8 +61,6 @@ public class RoomTypeService {
 	 */
 	public String update(RoomType tipoRoomType) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(tipoRoomType.getUuid())) {
 			messageReturn = messageSource.getMessage("roomtype.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(tipoRoomType.getHotelId())) {
@@ -95,8 +88,7 @@ public class RoomTypeService {
 	 */
 	public RoomType findByHotelIdAndRoomType(String hotelId, String roomTypeId) throws MongoException, Exception {
 
-		RoomType roomType = null;
-		roomType = roomTypeDao.findByHotelIdAndRoomType(hotelId, roomTypeId);
+		RoomType roomType = roomTypeDao.findByHotelIdAndRoomType(hotelId, roomTypeId);
 
 		return roomType;
 
@@ -109,8 +101,7 @@ public class RoomTypeService {
 	 */
 	public List<RoomType> findAll(String hotelId) throws MongoException, Exception {
 
-		List<RoomType> roomTypes = null;
-		roomTypes = roomTypeDao.findAll(hotelId);
+		List<RoomType> roomTypes = roomTypeDao.findAll(hotelId);
 
 		return roomTypes;
 

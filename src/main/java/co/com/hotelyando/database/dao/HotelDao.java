@@ -27,24 +27,21 @@ public class HotelDao {
 	
 	public Hotel findByUuid(String uuid) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = iHotelRepository.findByUuid(uuid);
+		Hotel hotel = iHotelRepository.findByUuid(uuid);
 		
 		return hotel;
 	}
 	
 	public Hotel findByName(String name) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = iHotelRepository.findByName(name);
+		Hotel hotel = iHotelRepository.findByName(name);
 		
 		return hotel;
 	}
 	
 	public Hotel findByNit(String nit) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = iHotelRepository.findByNit(nit);
+		Hotel hotel = iHotelRepository.findByNit(nit);
 		
 		return hotel;
 	}

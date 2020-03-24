@@ -15,7 +15,7 @@ public class Person implements Serializable {
 
   @Id
   private String uuid;
-  private DocumentType documentType;
+  private String documentType;
   private String document;
   private String name;
   private String email;
@@ -24,5 +24,7 @@ public class Person implements Serializable {
   private String cellPhone;
   private String address;
   private Country country;
+  private Integer employee; // Si es empleado va 1 de lo contrario 0
+  private Integer guest; // Si es huesped va 1 de lo contrario 0
   
 }

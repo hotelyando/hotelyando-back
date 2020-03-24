@@ -14,9 +14,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import co.com.hotelyando.core.authorization.JWTAuthorizationFilter;
 
+/*
+ * Clase que inicializa los componentes de spring
+ */
 @SpringBootApplication
 public class HotelyandoApplication {
-
+	
+	/*
+	 * 
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(HotelyandoApplication.class, args);
 	}

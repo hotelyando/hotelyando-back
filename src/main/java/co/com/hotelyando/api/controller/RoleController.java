@@ -17,7 +17,7 @@ import co.com.hotelyando.core.business.RoleBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Role;
 import co.com.hotelyando.database.model.User;
@@ -45,7 +45,7 @@ public class RoleController {
 	@PostMapping("/role")
 	public ResponseEntity<ServiceResponse<Role>> save(@RequestBody Role role, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Role> serviceResponse = roleBusiness.save(role, user);
 		
@@ -58,7 +58,7 @@ public class RoleController {
 	@PutMapping("/role")
 	public ResponseEntity<ServiceResponse<Role>> update(@RequestBody Role role, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Role> serviceResponse = roleBusiness.update(role, user);
 		
@@ -71,7 +71,7 @@ public class RoleController {
 	@GetMapping("/role")
 	public ResponseEntity<ServiceResponses<Role>> findAll(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponses<Role> serviceResponses = roleBusiness.findByHotelId(user);
 		
@@ -84,7 +84,7 @@ public class RoleController {
 	@GetMapping("/role/{roleName}")
 	public ResponseEntity<ServiceResponse<Role>> findAll(@PathVariable String roleName, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Role> serviceResponse = roleBusiness.findByName(user, roleName);
 		

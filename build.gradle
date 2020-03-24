@@ -26,6 +26,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'com.google.code.gson:gson:2.8.4'
 	
+	
+	compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.2.2'
+	compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.2.2'
+		
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 	compile group: 'org.javers', name: 'javers-spring-boot-starter-mongo', version: '5.8.9'
 	

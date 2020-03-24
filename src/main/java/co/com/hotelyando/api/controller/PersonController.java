@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PersonBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Person;
 import co.com.hotelyando.database.model.User;
@@ -44,7 +45,7 @@ public class PersonController {
 	@PostMapping("/person")
 	public ResponseEntity<ServiceResponse<Person>> save(@RequestBody Person person, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.save(person, user); 
 		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -56,7 +57,7 @@ public class PersonController {
 	@PutMapping("/person")
 	public ResponseEntity<ServiceResponse<Person>> update(@RequestBody Person person, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.update(person, user);
 		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -67,7 +68,7 @@ public class PersonController {
 	@GetMapping("/person/{typeDocument}/{documentNumber}")
 	public ResponseEntity<ServiceResponse<Person>> findByDocumentTypeAndDocument(@PathVariable String typeDocument, @PathVariable String documentNumber, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Person> serviceResponse = personBusiness.findByDocumentTypeAndDocument(typeDocument, documentNumber, user);
 		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -75,12 +76,25 @@ public class PersonController {
 		return responseEntity;
 	}
 	
-	@GetMapping("/person")
+	/*@GetMapping("/person")
 	public ResponseEntity<ServiceResponses<Person>> findAll(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponses<Person> serviceResponses = personBusiness.findAll();
+		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
+		
+		return responseEntity;
+	}*/
+	
+	//@GetMapping("/person/{personType}/{initialDate/{finalDate}")
+	@GetMapping("/person")
+	//public ResponseEntity<ServiceResponses<Person>> findAll(@PathVariable String personType, @PathVariable String initialDate, @PathVariable String finalDate, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Person>> findAllAndHotel(@RequestParam(defaultValue = "ALL") String personType, @RequestParam(defaultValue = "") String initialDate, @RequestParam(defaultValue = "") String finalDate, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		
+		ServiceResponses<Person> serviceResponses = personBusiness.findAllAndHotelId(personType, initialDate, finalDate, user);
 		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;

@@ -28,16 +28,14 @@ public class ReservationDao {
 	
 	public List<Reservation> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Reservation> reservations = null;
-		reservations = iReservationRepository.findByHotelId(hotelId);
+		List<Reservation> reservations = iReservationRepository.findByHotelId(hotelId);
 		
 		return reservations;
 	}
 
 	public Reservation findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		Reservation reservation = null;
-		reservation = iReservationRepository.findByHotelIdAndUuid(hotelId, uuid);
+		Reservation reservation = iReservationRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return reservation;
 	}

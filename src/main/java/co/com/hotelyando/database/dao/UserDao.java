@@ -29,32 +29,28 @@ public class UserDao {
 	
 	public List<User> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<User> users = null;
-		users = iUsuarioRepository.findByHotelId(hotelId);
+		List<User> users = iUsuarioRepository.findByHotelId(hotelId);
 		
 		return users;
 	}
 	
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		User user = null;
-		user = iUsuarioRepository.findByHotelIdAndUuid(hotelId, uuid);
+		User user = iUsuarioRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return user;
 	}
 	
 	public User findByUserAndPassword(String login, String password) throws MongoException, Exception {
 		
-		User user = null;
-		user = iUsuarioRepository.findByUserAndPassword(login, password);
+		User user = iUsuarioRepository.findByUserAndPassword(login, password);
 		
 		return user;
 	}
 	
 	public User findByUser(String hotelId, String login) throws MongoException, Exception {
 		
-		User user = null;
-		user = iUsuarioRepository.findByHotelIdAndUser(hotelId, login);
+		User user = iUsuarioRepository.findByHotelIdAndUser(hotelId, login);
 		
 		return user;
 	}

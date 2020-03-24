@@ -27,8 +27,7 @@ public class Utilities {
 	 */
 	public User returnTenant(Map<String, String> headers, String nombreEncabezado) {
 		
-		String token = "";
-		
+		String token;
 		
 		headers.forEach((key,value) ->{
 			
@@ -38,7 +37,7 @@ public class Utilities {
 		});
 		
 		token = Jwts.parser()
-                .setSigningKey(PrintVariables.SECRET.getBytes())
+                .setSigningKey(PrintVariable.SECRET.getBytes())
                 .parseClaimsJws(tokenHeader.replace("Bearer", "")) //este metodo es el que valida
                 .getBody()
                 .getSubject();
@@ -54,15 +53,15 @@ public class Utilities {
 	 */
 	public User retornoTenant(HttpServletRequest request, String nombreEncabezado) {
 		
-		String token = "";
-		String tokenHeader = "";
+		String token;
+		String tokenHeader;
 		
-		tokenHeader = request.getHeader(nombreEncabezado).replace(PrintVariables.SECRET, "");
+		tokenHeader = request.getHeader(nombreEncabezado).replace(PrintVariable.SECRET, "");
 		
 		if(!tokenHeader.equals("")) {
 			
 			token = Jwts.parser()
-	                .setSigningKey(PrintVariables.SECRET.getBytes())
+	                .setSigningKey(PrintVariable.SECRET.getBytes())
 	                .parseClaimsJws(tokenHeader.replace("Bearer", "")) //este metodo es el que valida
 	                .getBody()
 	                .getSubject();
@@ -81,7 +80,7 @@ public class Utilities {
 	 */
 	public boolean existeJWTToken(HttpServletRequest request, HttpServletResponse res) {
 		
-		String authenticationHeader = request.getHeader(PrintVariables.HEADER);
+		String authenticationHeader = request.getHeader(PrintVariable.HEADER);
 		
 		if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer")) {
 			return false;

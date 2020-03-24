@@ -15,9 +15,7 @@ public class Generic<T> {
 	public String convertirObjetoAJson(T object) {
 
 		Gson gson = new Gson();
-		String json = "";
-
-		json = gson.toJson(object);
+		String json = gson.toJson(object);
 
 		return json;
 	}
@@ -58,25 +56,22 @@ public class Generic<T> {
 	 */
 	public ResponseEntity<ServiceResponse<T>> returnResponseController(ServiceResponse<T> serviceResponse){
 		
-		ResponseEntity<ServiceResponse<T>> responseEntity = null;
-		
 		if(serviceResponse != null) {
 			
-			if(serviceResponse.getState().equals(PrintVariables.VALIDACION)) {
+			if(serviceResponse.getState().equals(PrintVariable.VALIDACION)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
-			}else if(serviceResponse.getState().equals(PrintVariables.ERROR_BD)) {
+			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-			}else if(serviceResponse.getState().equals(PrintVariables.ERROR_TECNICO)) {
+			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_TECNICO)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
-			}else if(serviceResponse.getState().equals(PrintVariables.NEGOCIO)) {
+			}else if(serviceResponse.getState().equals(PrintVariable.NEGOCIO)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
 			}
 		}else {
 			return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NO_CONTENT);
 		}
-		
-		return responseEntity;
-		
 	}
 	
 	
@@ -86,26 +81,23 @@ public class Generic<T> {
 	 */
 	public ResponseEntity<ServiceResponses<T>> returnResponseController(ServiceResponses<T> serviceResponses){
 		
-		ResponseEntity<ServiceResponses<T>> responseEntity = null;
-		
 		if(serviceResponses != null) {
 		
-			if(serviceResponses.getState().equals(PrintVariables.VALIDACION)) {
+			if(serviceResponses.getState().equals(PrintVariable.VALIDACION)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.BAD_REQUEST);
-			}else if(serviceResponses.getState().equals(PrintVariables.ERROR_BD)) {
+			}else if(serviceResponses.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.INTERNAL_SERVER_ERROR);
-			}else if(serviceResponses.getState().equals(PrintVariables.ERROR_TECNICO)) {
+			}else if(serviceResponses.getState().equals(PrintVariable.ERROR_TECNICO)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NOT_FOUND);
-			}else if(serviceResponses.getState().equals(PrintVariables.NEGOCIO)) {
+			}else if(serviceResponses.getState().equals(PrintVariable.NEGOCIO)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.BAD_REQUEST);
 			}
 			
 		}else {
 			return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NO_CONTENT);
 		}
-		
-		return responseEntity;
-		
 	}
 
 }

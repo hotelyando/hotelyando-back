@@ -22,6 +22,8 @@ public class ReservationService {
 	
 	private final ReservationDao reservationDao;
 	
+	private String messageReturn = "";
+	
 	public ReservationService(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 		
@@ -35,22 +37,14 @@ public class ReservationService {
 	 */
 	public String save(Reservation reservation) throws Exception {
 		
-		String messageReturn = "";
-			
 		if(StringUtils.isBlank(reservation.getUuid())) {
 			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(reservation.getHotelId())) {
 			messageReturn = messageSource.getMessage("reservation.hotel_id", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getReservationDate())) {
-			messageReturn = messageSource.getMessage("reservation.date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getReservationDate())) {
 			messageReturn = messageSource.getMessage("reservation.date_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getStartDate())) {
-			messageReturn = messageSource.getMessage("reservation.start_date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getStartDate())) {
 			messageReturn = messageSource.getMessage("reservation.start_date_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getExitDate())) {
-			messageReturn = messageSource.getMessage("reservation.exit_date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getExitDate())) {
 			messageReturn = messageSource.getMessage("reservation.exit_date_format", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getAdultQuantity() == null) {
@@ -87,22 +81,14 @@ public class ReservationService {
 	 */
 	public String update(Reservation reservation) throws Exception {
 		
-		String messageReturn = "";
-			
 		if(StringUtils.isBlank(reservation.getUuid())) {
 			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(reservation.getHotelId())) {
 			messageReturn = messageSource.getMessage("reservation.hotel_id", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getReservationDate())) {
-			messageReturn = messageSource.getMessage("reservation.date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getReservationDate())) {
 			messageReturn = messageSource.getMessage("reservation.date_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getStartDate())) {
-			messageReturn = messageSource.getMessage("reservation.start_date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getStartDate())) {
 			messageReturn = messageSource.getMessage("reservation.start_date_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getExitDate())) {
-			messageReturn = messageSource.getMessage("reservation.exit_date", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateFormatDate(reservation.getExitDate())) {
 			messageReturn = messageSource.getMessage("reservation.exit_date_format", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getAdultQuantity() == null) {
@@ -139,8 +125,7 @@ public class ReservationService {
 	 */
 	public List<Reservation> findByHotelId(String hotelId) throws Exception {
 		
-		List<Reservation> reservations = null;
-		reservations = reservationDao.findByHotelId(hotelId);
+		List<Reservation> reservations = reservationDao.findByHotelId(hotelId);
 		
 		return reservations;
 	}
@@ -152,8 +137,7 @@ public class ReservationService {
 	 */
 	public Reservation findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
-		Reservation reservation = null;
-		reservation = reservationDao.findByHotelIdAndUuid(hotelId, uuid);
+		Reservation reservation = reservationDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return reservation;
 	}

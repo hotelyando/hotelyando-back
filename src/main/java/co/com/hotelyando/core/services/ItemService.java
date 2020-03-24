@@ -24,6 +24,8 @@ public class ItemService {
 	
 	private final ItemDao itemDao;
 	
+	private String messageReturn = "";
+	
 	public ItemService(ItemDao itemDao) {
 		this.itemDao = itemDao;
 		
@@ -36,8 +38,6 @@ public class ItemService {
 	 * @return String
 	 */
 	public String save(Item item) throws MongoException, Exception {
-		
-		String messageReturn = "";
 		
 		if(StringUtils.isBlank(item.getUuid())) {
 			messageReturn = messageSource.getMessage("item.id", null, LocaleContextHolder.getLocale());
@@ -61,7 +61,7 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.stock_number", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getName())) {
 			messageReturn = messageSource.getMessage("item.name", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(item.getHotelId(), item.getName())) {
+		}else if(nameValidate(item.getHotelId(), item.getName(), false)) {
 			messageReturn = messageSource.getMessage("item.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			itemDao.save(item);
@@ -79,8 +79,6 @@ public class ItemService {
 	 */
 	public String update(Item item) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(item.getUuid())) {
 			messageReturn = messageSource.getMessage("item.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getHotelId())) {
@@ -103,7 +101,7 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.stock_number", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getName())) {
 			messageReturn = messageSource.getMessage("item.name", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(item.getHotelId(), item.getName())) {
+		}else if(nameValidate(item.getHotelId(), item.getName(), true)) {
 			messageReturn = messageSource.getMessage("item.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			itemDao.update(item);
@@ -121,8 +119,7 @@ public class ItemService {
 	 */
 	public List<Item> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Item> items = null;
-		items = itemDao.findByHotelId(hotelId);
+		List<Item> items = itemDao.findByHotelId(hotelId);
 			
 		return items;
 	}
@@ -134,8 +131,7 @@ public class ItemService {
 	 */
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		Item item = null;
-		item = itemDao.findByHotelIdAndUuid(hotelId, uuid);
+		Item item = itemDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return item;
 	}
@@ -145,16 +141,18 @@ public class ItemService {
 	 * Método que valida si un ITEM ya existe por hotel
 	 * @return Boolean
 	 */
-	private Boolean nameValidate(String hotelId, String name) throws MongoException, Exception {
+	private Boolean nameValidate(String hotelId, String name, Boolean update) throws MongoException, Exception {
 		
-		Item item = null;
-		item = itemDao.findByHotelIdAndName(hotelId, name);
+		Item item = itemDao.findByHotelIdAndName(hotelId, name);
 		
-		if(item != null) {
-			return true;
-		}else {
+		if (item == null) {
 			return false;
+		}else if(update && item.getName().equals(name)) {
+			return false;
+		}else {
+			return true;
 		}
+		
 	}
 
 }

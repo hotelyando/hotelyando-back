@@ -26,18 +26,41 @@ public class PersonDao{
 		iPersonRepository.save(person);
 	}
 
-	public Person findByDocument(String documentNumber) throws MongoException, Exception {
+	
+	public Person findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
 		
-		Person person = null;
-		person = iPersonRepository.findByDocument(documentNumber);
+		Person person = iPersonRepository.findByDocumentTypeAndDocument(documentType, document);
 		
 		return person;
 	}
 	
+	
+	public List<Person> findByDocument(String documentNumber) throws MongoException, Exception {
+		
+		List<Person> persons = iPersonRepository.findByDocument(documentNumber);
+		
+		return persons;
+	}
+	
+	
+	public List<Person> findByEmployee(Integer employee) throws MongoException, Exception {
+		
+		List<Person> persons = iPersonRepository.findByEmployee(employee);
+		
+		return persons;
+	}
+	
+	
+	public List<Person> findByGuest(Integer guest) throws MongoException, Exception {
+		
+		List<Person> persons = iPersonRepository.findByGuest(guest);
+		
+		return persons;
+	}
+	
 	public List<Person> findAll() throws MongoException, Exception {
 		
-		List<Person> persons = null;
-		persons = iPersonRepository.findAll();
+		List<Person> persons = iPersonRepository.findAll();
 		
 		return persons;
 		

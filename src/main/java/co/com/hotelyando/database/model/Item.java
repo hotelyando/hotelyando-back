@@ -20,7 +20,7 @@ public class Item implements Serializable{
 	private Boolean active;
 	private Integer quantity;
 	private String description;
-	private Integer price;
+	private Double price;
 	private Integer stock;
 
 }

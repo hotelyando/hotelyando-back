@@ -19,23 +19,44 @@ public class Invoice implements Serializable{
 	private String hotelId;
 	private String date;
 	private String state;
-	private Client client;
+	private ClientInvoice client;
 	private Double total;
-	private List<Item> items;
-	private List<Room> rooms;
+	private List<ItemInvoice> items;
+	private List<RoomInvoice> rooms;
 	
 	@Data
-	class Item {
+	public static class ItemInvoice implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		
 		private String uuid;
-		private String quantity;
-		private String values;
-		private String total;
+		private Integer quantity;
+		private Double values;
+		private Double total;
 	}
 	
-	@Data 
-	class Client {
+	@Data
+	public static class ClientInvoice implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		
 		private String typeDocument;
 		private String document;
 		private String name;
+	}
+	
+	@Data
+	static class RoomInvoice implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		
+		private String uuid;
+		private String description;
+		private String roomType;
+		private Integer quantity;
+		private Double values;
+		private Double total;
+		private List<ClientInvoice> clientInvoices;
+		
 	}
 }

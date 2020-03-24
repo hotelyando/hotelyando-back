@@ -30,8 +30,7 @@ public class CountryDao {
 	
 	public Country findByNombre(String nameCountry) throws MongoException, Exception {
 	
-		Country country = null;
-		country = iCountryRepository.findByName(nameCountry);
+		Country country = iCountryRepository.findByName(nameCountry);
 		
 		return country;
 	}

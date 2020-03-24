@@ -17,7 +17,7 @@ import co.com.hotelyando.core.business.RoomTypeBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.User;
@@ -44,7 +44,7 @@ public class RoomTypeController {
 	@PostMapping("/roomtype")
 	public ResponseEntity<ServiceResponse<RoomType>> save(@RequestBody RoomType roomType, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.save(roomType, user);
 		ResponseEntity<ServiceResponse<RoomType>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -56,7 +56,7 @@ public class RoomTypeController {
 	@PutMapping("/roomtype")
 	public ResponseEntity<ServiceResponse<RoomType>> update(@RequestBody RoomType roomType, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.update(roomType, user);
 		ResponseEntity<ServiceResponse<RoomType>> responseEntity = generic.returnResponseController(serviceResponse);
 		
@@ -67,7 +67,7 @@ public class RoomTypeController {
 	@GetMapping("/roomtype/{roomtypeid}")
 	public ResponseEntity<ServiceResponse<RoomType>> findByRoomType(@PathVariable String roomtypeid, @RequestHeader Map<String, String> headers){
 	
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.findByUuid(user, roomtypeid);
 		
 		ResponseEntity<ServiceResponse<RoomType>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -79,7 +79,7 @@ public class RoomTypeController {
 	@GetMapping("/roomtype")
 	public ResponseEntity<ServiceResponses<RoomType>> findByRoomType(@RequestHeader Map<String, String> headers){
 	
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		ServiceResponses<RoomType> serviceResponses = roomTypeBusiness.findAll(user);
 		
 		ResponseEntity<ServiceResponses<RoomType>> responseEntity = generic.returnResponseController(serviceResponses);

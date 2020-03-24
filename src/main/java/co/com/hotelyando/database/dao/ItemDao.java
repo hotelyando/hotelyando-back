@@ -18,37 +18,58 @@ private final IItemRepository iItemRepository;
 		this.iItemRepository = iItemRepository;
 	}
 	
+	
+	/*
+	 * Método que registra un item en Mongo
+	 * @return void
+	 */
 	public void save(Item item) throws MongoException, Exception {
 		iItemRepository.save(item);
 	}
 
+	
+	/*
+	 * Método que actualiza un item en Mongo
+	 * @return void
+	 */
 	public void update(Item item) throws MongoException, Exception {
 		iItemRepository.save(item);
 	}
 	
+	
+	/*
+	 * Método que retorna todos los item´s de un hotel
+	 * @return List<Item>
+	 */
 	public List<Item> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Item> items = null;
-		items = iItemRepository.findByHotelId(hotelId);
+		List<Item> items = iItemRepository.findByHotelId(hotelId);
 		
 		return items;
 	}
 	
+	
+	/*
+	 * Método que retorna un item por Id y por hotel
+	 * @return Item
+	 */
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		Item item = null;
-		item = iItemRepository.findByHotelIdAndUuid(hotelId, uuid);
+		Item item = iItemRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return item;
 	}
 	
+	
+	/*
+	 * Método que retorna un item por nombre y por hotel 
+	 * @return Item
+	 */
 	public Item findByHotelIdAndName(String hotelId, String name) throws MongoException, Exception {
 		
-		Item item = null;
-		item = iItemRepository.findByHotelIdAndName(hotelId, name);
+		Item item = iItemRepository.findByHotelIdAndName(hotelId, name);
 		
 		return item;
 	}
-
-
+	
 }

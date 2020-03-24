@@ -25,16 +25,14 @@ public class PackageDao{
 
 	public List<PackageHotel> findByHotelId(String hotelId) throws Exception {
 		
-		List<PackageHotel> packageHotels = null;
-		packageHotels = iPackageRepository.findByHotelId(hotelId);
+		List<PackageHotel> packageHotels = iPackageRepository.findByHotelId(hotelId);
 		
 		return packageHotels;
 	}
 
 	public PackageHotel findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
-		PackageHotel packageHotel = null;
-		packageHotel = iPackageRepository.findByHotelIdAndUuid(hotelId, uuid);
+		PackageHotel packageHotel = iPackageRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return packageHotel;
 	}

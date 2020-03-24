@@ -29,16 +29,14 @@ public class RoomDao{
 
 	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Room> rooms = null;
-		rooms = iRoomRepository.findByHotelId(hotelId);
+		List<Room> rooms = iRoomRepository.findByHotelId(hotelId);
 		
 		return rooms;
 	}
 
 	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
-		Room room = null;
-		room = iRoomRepository.findByHotelIdAndUuid(hotelId, uuid);
+		Room room = iRoomRepository.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return room;
 	}

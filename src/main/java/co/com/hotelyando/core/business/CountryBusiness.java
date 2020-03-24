@@ -10,7 +10,7 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.services.CountryService;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Country;
 
@@ -25,6 +25,7 @@ public class CountryBusiness {
 	private ServiceResponse<Country> serviceResponse;
 	private Generic<Country> generic = null;
 	
+	private String messageReturn;
 	
 	public CountryBusiness(CountryService countryService) {
 		this.countryService = countryService;
@@ -41,8 +42,6 @@ public class CountryBusiness {
 	 */
 	public ServiceResponse<Country> save(Country country) {
 		
-		String messageReturn = "";
-		
 		try {
 			
 			country.setUuid(utilities.generadorId());
@@ -50,15 +49,15 @@ public class CountryBusiness {
 			messageReturn = countryService.save(country);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(country, PrintVariables.NEGOCIO, messageSource.getMessage("country.register_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.register_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(country, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(country, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -73,22 +72,20 @@ public class CountryBusiness {
 	 */
 	public ServiceResponse<Country> update(Country country) {
 		
-		String messageReturn = "";
-		
 		try {
 			
 			messageReturn = countryService.update(country);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(country, PrintVariables.NEGOCIO, messageSource.getMessage("country.update_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.update_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(country, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(country, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		

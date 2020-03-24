@@ -13,7 +13,7 @@ import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.RoleService;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Role;
 import co.com.hotelyando.database.model.User;
@@ -27,8 +27,10 @@ public class RoleBusiness {
 	private final RoleService roleService;
 	private Generic<Role> generic = null;
 	private ServiceResponse<Role> serviceResponse;
+	private ServiceResponses<Role> serviceResponses;
 	private Utilities utilities = null;
 	
+	private String messageReturn;
 	
 	public RoleBusiness(RoleService roleService) {
 		this.roleService = roleService;
@@ -46,25 +48,22 @@ public class RoleBusiness {
 	 */
 	public ServiceResponse<Role> save(Role role, User user) {
 		
-		String messageReturn = "";
-		
 		try {
 			
 			role.setUuid(utilities.generadorId());
-			role.setHotelId(user.getHotelId());
 			
 			messageReturn = roleService.save(role);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.register_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -78,24 +77,20 @@ public class RoleBusiness {
 	 */
 	public ServiceResponse<Role> update(Role role, User user) {
 		
-		String messageReturn = "";
-		
 		try {
-			
-			role.setHotelId(user.getHotelId());
 			
 			messageReturn = roleService.update(role);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.update_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -109,24 +104,21 @@ public class RoleBusiness {
 	 */
 	public ServiceResponse<Role> findByName(User user, String name) {
 		
-		Role role = null;
-		ServiceResponse<Role> serviceResponse = null;
-		
 		try {
 			
-			role = roleService.findByName(user.getHotelId(), name);
+			Role role = roleService.findByName(name);
 			
 			if(role != null) {
-				serviceResponse = generic.messageReturn(role, PrintVariables.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}	
 		
@@ -141,23 +133,20 @@ public class RoleBusiness {
 	 */
 	public ServiceResponses<Role> findByHotelId(User user) {
 		
-		List<Role> roles = null;
-		ServiceResponses<Role> serviceResponses = null;
-		
 		try {
 			
-			roles = roleService.findByHotelId(user.getHotelId());
+			List<Role> roles = roleService.findByHotelId(user.getHotelId());
 			
 			if(roles != null) {
-				serviceResponses = generic.messagesReturn(roles, PrintVariables.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(roles, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
-			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}	
 		

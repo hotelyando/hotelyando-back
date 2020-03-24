@@ -18,9 +18,11 @@ public class CountryService {
 	@Autowired
 	private MessageSource messageSource;
 	
-	private RegularExpression regularExpression = null;
+	private RegularExpression regularExpression;
 	
 	private final CountryDao countryDao;
+	
+	private String messageReturn = "";
 	
 	public CountryService(CountryDao countryDao) {
 		this.countryDao = countryDao;
@@ -35,17 +37,13 @@ public class CountryService {
 	 */
 	public String save(Country country) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(country.getUuid())) {
 			messageReturn = messageSource.getMessage("country.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(country.getCode())) {
 			messageReturn = messageSource.getMessage("country.code", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(country.getName())) {
-			messageReturn = messageSource.getMessage("country.name", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateSpecialCharacters(country.getName())) {
 			messageReturn = messageSource.getMessage("country.character", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(country.getName())) {
+		}else if(nameValidate(country.getName(), false)) {
 			messageReturn = messageSource.getMessage("country.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			countryDao.save(country);
@@ -61,15 +59,13 @@ public class CountryService {
 	 */
 	public String update(Country country) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(country.getUuid())) {
 			messageReturn = messageSource.getMessage("country.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(country.getCode())) {
 			messageReturn = messageSource.getMessage("country.code", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(country.getName())) {
-			messageReturn = messageSource.getMessage("country.name", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(country.getName())) {
+		}else if(regularExpression.validateSpecialCharacters(country.getName())) {
+			messageReturn = messageSource.getMessage("country.character", null, LocaleContextHolder.getLocale());
+		}else if(nameValidate(country.getName(), true)) {
 			messageReturn = messageSource.getMessage("country.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			countryDao.update(country);
@@ -83,15 +79,16 @@ public class CountryService {
 	 * Método para validar si el nombre existe en la base de datos
 	 * @return boolean
 	 */
-	private boolean nameValidate(String nameCountry) throws MongoException, Exception {
+	private boolean nameValidate(String name, Boolean update) throws MongoException, Exception {
 		
-		Country country = null;
-		country = countryDao.findByNombre(nameCountry);
+		final Country country = countryDao.findByNombre(name);
 		
-		if(country != null) {
-			return true;
-		}else {
+		if(country == null) {
 			return false;
+		}else if (update && country.getName().equals(name)){
+			return false;
+		}else {
+			return true;
 		}
 	}
 	

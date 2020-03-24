@@ -19,25 +19,21 @@ public class PlanService {
 	
 	public String save(Plan plan) throws Exception {
 		
-		String messageReturn = "";
-		
-		messageReturn = planDao.save(plan);
+		String messageReturn = planDao.save(plan);
 		
 		return messageReturn;
 	}
 
 	public List<Plan> findByHotelId(String hotelId) throws Exception {
 		
-		List<Plan> plans = null;
-		plans = planDao.findByHotelId(hotelId);
+		List<Plan> plans = planDao.findByHotelId(hotelId);
 		
 		return plans;
 	}
 
 	public Plan findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
-		Plan plan = null;
-		plan = planDao.findByHotelIdAndUuid(hotelId, uuid);
+		Plan plan = planDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return plan;
 	}

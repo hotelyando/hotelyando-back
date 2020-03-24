@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.PackageBusiness;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.PackageHotel;
 import co.com.hotelyando.database.model.User;
@@ -41,7 +41,7 @@ public class PackageController {
 	@PostMapping("/package")
 	public ResponseEntity<String> save(@RequestBody PackageHotel packageHotel, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		String messageReturn = packageBusiness.save(packageHotel, user);
 
@@ -55,7 +55,7 @@ public class PackageController {
 	@GetMapping("/package/{packageId}")
 	public ResponseEntity<PackageHotel> consultarPaquetePorHotel(@PathVariable String packageId, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		PackageHotel packageHotel = packageBusiness.findByHotelIdAndUuid(user, packageId);
 			
@@ -69,7 +69,7 @@ public class PackageController {
 	@GetMapping("/package")
 	public ResponseEntity<List<PackageHotel>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		List<PackageHotel> packageHotels = packageBusiness.findByHotelId(user);
 			

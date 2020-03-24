@@ -19,25 +19,21 @@ public class PackageService {
 	
 	public String save(PackageHotel packageHotel) throws Exception {
 		
-		String messageReturn = "";
-			
-		messageReturn = packageDao.save(packageHotel);
+		String messageReturn = packageDao.save(packageHotel);
 		
 		return messageReturn;
 	}
 
 	public List<PackageHotel> findByHotelId(String hotelId) throws Exception {
 		
-		List<PackageHotel> packageHotels = null;
-		packageHotels = packageDao.findByHotelId(hotelId);
+		List<PackageHotel> packageHotels = packageDao.findByHotelId(hotelId);
 		
 		return packageHotels;
 	}
 
 	public PackageHotel findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
 		
-		PackageHotel packageHotel = null;
-		packageHotel = packageDao.findByHotelIdAndUuid(hotelId, uuid);
+		PackageHotel packageHotel = packageDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return packageHotel;
 	}

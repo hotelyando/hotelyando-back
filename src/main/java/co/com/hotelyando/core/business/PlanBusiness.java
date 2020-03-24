@@ -8,7 +8,7 @@ import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.PlanService;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Plan;
 import co.com.hotelyando.database.model.User;
@@ -23,6 +23,8 @@ public class PlanBusiness {
 	private Utilities utilities = null;
 	private Generic<Plan> generic = null;
 	
+	private String messageReturn;
+	
 	public PlanBusiness(PlanService planService) {
 		this.planService = planService;
 		
@@ -34,8 +36,6 @@ public class PlanBusiness {
 	}
 	
 	public String save(Plan plan, User user) {
-		
-		String messageReturn = "";
 		
 		try {
 			
@@ -52,16 +52,14 @@ public class PlanBusiness {
 
 	public ServiceResponses<Plan> findByHotelId(User user) {
 		
-		List<Plan> plans = null;
-		
 		try {
 			
-			plans = planService.findByHotelId(user.getHotelId());
+			List<Plan> plans = planService.findByHotelId(user.getHotelId());
 			
-			serviceResponses = generic.messagesReturn(plans, PrintVariables.NEGOCIO, "Ok");
+			serviceResponses = generic.messagesReturn(plans, PrintVariable.NEGOCIO, "Ok");
 			
 		}catch (Exception e) {
-			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
@@ -70,16 +68,14 @@ public class PlanBusiness {
 
 	public ServiceResponse<Plan> findByHotelIdAndUuid(User user, String uuid) {
 		
-		Plan plan = null;
-		
 		try {
 			
-			plan = planService.findByHotelIdAndUuid(user.getHotelId(), uuid);
+			Plan plan = planService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
-			serviceResponse = generic.messageReturn(plan, PrintVariables.NEGOCIO, "Ok");
+			serviceResponse = generic.messageReturn(plan, PrintVariable.NEGOCIO, "Ok");
 			
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		

@@ -29,8 +29,7 @@ public class RoomTypeDao{
 
 	public RoomType findByHotelIdAndRoomType(String hotelId, String roomTypeId) throws MongoException, Exception {
 		
-		RoomType roomType = null;
-		roomType = iRoomTypeRepository.findByHotelIdAndUuid(hotelId, roomTypeId);
+		RoomType roomType = iRoomTypeRepository.findByHotelIdAndUuid(hotelId, roomTypeId);
 		
 		return roomType;
 		
@@ -38,8 +37,7 @@ public class RoomTypeDao{
 	
 	public List<RoomType> findAll(String hotelId) throws MongoException, Exception {
 		
-		List<RoomType> roomTypes = null;
-		roomTypes = iRoomTypeRepository.findByHotelId(hotelId);
+		List<RoomType> roomTypes = iRoomTypeRepository.findByHotelId(hotelId);
 		
 		return roomTypes;
 		

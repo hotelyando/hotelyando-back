@@ -22,6 +22,8 @@ public class HotelService {
 	
 	private final HotelDao hotelDao;
 	
+	private String messageReturn = "";
+	
 	public HotelService(HotelDao hotelDao) {
 		this.hotelDao = hotelDao;
 		
@@ -35,36 +37,26 @@ public class HotelService {
 	 */
 	public String save(Hotel hotel) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(hotel.getUuid())) {
 			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAddress())) {
 			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
 			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getCellPhone())) {
-			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
 			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getName())) {
-			messageReturn = messageSource.getMessage("hotel.name", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
 			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(hotel.getName())) {
+		}else if(nameValidate(hotel.getName(), false)) {
 			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
 			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
-		}else if(nitValidate(hotel.getNit())) {
+		}else if(nitValidate(hotel.getNit(), false)) {
 			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getPhone())) {
-			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getPhone())) {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getEmail())) {
-			messageReturn = messageSource.getMessage("hotel.email", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {
 			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getPlan() == null) {
@@ -90,36 +82,26 @@ public class HotelService {
 	 */
 	public String update(Hotel hotel) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(hotel.getUuid())) {
 			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAddress())) {
 			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
 			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getCellPhone())) {
-			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
 			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getName())) {
-			messageReturn = messageSource.getMessage("hotel.name", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
 			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(hotel.getName())) {
+		}else if(nameValidate(hotel.getName(), true)) {
 			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
 			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
-		}else if(nitValidate(hotel.getNit())) {
+		}else if(nitValidate(hotel.getNit(), true)) {
 			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getPhone())) {
-			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
+		}else if(regularExpression.validateNumeric(hotel.getPhone())) {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(hotel.getEmail())) {
-			messageReturn = messageSource.getMessage("hotel.email", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {
 			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getPlan() == null) {
@@ -145,8 +127,7 @@ public class HotelService {
 	 */
 	public Hotel findByUuid(String uuid) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = hotelDao.findByUuid(uuid);
+		Hotel hotel = hotelDao.findByUuid(uuid);
 		
 		return hotel;
 	}
@@ -156,15 +137,16 @@ public class HotelService {
 	 * Método para validar si el nombre existe en la base de datos
 	 * @return boolean
 	 */
-	private boolean nameValidate(String nameHotel) throws MongoException, Exception {
+	private boolean nameValidate(String name, Boolean update) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = hotelDao.findByName(nameHotel);
+		Hotel hotel = hotelDao.findByName(name);
 		
-		if(hotel != null) {
-			return true;
-		}else {
+		if (hotel == null) {
 			return false;
+		}else if(update && hotel.getName().equals(name)) {
+			return false;
+		}else {
+			return true;
 		}
 	}
 	
@@ -173,15 +155,16 @@ public class HotelService {
 	 * Método para validar si el nit existe en la base de datos
 	 * @return boolean
 	 */
-	private boolean nitValidate(String nitHotel) throws MongoException, Exception {
+	private boolean nitValidate(String nitHotel, Boolean update) throws MongoException, Exception {
 		
-		Hotel hotel = null;
-		hotel = hotelDao.findByNit(nitHotel);
+		Hotel hotel = hotelDao.findByNit(nitHotel);
 		
-		if(hotel != null) {
+		if(hotel == null) {
 			return true;
-		}else {
+		}else if (update && hotel.getNit().equals(nitHotel)){
 			return false;
+		}else {
+			return true;
 		}
 	}
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.hotelyando.core.business.PlanBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Plan;
 import co.com.hotelyando.database.model.User;
@@ -42,7 +42,7 @@ public class PlanController {
 	@PostMapping("/plan")
 	public ResponseEntity<String> save(@RequestBody Plan plan, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		String messageReturn = planBusiness.save(plan, user);
 		
@@ -56,7 +56,7 @@ public class PlanController {
 	@GetMapping("/plan/{planId}")
 	public ResponseEntity<ServiceResponse<Plan>> findByHotelIdAndUuid(@PathVariable String planId, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Plan> serviceResponse = planBusiness.findByHotelIdAndUuid(user, planId);
 			
@@ -67,7 +67,7 @@ public class PlanController {
 	@GetMapping("/plan")
 	public ResponseEntity<ServiceResponses<Plan>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponses<Plan> serviceResponses = planBusiness.findByHotelId(user);
 			

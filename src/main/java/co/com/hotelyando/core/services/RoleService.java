@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
-import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.RoleDao;
 import co.com.hotelyando.database.model.Role;
 
@@ -20,14 +19,12 @@ public class RoleService {
 	@Autowired
 	private MessageSource messageSource;
 	
-	private RegularExpression regularExpression = null;
-	
 	private final RoleDao roleDao;
+	
+	private String messageReturn = "";
 	
 	public RoleService(RoleDao roleDao) {
 		this.roleDao = roleDao;
-		
-		regularExpression = new RegularExpression();
 	}
 	
 	
@@ -37,15 +34,11 @@ public class RoleService {
 	 */
 	public String save(Role role) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(role.getUuid())) {
 			messageReturn = messageSource.getMessage("role.id", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(role.getHotelId())) {
-			messageReturn = messageSource.getMessage("role.hotel_id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(role.getName())) {
 			messageReturn = messageSource.getMessage("role.name", null, LocaleContextHolder.getLocale());
-		}else if(validateRoleName(role.getHotelId(), role.getName())) {
+		}else if(validateRoleName(role.getName(), false)) {
 			messageReturn = messageSource.getMessage("role.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(role.getDescription())) {
 			messageReturn = messageSource.getMessage("role.description", null, LocaleContextHolder.getLocale());
@@ -67,15 +60,11 @@ public class RoleService {
 	 */
 	public String update(Role role) throws MongoException, Exception {
 		
-		String messageReturn = "";
-		
 		if(StringUtils.isBlank(role.getUuid())) {
 			messageReturn = messageSource.getMessage("role.id", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(role.getHotelId())) {
-			messageReturn = messageSource.getMessage("role.hotel_id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(role.getName())) {
 			messageReturn = messageSource.getMessage("role.name", null, LocaleContextHolder.getLocale());
-		}else if(validateRoleName(role.getHotelId(), role.getName())) {
+		}else if(validateRoleName(role.getName(), true)) {
 			messageReturn = messageSource.getMessage("role.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(role.getDescription())) {
 			messageReturn = messageSource.getMessage("role.description", null, LocaleContextHolder.getLocale());
@@ -97,8 +86,7 @@ public class RoleService {
 	 */
 	public List<Role> findByHotelId(String hotelId) throws MongoException, Exception {
 		
-		List<Role> roles = null;
-		roles = roleDao.findByHotelId(hotelId);
+		List<Role> roles = roleDao.findByHotelId(hotelId);
 		
 		return roles;
 		
@@ -109,11 +97,9 @@ public class RoleService {
 	 * Método que retorna un rol por el nombre
 	 * @return Role
 	 */
-	public Role findByName(String hotelId, String name) throws MongoException, Exception {
+	public Role findByName(String name) throws MongoException, Exception {
 		
-		Role role = null;
-		
-		role = roleDao.findByName(hotelId, name);
+		Role role = roleDao.findByName(name);
 		
 		return role;
 		
@@ -121,20 +107,23 @@ public class RoleService {
 	
 	
 	/*
-	 * Método que valida si existe un rol en el hotel
+	 * Método que valida si existe un rol
 	 * @return Role
 	 */
-	public Boolean validateRoleName(String hotelId, String name) throws MongoException, Exception {
+	public Boolean validateRoleName(String name, Boolean update) throws MongoException, Exception {
 		
-		Role role = null;
+		Role role = roleDao.findByName(name);
 		
-		role = roleDao.findByName(hotelId, name);
-		
-		if (role != null) {
-			return true;
-		}else {
+		if (role == null) {
 			return false;
+		}else if(update && role.getName().equals(name)) {
+			return false;
+		}else {
+			return true;
 		}
+		
+		
+		
 	}
 
 }

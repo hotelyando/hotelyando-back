@@ -17,7 +17,7 @@ import co.com.hotelyando.core.business.ReservationBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Reservation;
 import co.com.hotelyando.database.model.User;
@@ -44,7 +44,7 @@ public class ReservationController {
 	@PostMapping("/reservation")
 	public ResponseEntity<ServiceResponse<Reservation>> save(@RequestBody Reservation reservation, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.save(reservation, user);
 		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -57,7 +57,7 @@ public class ReservationController {
 	@PutMapping("/reservation")
 	public ResponseEntity<ServiceResponse<Reservation>> update(@RequestBody Reservation reservation, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.update(reservation, user);
 		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -69,7 +69,7 @@ public class ReservationController {
 	@GetMapping("/reservation/{reservationId}")
 	public ResponseEntity<ServiceResponse<Reservation>> findByHotelIdAndUuid(@PathVariable String reservaId, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Reservation> serviceResponse = reservationBusiness.findByHotelIdAndUuid(user, reservaId);
 		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -81,7 +81,7 @@ public class ReservationController {
 	@GetMapping("/reservation")
 	public ResponseEntity<ServiceResponses<Reservation>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponses<Reservation> serviceResponses = reservationBusiness.findByHotelId(user);
 		ResponseEntity<ServiceResponses<Reservation>> responseEntity = generic.returnResponseController(serviceResponses);

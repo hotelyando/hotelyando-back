@@ -17,7 +17,7 @@ import co.com.hotelyando.core.business.ItemBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.User;
@@ -45,7 +45,7 @@ public class ItemController {
 	@PostMapping("/item")
 	public ResponseEntity<ServiceResponse<Item>> save(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Item> serviceResponse = itemBusiness.save(item, user); 
 		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -57,7 +57,7 @@ public class ItemController {
 	@PutMapping("/item")
 	public ResponseEntity<ServiceResponse<Item>> update(@RequestBody Item item, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Item> serviceResponse = itemBusiness.update(item, user); 
 		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -69,7 +69,7 @@ public class ItemController {
 	@GetMapping("/item/{itemId}")
 	public ResponseEntity<ServiceResponse<Item>> findByHotelIdAndUuid(@PathVariable String itemId, @RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponse<Item> serviceResponse = itemBusiness.findByHotelIdAndUuid(user, itemId); 
 		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -81,7 +81,7 @@ public class ItemController {
 	@GetMapping("/item")
 	public ResponseEntity<ServiceResponses<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
 		
-		user = utilities.returnTenant(headers, PrintVariables.TOKEN_HEADER);
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user); 
 		ResponseEntity<ServiceResponses<Item>> responseEntity = generic.returnResponseController(serviceResponses);

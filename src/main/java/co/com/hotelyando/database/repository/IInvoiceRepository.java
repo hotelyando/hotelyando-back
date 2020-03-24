@@ -12,5 +12,6 @@ public interface IInvoiceRepository extends MongoRepository<Invoice, String> {
 	
 	List<Invoice> findByHotelId(String hotelId);
 	Invoice findByHotelIdAndUuid(String hotelId, String uuid);
+	List<Invoice> findByHotelIdAndState(String hotelId, String state);
 	
 }

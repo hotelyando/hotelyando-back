@@ -1,11 +1,17 @@
 package co.com.hotelyando.core.utilities;
 
+import java.io.Serializable;
+
+import lombok.Data;
+
 /*
- * Clase : PrintVariables.java
+ * Clase : PrintVariable.java
  * Comentario : Clase que se encarga de cargar los mensajes constantes dentro de la aplicación
  */
-
-public class PrintVariables {
+@Data
+public class PrintVariable implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final String HEADER = "Authorization";
 	public static final String TOKEN_HEADER = "authorization";

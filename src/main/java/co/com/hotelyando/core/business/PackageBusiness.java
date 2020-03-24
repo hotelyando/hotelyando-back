@@ -15,6 +15,8 @@ public class PackageBusiness {
 	private final PackageService packageService;
 	private Utilities utilities = null;
 	
+	private String messageReturn;
+	
 	public PackageBusiness(PackageService packageService) {
 		this.packageService = packageService;
 		
@@ -22,8 +24,6 @@ public class PackageBusiness {
 	}
 	
 	public String save(PackageHotel packageHotel, User user) {
-		
-		String messageReturn = "";
 		
 		try {
 			

@@ -16,7 +16,7 @@ public class EncryptionData {
 	 
 	public String decrypt(String text) throws Exception {
 		
-		String decrypted = "";
+		String decrypted;
 		
 	    byte[] encryptedBytes = Base64.decodeBase64(text);
 	    

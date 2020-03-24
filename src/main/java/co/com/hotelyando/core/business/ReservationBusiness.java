@@ -13,7 +13,7 @@ import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.ReservationService;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariables;
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Reservation;
 import co.com.hotelyando.database.model.User;
@@ -31,6 +31,8 @@ public class ReservationBusiness {
 	private Utilities utilities = null;
 	private Generic<Reservation> generic = null;
 
+	private String messageReturn;
+	
 	public ReservationBusiness(ReservationService reservationService) {
 		this.reservationService = reservationService;
 		
@@ -48,8 +50,6 @@ public class ReservationBusiness {
 	 */
 	public ServiceResponse<Reservation> save(Reservation reservation, User user) {
 		
-		String messageReturn = "";
-		
 		try {
 			
 			
@@ -59,15 +59,15 @@ public class ReservationBusiness {
 			messageReturn = reservationService.save(reservation);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(reservation, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.register_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
@@ -81,8 +81,6 @@ public class ReservationBusiness {
 	 */
 	public ServiceResponse<Reservation> update(Reservation reservation, User user) {
 		
-		String messageReturn = "";
-		
 		try {
 			
 			reservation.setHotelId(user.getHotelId());
@@ -90,15 +88,15 @@ public class ReservationBusiness {
 			messageReturn = reservationService.update(reservation);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(reservation, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.update_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 			
@@ -112,22 +110,20 @@ public class ReservationBusiness {
 	 */
 	public ServiceResponses<Reservation> findByHotelId(User user) {
 		
-		List<Reservation> reservations = null;
-		
 		try {
 			
-			reservations = reservationService.findByHotelId(user.getHotelId());
+			List<Reservation> reservations = reservationService.findByHotelId(user.getHotelId());
 			
 			if(reservations != null) {
-				serviceResponses = generic.messagesReturn(reservations, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(reservations, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
-			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponses = generic.messagesReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}	
 			
@@ -141,22 +137,20 @@ public class ReservationBusiness {
 	 */
 	public ServiceResponse<Reservation> findByHotelIdAndUuid(User user, String uuid) {
 		
-		Reservation reservation = null;
-		
 		try {
 			
-			reservation = reservationService.findByHotelIdAndUuid(user.getHotelId(), uuid);
+			Reservation reservation = reservationService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
 			if(reservation != null) {
-				serviceResponse = generic.messageReturn(reservation, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariables.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_BD, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariables.ERROR_TECNICO, e.getMessage());
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}	
 		
