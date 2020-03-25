@@ -12,16 +12,14 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ItemRequest;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
-import co.com.hotelyando.core.services.InvoiceService;
 import co.com.hotelyando.core.services.ItemService;
+import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
-import co.com.hotelyando.database.model.Invoice;
-import co.com.hotelyando.database.model.Invoice.ItemInvoice;
 import co.com.hotelyando.database.model.Item;
+import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
-import co.com.hotelyando.database.repository.IInvoiceRepository;
 
 @Service
 public class ItemBusiness {
@@ -30,7 +28,7 @@ public class ItemBusiness {
 	private MessageSource messageSource;
 	
 	@Autowired
-	private InvoiceService invoiceService;
+	private SaleService saleService;
 	
 	private final ItemService itemService;
 	
@@ -201,7 +199,7 @@ public class ItemBusiness {
 			}
 			
 			//Consultamos la venta actual
-			Invoice invoice = invoiceService.findByDocumentAndDocumentType(user.getHotelId(), "PROCESO", itemRequest.getDocument(), itemRequest.getDocumentType());
+			Sale sale = saleService.findByDocumentAndDocumentType(user.getHotelId(), "PROCESO", itemRequest.getDocument(), itemRequest.getDocumentType());
 			
 			
 			//Actualizamos la venta
@@ -209,12 +207,12 @@ public class ItemBusiness {
 			Double total = itemRequest.getItem().getPrice() * itemRequest.getStockQuantity();
 			
 			
-			invoice.getItems().get(invoice.getItems().size() + 1).setQuantity(itemRequest.getStockQuantity());
-			invoice.getItems().get(invoice.getItems().size() + 1).setUuid(itemRequest.getItem().getUuid());
-			invoice.getItems().get(invoice.getItems().size() + 1).setValues(itemRequest.getItem().getPrice());
-			invoice.getItems().get(invoice.getItems().size() + 1).setTotal(total);
+			sale.getItems().get(sale.getItems().size() + 1).setQuantity(itemRequest.getStockQuantity());
+			sale.getItems().get(sale.getItems().size() + 1).setUuid(itemRequest.getItem().getUuid());
+			sale.getItems().get(sale.getItems().size() + 1).setValues(itemRequest.getItem().getPrice());
+			sale.getItems().get(sale.getItems().size() + 1).setTotal(total);
 			
-			messageReturn = invoiceService.update(invoice);
+			messageReturn = saleService.update(sale);
 			
 			//registrar en la venta
 			//Validar la cantidad de stock si esta en dos menos mostrar un mensaje de alerta

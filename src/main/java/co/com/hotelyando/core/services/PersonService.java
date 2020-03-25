@@ -108,7 +108,7 @@ public class PersonService {
 		
 		List<Person> persons = personDao.findByDocument(documentNumber);
 		
-		if(persons.get(0) != null) {
+		if(persons != null && persons.size() > 0) {
 			return true;
 		}else {
 			return false;

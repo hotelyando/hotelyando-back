@@ -26,7 +26,7 @@ public class SwaggerConfig {
             .build().apiInfo(apiEndPointsInfo())
             .tags(new Tag("Login", "Controlador que gestiona el acceso de usuarios a la aplicación"))
             .tags(new Tag("User", "Controlador que gestiona las acciones de un usuario de un hotel"))
-            .tags(new Tag("Invoice", "Controlador que gestiona las acciones para una factura"))
+            .tags(new Tag("Sale", "Controlador que gestiona las acciones para una factura"))
             .tags(new Tag("Room", "Controlador que gestiona las acciones para una habitación"))
             .tags(new Tag("RoomType", "Controlador que gestiona las acciones para un tipo de habitación"))
             .tags(new Tag("Hotel", "Controlador que gestiona las acciones de un hotel"))

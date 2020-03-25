@@ -6,45 +6,45 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
-import co.com.hotelyando.core.services.InvoiceService;
+import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
-import co.com.hotelyando.database.model.Invoice;
+import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
 
 @Service
-public class InvoiceBusiness {
+public class SaleBusiness {
 
-	private final InvoiceService invoiceService;
-	private ServiceResponse<Invoice> serviceResponse;
-	private ServiceResponses<Invoice> serviceResponses;
-	private Generic<Invoice> generic = null;
+	private final SaleService saleService;
+	private ServiceResponse<Sale> serviceResponse;
+	private ServiceResponses<Sale> serviceResponses;
+	private Generic<Sale> generic = null;
 	private Utilities utilities;
 	
 	private String messageReturn;
 	
-	public InvoiceBusiness(InvoiceService invoiceService) {
-		this.invoiceService = invoiceService;
+	public SaleBusiness(SaleService saleService) {
+		this.saleService = saleService;
 		
-		serviceResponse = new ServiceResponse<Invoice>();
-		serviceResponses = new ServiceResponses<Invoice>();
-		generic = new Generic<Invoice>();
+		serviceResponse = new ServiceResponse<Sale>();
+		serviceResponses = new ServiceResponses<Sale>();
+		generic = new Generic<Sale>();
 		utilities = new Utilities();
 		
 	}
 	
-	public ServiceResponse<Invoice> save(Invoice invoice, User user) {
+	public ServiceResponse<Sale> save(Sale sale, User user) {
 		
 		try {
 			
-			invoice.setHotelId(user.getHotelId());
-			invoice.setUuid(utilities.generadorId());
+			sale.setHotelId(user.getHotelId());
+			sale.setUuid(utilities.generadorId());
 			
-			messageReturn = invoiceService.save(invoice);
+			messageReturn = saleService.save(sale);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(invoice, PrintVariable.NEGOCIO, "Factura registrada!");
+				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, "Factura registrada!");
 			}else {
 				serviceResponse = generic.messageReturn(null, PrintVariable.ADVERTENCIA, "Error creando la factura!");
 			}
@@ -57,13 +57,13 @@ public class InvoiceBusiness {
 		return serviceResponse;
 	}
 	
-	public ServiceResponse<Invoice> update(Invoice invoice, User user) {
+	public ServiceResponse<Sale> update(Sale sale, User user) {
 		
 		try {
 			
-			invoice.setHotelId(user.getHotelId());
+			sale.setHotelId(user.getHotelId());
 			
-			messageReturn = invoiceService.update(invoice);
+			messageReturn = saleService.update(sale);
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, "Factura actualizada!");
@@ -79,16 +79,16 @@ public class InvoiceBusiness {
 		return serviceResponse;
 	}
 
-	public ServiceResponses<Invoice> findByHotelId(User user) {
+	public ServiceResponses<Sale> findByHotelId(User user) {
 		
 		try {
 			
-			List<Invoice> invoices = invoiceService.findByHotelId(user.getHotelId());
+			List<Sale> sales = saleService.findByHotelId(user.getHotelId());
 			
-			if(invoices == null) {
+			if(sales == null) {
 				serviceResponses = generic.messagesReturn(null, PrintVariable.ADVERTENCIA, "No retornó datos!");
 			}else {
-				serviceResponses = generic.messagesReturn(invoices, PrintVariable.NEGOCIO, "");
+				serviceResponses = generic.messagesReturn(sales, PrintVariable.NEGOCIO, "");
 			}
 			
 		}catch (Exception e) {
@@ -99,14 +99,14 @@ public class InvoiceBusiness {
 		return serviceResponses;
 	}
 
-	public ServiceResponse<Invoice> findByHotelIdAndUuid(User user, String uuid) {
+	public ServiceResponse<Sale> findByHotelIdAndUuid(User user, String uuid) {
 		
 		try {
 			
-			Invoice invoice = invoiceService.findByHotelIdAndUuid(user.getHotelId(), uuid);
+			Sale sale = saleService.findByHotelIdAndUuid(user.getHotelId(), uuid);
 			
-			if(invoice != null) {
-				serviceResponse = generic.messageReturn(invoice, PrintVariable.NEGOCIO, "");
+			if(sale != null) {
+				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, "");
 			}else {
 				serviceResponse = generic.messageReturn(null, PrintVariable.ADVERTENCIA, "No retornó datos!");
 			}
