@@ -1,6 +1,9 @@
 package co.com.hotelyando.core.business;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -12,10 +15,13 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.PersonService;
+import co.com.hotelyando.core.services.SaleService;
+import co.com.hotelyando.core.services.UserService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Person;
+import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
 
 @Service
@@ -23,6 +29,15 @@ public class PersonBusiness {
 
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private SaleService saleService;
+	
+	@Autowired
+	private SaleBusiness saleBusiness;
+	
+	@Autowired
+	private UserService userService;
 	
 	private final PersonService personService;
 	private ServiceResponse<Person> serviceResponse = null;
@@ -157,15 +172,69 @@ public class PersonBusiness {
 	 * Método que retorna una persona dependiendo del tipo de persona empleado o huesper
 	 * @ ServiceResponse<Person>
 	 */
-	public ServiceResponses<Person> findAllAndHotelId(String personType, String initialDate, String finalDate, User user) {
+	public ServiceResponses<Person> findAllAndHotelIdAndSale(String nationality, String initDate, String endDate, User user) {
+		
+		Person person = null;
+		
+		List<Sale> sales = null;
+		List<Person> persons = new ArrayList<Person>();
 		
 		try {
 			
-			List<Person> persons = personService.findAll();
+			if(nationality.equals("") && initDate.equals("") && endDate.equals("")) {
+				
+				persons = personService.findAll();
+				
+			}else if(!nationality.equals("") || !initDate.equals("") || !endDate.equals("")) {
+				
+				if(nationality.equals("")) {
+					nationality = PrintVariable.SALE_CLIENT_ALL;
+				}
+				
+				if(initDate.equals("")) {
+					initDate = PrintVariable.INIT_DATE;
+				}
+				
+				if(endDate.equals("")) {
+					endDate = PrintVariable.END_DATE;
+				}
+				
+				sales = saleService.findByHotelIdAndCountryAndDate(user.getHotelId(), nationality, initDate, endDate);
+				
+				if(sales != null) {
+					
+					for(int a = 0; a < sales.size(); a++) {
+						for(int b = 0; b < sales.get(a).getRooms().size(); b++) {
+							for(int c = 0; c < sales.get(a).getRooms().get(b).getGuests().size(); c++) {
+								
+								String guest = sales.get(a).getRooms().get(b).getGuests().get(c);
+								
+								person = new Person();
+								person = personService.findByUuid(guest);
+								
+								if(person != null && nationality.equals(PrintVariable.SALE_CLIENT_ALL)) {
+									persons.add(person);
+								}
+								
+								if(person != null && nationality.equals(PrintVariable.SALE_CLIENT_OUTSIDE) && !person.getCountry().getName().equals(PrintVariable.SALE_LOCAL_COLOMBIA)) {
+									persons.add(person);
+								}
+								
+								if(person != null && nationality.equals(PrintVariable.SALE_CLIENT_LOCAL) && person.getCountry().getName().equals(PrintVariable.SALE_LOCAL_COLOMBIA)) {
+									persons.add(person);
+								}
+							}
+						}
+					}
+				}
+			}
 			
 			if(persons != null) {
+				persons = persons.stream().distinct().collect(Collectors.toList());
 				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
-			}else {
+			}
+			
+			if(persons.size() <= 0) {
 				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
@@ -185,14 +254,53 @@ public class PersonBusiness {
 	 * Método que retorna una persona dependiendo del tipo de persona empleado o huesper
 	 * @ ServiceResponse<Person>
 	 */
-	public ServiceResponses<Person> findPersonType(Integer employee, Integer guest, String document, User user) {
+	public ServiceResponses<Person> findPersonType(String type, User user) {
+		
+		List<User> users = null;
+		List<Sale> sales = null;
+		List<Person> persons = null;
+		List<Person> persons1 = null;
 		
 		try {
 			
-			List<Person> persons = personService.findByPerson(employee, guest, document);
+			if(type.equals("EMPLOYEE")) {
+				users = userService.findByHotelId(user.getHotelId());
+				
+				if(users != null) {
+					persons = personService.findByPerson(null, users);
+				}
+				
+			}else if(type.equals("GUEST")) {
+				sales = saleService.findByHotelId(user.getHotelId());
+				
+				if(sales != null) {
+					persons = personService.findByPerson(sales, null);
+				}
+				
+			}else if(type.equals("ALL")){
+				users = userService.findByHotelId(user.getHotelId());
+				
+				if(users != null) {
+					persons1 = personService.findByPerson(null, users);
+				}
+				
+				sales = saleService.findByHotelId(user.getHotelId());
+				
+				if(sales != null) {
+					persons = personService.findByPerson(sales, null);
+					
+					for(int a = 0; a < persons1.size(); a++) {
+						persons.add(persons1.get(a));
+					}
+					
+					persons = persons.stream().distinct().collect(Collectors.toList());
+				}
+				
+			}else {
+				persons = personService.findAll();
+			}
 			
-			//Se tiene que buscar las personas por factura para saber el hotel
-			
+
 			if(persons != null) {
 				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.SaleBusiness;
@@ -71,12 +72,23 @@ public class SaleController {
 		
 	}
 	
-	@GetMapping("/sale")
+	/*@GetMapping("/sale")
 	public ResponseEntity<ServiceResponses<Sale>> findByHotelId(@RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
 		ServiceResponses<Sale> serviceResponses = saleBusiness.findByHotelId(user);
+			
+		return new ResponseEntity<ServiceResponses<Sale>>(serviceResponses, HttpStatus.OK);
+		
+	}*/
+	
+	@GetMapping("/sale")
+	public ResponseEntity<ServiceResponses<Sale>> findByHotelIdAndCountryAndDate(@RequestParam(defaultValue = "") String client, @RequestParam(defaultValue = "") String nationality, @RequestParam(defaultValue = "") String initDate, @RequestParam(defaultValue = "") String endDate, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+			
+		ServiceResponses<Sale> serviceResponses = saleBusiness.findByHotelIdAndCountryAndDate(client, nationality, initDate, endDate, user);
 			
 		return new ResponseEntity<ServiceResponses<Sale>>(serviceResponses, HttpStatus.OK);
 		

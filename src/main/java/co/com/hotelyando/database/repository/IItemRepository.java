@@ -12,7 +12,8 @@ public interface IItemRepository extends MongoRepository<Item, String> {
 	
 	List<Item> findByHotelId(String hotelId);
 	Item findByHotelIdAndUuid(String hotelId, String uuid);
-	Item findByHotelIdAndName(String hotelId, String name);
+	Item findByHotelIdAndDescription(String hotelId, String description);
+	
 	
 
 }

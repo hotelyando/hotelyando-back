@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.hotelyando.core.business.ItemBusiness;
@@ -55,16 +56,23 @@ public class ItemController {
 	}
 	
 	@PutMapping("/item")
-	public ResponseEntity<ServiceResponse<Item>> update(@RequestBody Item item, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponse<Item>> update(@RequestParam(defaultValue = "") String itemId, @RequestParam(defaultValue = "") String saleId, @RequestBody Item item, @RequestHeader Map<String, String> headers){
+		
+		ServiceResponse<Item> serviceResponse = null;
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
-			
-		ServiceResponse<Item> serviceResponse = itemBusiness.update(item, user); 
+		
+		
+		if(itemId.equals("") && saleId.equals("")) {
+			serviceResponse = itemBusiness.update(item, user); 
+		}
+		
 		ResponseEntity<ServiceResponse<Item>> responseEntity = generic.returnResponseController(serviceResponse);
 		
 		return responseEntity;
 		
 	}
+	
 	
 	@GetMapping("/item/{itemId}")
 	public ResponseEntity<ServiceResponse<Item>> findByHotelIdAndUuid(@PathVariable String itemId, @RequestHeader Map<String, String> headers){
@@ -79,11 +87,11 @@ public class ItemController {
 	}
 	
 	@GetMapping("/item")
-	public ResponseEntity<ServiceResponses<Item>> consultarItemsPorHotel(@RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Item>> consultarItemsPorHotel(@RequestParam(defaultValue = "") String description, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 			
-		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user); 
+		ServiceResponses<Item> serviceResponses = itemBusiness.findByHotelId(user, description); 
 		ResponseEntity<ServiceResponses<Item>> responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;

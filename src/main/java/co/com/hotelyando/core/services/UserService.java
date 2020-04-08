@@ -55,6 +55,8 @@ public class UserService {
 			messageReturn = messageSource.getMessage("user.rol", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getPersonId())) {
 			messageReturn = messageSource.getMessage("user.person", null, LocaleContextHolder.getLocale());
+		}else if(findByHotelIdAndPersonId(user.getHotelId(), user.getPersonId()) != null) {
+			messageReturn = messageSource.getMessage("user.person_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getUser())) {
 			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
 		}else if(validateUser(user.getHotelId(), user.getUser(), false)) {
@@ -207,5 +209,14 @@ public class UserService {
 		}
 		
 		return encodeReturn;
+	}
+	
+	
+	public User findByHotelIdAndPersonId(String hotelId, String personId) throws MongoException, Exception {
+		
+		User user = userDao.findByHotelIdAndPersonId(hotelId, personId);
+		
+		return user;
+		
 	}
 }

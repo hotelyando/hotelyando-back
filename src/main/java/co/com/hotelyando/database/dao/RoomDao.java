@@ -2,6 +2,7 @@ package co.com.hotelyando.database.dao;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.MongoException;
@@ -27,13 +28,15 @@ public class RoomDao{
 		iRoomRepository.save(room);
 	}
 
+	@Cacheable("findByHotelId")
 	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {
 		
 		List<Room> rooms = iRoomRepository.findByHotelId(hotelId);
 		
 		return rooms;
 	}
-
+	
+	@Cacheable("findByHotelIdAndUuid")
 	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
 		Room room = iRoomRepository.findByHotelIdAndUuid(hotelId, uuid);

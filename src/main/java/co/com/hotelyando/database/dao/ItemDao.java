@@ -65,9 +65,9 @@ private final IItemRepository iItemRepository;
 	 * Método que retorna un item por nombre y por hotel 
 	 * @return Item
 	 */
-	public Item findByHotelIdAndName(String hotelId, String name) throws MongoException, Exception {
+	public Item findByHotelIdAndDescription(String hotelId, String description) throws MongoException, Exception {
 		
-		Item item = iItemRepository.findByHotelIdAndName(hotelId, name);
+		Item item = iItemRepository.findByHotelIdAndDescription(hotelId, description);
 		
 		return item;
 	}

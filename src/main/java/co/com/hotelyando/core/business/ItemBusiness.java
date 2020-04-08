@@ -1,5 +1,6 @@
 package co.com.hotelyando.core.business;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +137,35 @@ public class ItemBusiness {
 			
 		return serviceResponses;
 	}
-
+	
+	
+	/*
+	 * Método que lista los ITEM'S de un hotel
+	 * @return ServiceResponse<Item>
+	 */
+	public ServiceResponses<Item> findByHotelId(User user, String description) {
+		
+		List<Item> items;
+		
+		try {
+			
+			items = itemService.findByHotelId(user.getHotelId(), description);
+			
+			if(items != null) {
+				serviceResponses = generic.messagesReturn(items, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+			}
+			
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}	
+			
+		return serviceResponses;
+	}
 	
 	/*
 	 * Método que retorna un ITEM de un hotel
@@ -209,8 +238,8 @@ public class ItemBusiness {
 			
 			sale.getItems().get(sale.getItems().size() + 1).setQuantity(itemRequest.getStockQuantity());
 			sale.getItems().get(sale.getItems().size() + 1).setUuid(itemRequest.getItem().getUuid());
-			sale.getItems().get(sale.getItems().size() + 1).setValues(itemRequest.getItem().getPrice());
-			sale.getItems().get(sale.getItems().size() + 1).setTotal(total);
+			//sale.getItems().get(sale.getItems().size() + 1).setValues(itemRequest.getItem().getPrice());
+			//sale.getItems().get(sale.getItems().size() + 1).setTotal(total);
 			
 			messageReturn = saleService.update(sale);
 			

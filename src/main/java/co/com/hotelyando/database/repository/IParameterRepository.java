@@ -1,16 +1,15 @@
 package co.com.hotelyando.database.repository;
 
-import java.util.List;
-
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import co.com.hotelyando.database.model.Role;
+import co.com.hotelyando.database.model.Parameter;
 
 @JaversSpringDataAuditable
-public interface IRoleRepository extends MongoRepository<Role, String>{
+public interface IParameterRepository extends MongoRepository<Parameter, String> {
 	
-	Role findByUuid(String uuid);
-	Role findByName(String name);
+	Parameter findByHotelId(String hotelId);
+	Parameter findByUuid(String uuid);
+	
 
 }

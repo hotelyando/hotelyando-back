@@ -36,7 +36,8 @@ public class SwaggerConfig {
             .tags(new Tag("Person", "Controlador que gestiona las acciones para una persona"))
             .tags(new Tag("Plan", "Controlador que gestiona las acciones de un plan de hotel"))
             .tags(new Tag("Reservation", "Controlador que gestiona las acciones de reserva para un hotel"))
-            .tags(new Tag("Role", "Controlador que gestiona las acciones de los roles de usuario"));
+            .tags(new Tag("Role", "Controlador que gestiona las acciones de los roles de usuario"))
+        	.tags(new Tag("Report", "Reportes"));
             
     }
     private ApiInfo apiEndPointsInfo() {

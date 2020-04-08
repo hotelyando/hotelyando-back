@@ -11,9 +11,9 @@ import co.com.hotelyando.database.model.Person;
 public interface IPersonRepository extends MongoRepository<Person, String> {
 	
 	Person findByDocumentTypeAndDocument(String documentType, String document);
-	List<Person> findByEmployee(Integer employee);
-	List<Person> findByGuest(Integer guest);
+	Person findByUuid(String uuid);
 	List<Person> findByDocument(String documentNumber);
+	
 	
 
 }

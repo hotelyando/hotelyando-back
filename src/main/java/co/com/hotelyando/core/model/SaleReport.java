@@ -1,19 +1,16 @@
-package co.com.hotelyando.database.model;
+package co.com.hotelyando.core.model;
 
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import co.com.hotelyando.database.model.Country;
 import lombok.Data;
 
-@Data@Document(collection = "sale")
-public class Sale implements Serializable{
+@Data
+public class SaleReport implements Serializable{
 
-	private static final long serialVersionUID = 6391454633876244076L;
+	private static final long serialVersionUID = 1L;
 	
-	@Id
 	private String uuid;
 	private String hotelId;
 	private String date; //19-11-2020 
@@ -36,11 +33,17 @@ public class Sale implements Serializable{
 	@Data
 	public static class ClientSale {
 		
-		private String uuid;
-		private String typeDocument;
-		private String document;
-		private String name;
-		private String country;
+		  private String uuid;
+		  private String documentType;
+		  private String document;
+		  private String firstName;
+		  private String lastName;
+		  private String email;
+		  private String birthdate;
+		  private String phone;
+		  private String cellPhone;
+		  private String address;
+		  private Country country;
 		
 	}
 	
@@ -52,7 +55,7 @@ public class Sale implements Serializable{
 		private String startDate;
 		private String endDate;
 		private Values values;
-		private List<String> guests;
+		private List<ClientSale> guests;
 		
 	}
 	
@@ -65,4 +68,5 @@ public class Sale implements Serializable{
 		private Integer discount;
 		private Integer total;
 	}
+
 }

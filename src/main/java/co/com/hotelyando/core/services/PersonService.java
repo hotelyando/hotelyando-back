@@ -1,5 +1,6 @@
 package co.com.hotelyando.core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,8 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.PersonDao;
 import co.com.hotelyando.database.model.Person;
+import co.com.hotelyando.database.model.Sale;
+import co.com.hotelyando.database.model.User;
 
 @Service
 public class PersonService {
@@ -48,8 +51,10 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getBirthdate())) {
 			messageReturn = messageSource.getMessage("person.birthdate", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getName())) {
-			messageReturn = messageSource.getMessage("person.full_name", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(person.getFirstName())) {
+			messageReturn = messageSource.getMessage("person.first_name", null, LocaleContextHolder.getLocale());
+		}else if(!person.getDocumentType().equals("NIT") && StringUtils.isBlank(person.getLastName())) {
+			messageReturn = messageSource.getMessage("person.last_name", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getDocument())) {
 			messageReturn = messageSource.getMessage("person.document_number", null, LocaleContextHolder.getLocale());
 		}else if(validateDocument(person.getDocument())) {
@@ -82,8 +87,10 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getBirthdate())) {
 			messageReturn = messageSource.getMessage("person.birthdate", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getName())) {
-			messageReturn = messageSource.getMessage("person.full_name", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(person.getFirstName())) {
+			messageReturn = messageSource.getMessage("person.first_name", null, LocaleContextHolder.getLocale());
+		}else if(!person.getDocumentType().equals("NIT") && StringUtils.isBlank(person.getLastName())) {
+			messageReturn = messageSource.getMessage("person.last_name", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getDocument())) {
 			messageReturn = messageSource.getMessage("person.document_number", null, LocaleContextHolder.getLocale());
 		}else if(validateDocument(person.getDocument())) {
@@ -141,24 +148,52 @@ public class PersonService {
 	}
 	
 	
-	public List<Person> findByPerson(Integer employee, Integer guest, String document) throws MongoException, Exception {
+	public List<Person> findByPerson(String data, List<User> users) throws MongoException, Exception {
 		
-		List<Person> persons = null;
+		List<Person> persons = new ArrayList<Person>();
 		
-		if(employee == 1) {
-			persons = personDao.findByEmployee(employee);
-		}
+		User user = null;
+		Person person = null;
 		
-		if(guest == 1) {
-			persons = personDao.findByGuest(guest);
-		}
-		
-		if(!document.equals("")) {
-			persons = personDao.findByDocument(document);
+		for(int a = 0; a < users.size(); a++) {
+			
+			user = users.get(a);
+			
+			person = personDao.findByUuid(user.getPersonId());
+			persons.add(person);
 		}
 		
 		return persons;
 		
+	}
+
+	
+	
+	public List<Person> findByPerson(List<Sale> sales, String data) throws MongoException, Exception {
+		
+		List<Person> persons = new ArrayList<Person>();
+		
+		Sale sale = null;
+		Person person = null;
+		
+		for(int a = 0; a < sales.size(); a++) {
+			
+			sale = sales.get(a);
+			
+			person = personDao.findByUuid(sale.getClient().getUuid());
+			persons.add(person);
+		}
+		
+		return persons;
+		
+	}
+	
+	
+	public Person findByUuid(String uuid) throws MongoException, Exception {
+		
+		Person person = personDao.findByUuid(uuid);
+		
+		return person;
 	}
 
 }

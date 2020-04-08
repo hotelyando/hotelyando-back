@@ -31,7 +31,14 @@ public class PrintVariable implements Serializable{
 	public static final String SAVE = "Save";
 	public static final String UPDATE = "Update";
 	
+	public static final String SALE_CLIENT_ALL = "ALL";
+	public static final String SALE_CLIENT_OUTSIDE = "OUTSIDE";
+	public static final String SALE_CLIENT_LOCAL = "LOCAL";
+	public static final String SALE_LOCAL_COLOMBIA = "COLOMBIA";
 	
+	
+	public static final String INIT_DATE = "2000-01-01T00:00";
+	public static final String END_DATE = "2100-01-01T00:00";
 	
 	
 	

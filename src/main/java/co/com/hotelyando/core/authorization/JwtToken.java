@@ -31,7 +31,7 @@ public class JwtToken {
 				.setSubject(genericos.convertirObjetoAJson(user))
 				.claim(PrintVariable.AUTHORITIES, grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + 3600000))
 				.signWith(SignatureAlgorithm.HS512, PrintVariable.SECRET.getBytes()).compact();
 
 		return PrintVariable.BEARER + token;

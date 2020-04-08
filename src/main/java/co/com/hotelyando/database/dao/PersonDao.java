@@ -43,26 +43,20 @@ public class PersonDao{
 	}
 	
 	
-	public List<Person> findByEmployee(Integer employee) throws MongoException, Exception {
-		
-		List<Person> persons = iPersonRepository.findByEmployee(employee);
-		
-		return persons;
-	}
-	
-	
-	public List<Person> findByGuest(Integer guest) throws MongoException, Exception {
-		
-		List<Person> persons = iPersonRepository.findByGuest(guest);
-		
-		return persons;
-	}
-	
 	public List<Person> findAll() throws MongoException, Exception {
 		
 		List<Person> persons = iPersonRepository.findAll();
 		
 		return persons;
+		
+	}
+	
+	
+	public Person findByUuid(String uuid) throws MongoException, Exception {
+		
+		Person person = iPersonRepository.findByUuid(uuid);
+		
+		return person;
 		
 	}
 

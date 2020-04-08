@@ -78,7 +78,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 		
 		try {
 			
-			final List<Permit> permits = iRolRepositoriy.findByName(user.getRol()).getPermits();
+			final List<Permit> permits = iRolRepositoriy.findByUuid(user.getRol()).getPermits();
 			
 			permits.forEach((value) ->{
 				if(value.getMethod().equals(metodo) && value.getName().equals(url.replace("/", ""))) {

@@ -1,5 +1,6 @@
 package co.com.hotelyando.core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,9 +60,7 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.stock", null, LocaleContextHolder.getLocale());
 		}else if(item.getStock() < 0) {
 			messageReturn = messageSource.getMessage("item.stock_number", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(item.getName())) {
-			messageReturn = messageSource.getMessage("item.name", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(item.getHotelId(), item.getName(), false)) {
+		}else if(nameValidate(item.getHotelId(), item.getDescription(), false)) {
 			messageReturn = messageSource.getMessage("item.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			itemDao.save(item);
@@ -99,9 +98,7 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.stock", null, LocaleContextHolder.getLocale());
 		}else if(item.getStock() < 0) {
 			messageReturn = messageSource.getMessage("item.stock_number", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(item.getName())) {
-			messageReturn = messageSource.getMessage("item.name", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(item.getHotelId(), item.getName(), true)) {
+		}else if(nameValidate(item.getHotelId(), item.getDescription(), true)) {
 			messageReturn = messageSource.getMessage("item.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			itemDao.update(item);
@@ -123,8 +120,28 @@ public class ItemService {
 			
 		return items;
 	}
-
 	
+	
+	/*
+	 * Método para que liste todos los ITEM'S de un hotel
+	 * @return List<Item>
+	 */
+	public List<Item> findByHotelId(String hotelId, String description) throws MongoException, Exception {
+		
+		List<Item> items = new ArrayList<Item>();
+		
+		if(description.equals("")) {
+			items = itemDao.findByHotelId(hotelId);
+		}else {
+			Item item = itemDao.findByHotelIdAndDescription(hotelId, description);
+			
+			if(item != null) {
+				items.add(item);
+			}
+		}
+			
+		return items;
+	}
 	/*
 	 * Método para que liste un ITEM del hotel por uuid
 	 * @return Item
@@ -141,13 +158,13 @@ public class ItemService {
 	 * Método que valida si un ITEM ya existe por hotel
 	 * @return Boolean
 	 */
-	private Boolean nameValidate(String hotelId, String name, Boolean update) throws MongoException, Exception {
+	private Boolean nameValidate(String hotelId, String description, Boolean update) throws MongoException, Exception {
 		
-		Item item = itemDao.findByHotelIdAndName(hotelId, name);
+		Item item = itemDao.findByHotelIdAndDescription(hotelId, description);
 		
 		if (item == null) {
 			return false;
-		}else if(update && item.getName().equals(name)) {
+		}else if(update && item.getName().equals(description)) {
 			return false;
 		}else {
 			return true;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,26 +77,21 @@ public class PersonController {
 		return responseEntity;
 	}
 	
-	/*@GetMapping("/person")
-	public ResponseEntity<ServiceResponses<Person>> findAll(@RequestHeader Map<String, String> headers){
-		
-		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
-		
-		ServiceResponses<Person> serviceResponses = personBusiness.findAll();
-		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
-		
-		return responseEntity;
-	}*/
 	
-	//@GetMapping("/person/{personType}/{initialDate/{finalDate}")
 	@GetMapping("/person")
-	//public ResponseEntity<ServiceResponses<Person>> findAll(@PathVariable String personType, @PathVariable String initialDate, @PathVariable String finalDate, @RequestHeader Map<String, String> headers){
-	public ResponseEntity<ServiceResponses<Person>> findAllAndHotel(@RequestParam(defaultValue = "ALL") String personType, @RequestParam(defaultValue = "") String initialDate, @RequestParam(defaultValue = "") String finalDate, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Person>> findAllAndHotel(@RequestParam(defaultValue = "") String type, @RequestParam(defaultValue = "") String nationality, @RequestParam(defaultValue = "") String initDate, @RequestParam(defaultValue = "") String endDate, @RequestHeader Map<String, String> headers){
+		
+		ResponseEntity<ServiceResponses<Person>> responseEntity = null;
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
-		ServiceResponses<Person> serviceResponses = personBusiness.findAllAndHotelId(personType, initialDate, finalDate, user);
-		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
+		if(type.equals("")) {
+			ServiceResponses<Person> serviceResponses = personBusiness.findAllAndHotelIdAndSale(nationality, initDate, endDate, user);
+			responseEntity = generic.returnResponseController(serviceResponses);
+		}else {
+			ServiceResponses<Person> serviceResponses = personBusiness.findPersonType(type, user);
+			responseEntity = generic.returnResponseController(serviceResponses);
+		}
 		
 		return responseEntity;
 	}

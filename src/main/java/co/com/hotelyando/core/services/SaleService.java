@@ -1,20 +1,29 @@
 package co.com.hotelyando.core.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
+import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.database.dao.SaleDao;
 import co.com.hotelyando.database.model.Sale;
 
 @Service
 public class SaleService {
 
-	private final SaleDao saleDao;
+	@Autowired
+	private MessageSource messageSource;
+	
 	private Sale sale;
 	
+	private final SaleDao saleDao;
 	
 	private String messageReturn = "";
 	
@@ -63,7 +72,61 @@ public class SaleService {
 			
 		return sales;
 	}
+	
+	
+	public List<Sale> findByHotelIdAndPersonId(String hotelId, String personId) throws MongoException, Exception {
+		
+		List<Sale> returnSales = new  ArrayList<Sale>();
+		List<Sale> sales = saleDao.findByHotelId(hotelId);
+		
+		for(int a = 0; a < sales.size(); a++) {
+			
+			if(sales.get(a).getClient().getUuid().equals(personId)) {
+				returnSales.add(sales.get(a));
+			}
+		}
+		
+		return returnSales;
+		
+	}
 
+	
+	/*
+	 * Método que retorna todas las ventas dependiendo de la nacionalidad y el rango de fechas de un hotel
+	 * @return List<Sale>
+	 */
+	public List<Sale> findByHotelIdAndCountryAndDate(String hotelId, String nationality, String initDate, String endDate) throws MongoException, Exception {
+		
+		List<Sale> sales = saleDao.findByHotelId(hotelId);
+		List<Sale> returnSales = new ArrayList<Sale>();
+		
+		if(sales != null) {
+			
+			if(!StringUtils.isBlank(initDate)  &&  !StringUtils.isBlank(endDate)) {
+				
+				for(int a = 0; a < sales.size(); a++) {
+					
+					Sale sale = sales.get(a);
+					
+					LocalDateTime init = LocalDateTime.parse(initDate);
+					LocalDateTime end = LocalDateTime.parse(endDate);
+					LocalDateTime date = LocalDateTime.parse(sale.getDate());
+					
+					if(date.isAfter(init) && date.isBefore(end)) {
+						returnSales.add(sale);
+					}
+				}
+				
+			}else {
+				messageReturn = "NO cumple";
+			}
+			
+		}else {
+			returnSales = null;
+		}
+			
+		return returnSales;
+	}
 	
 	/*
 	 * Método que retorna una venta de un hotel por Id
