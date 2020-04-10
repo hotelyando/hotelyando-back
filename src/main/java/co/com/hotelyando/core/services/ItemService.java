@@ -98,7 +98,7 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.stock", null, LocaleContextHolder.getLocale());
 		}else if(item.getStock() < 0) {
 			messageReturn = messageSource.getMessage("item.stock_number", null, LocaleContextHolder.getLocale());
-		}else if(nameValidate(item.getHotelId(), item.getDescription(), true)) {
+		}else if(nameValidate(item.getHotelId(), item.getName(), true)) {
 			messageReturn = messageSource.getMessage("item.name_unique", null, LocaleContextHolder.getLocale());
 		}else {
 			itemDao.update(item);
@@ -126,14 +126,14 @@ public class ItemService {
 	 * Método para que liste todos los ITEM'S de un hotel
 	 * @return List<Item>
 	 */
-	public List<Item> findByHotelId(String hotelId, String description) throws MongoException, Exception {
+	public List<Item> findByHotelId(String hotelId, String name) throws MongoException, Exception {
 		
 		List<Item> items = new ArrayList<Item>();
 		
-		if(description.equals("")) {
+		if(name.equals("")) {
 			items = itemDao.findByHotelId(hotelId);
 		}else {
-			Item item = itemDao.findByHotelIdAndDescription(hotelId, description);
+			Item item = itemDao.findByHotelIdAndName(hotelId, name);
 			
 			if(item != null) {
 				items.add(item);
@@ -158,13 +158,13 @@ public class ItemService {
 	 * Método que valida si un ITEM ya existe por hotel
 	 * @return Boolean
 	 */
-	private Boolean nameValidate(String hotelId, String description, Boolean update) throws MongoException, Exception {
+	private Boolean nameValidate(String hotelId, String name, Boolean update) throws MongoException, Exception {
 		
-		Item item = itemDao.findByHotelIdAndDescription(hotelId, description);
+		Item item = itemDao.findByHotelIdAndName(hotelId, name);
 		
 		if (item == null) {
 			return false;
-		}else if(update && item.getName().equals(description)) {
+		}else if(update && item.getName().equals(name)) {
 			return false;
 		}else {
 			return true;

@@ -115,6 +115,10 @@ public class UserService {
 		
 		List<User> users = userDao.findByHotelId(hotelId);
 		
+		/*users.forEach((user) -> {
+			user.setPassword("");
+		});*/
+		
 		return users;
 	}
 
@@ -126,6 +130,8 @@ public class UserService {
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
 		User user = userDao.findByHotelIdAndUuid(hotelId, uuid);
+		
+		//user.setPassword("");
 		
 		return user;
 	}

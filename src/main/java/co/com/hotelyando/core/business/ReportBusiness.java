@@ -82,6 +82,15 @@ public class ReportBusiness {
 					saleReport.setDate(sale.getDate());
 					saleReport.setState(sale.getState());
 					
+					values = new Values();
+					values.setDiscount(sale.getValues().getDiscount());
+					values.setGross(sale.getValues().getGross());
+					values.setNet(sale.getValues().getNet());
+					values.setTax(sale.getValues().getTax());
+					values.setTotal(sale.getValues().getTotal());
+					
+					saleReport.setValues(values);
+					
 					itemSales = new ArrayList<SaleReport.ItemSale>();
 					sale.getItems().forEach((item) ->{
 						
@@ -176,6 +185,7 @@ public class ReportBusiness {
 					clientSale.setCountry(person.getCountry());
 					
 					saleReport.setClient(clientSale);
+					
 					saleReports.add(saleReport);
 				}
 			}

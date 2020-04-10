@@ -12,7 +12,7 @@ public interface IItemRepository extends MongoRepository<Item, String> {
 	
 	List<Item> findByHotelId(String hotelId);
 	Item findByHotelIdAndUuid(String hotelId, String uuid);
-	Item findByHotelIdAndDescription(String hotelId, String description);
+	Item findByHotelIdAndName(String hotelId, String name);
 	
 	
 
