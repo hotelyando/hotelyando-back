@@ -25,8 +25,8 @@ public class Room implements Serializable{
 	private Integer numberBeds;
 	private Boolean freeParking;
 	private String roomType;
-	private List<ItemInRoom> itemInRooms;
-	private List<Comfort> comfort;
+	private List<ItemInRoom> items;
+	private List<String> comforts;
 	private String state;
 	private Integer score;
 	private List<Comment> comments;
@@ -34,7 +34,7 @@ public class Room implements Serializable{
 	@Data
 	class ItemInRoom {
 		
-		private String uuid;
+		private String itemId;
 		private String description;
 		private String quantity;
 		private Boolean requireCheck;
@@ -46,5 +46,9 @@ public class Room implements Serializable{
 		
 		private String uuid;
 		private String description;
+		private String userId;
+		private String date;
+		private Integer score;
+		private String comment;
 	}
 }

@@ -3,6 +3,7 @@ package co.com.hotelyando.database.dao;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mongodb.MongoException;
 
@@ -10,6 +11,7 @@ import co.com.hotelyando.database.model.User;
 import co.com.hotelyando.database.repository.IUserRepository;
 
 @Repository
+@Transactional
 public class UserDao {
 	
 	private final IUserRepository iUsuarioRepository;
@@ -62,6 +64,11 @@ public class UserDao {
 		
 		return user;
 		
+	}
+	
+	public void delete(String uuid) throws MongoException, Exception {
+		
+		iUsuarioRepository.deleteById(uuid);
 	}
 
 }

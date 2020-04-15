@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.com.hotelyando.database.model.Person;
 
 @JaversSpringDataAuditable
+@Transactional
 public interface IPersonRepository extends MongoRepository<Person, String> {
 	
 	Person findByDocumentTypeAndDocument(String documentType, String document);

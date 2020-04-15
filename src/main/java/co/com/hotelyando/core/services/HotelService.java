@@ -160,7 +160,7 @@ public class HotelService {
 		Hotel hotel = hotelDao.findByNit(nitHotel);
 		
 		if(hotel == null) {
-			return true;
+			return false;
 		}else if (update && hotel.getNit().equals(nitHotel)){
 			return false;
 		}else {

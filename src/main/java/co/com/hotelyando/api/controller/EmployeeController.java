@@ -79,8 +79,10 @@ public class EmployeeController {
 			serviceResponses = employeeBusiness.findByPersonId(user, personId);
 		}else if(!userId.equals("")){
 			serviceResponses = employeeBusiness.findByUserId(user, userId);
-		}else {
+		}else if(!uuid.equals("")) {
 			serviceResponses = employeeBusiness.findByUuid(uuid);
+		}else {
+			serviceResponses = employeeBusiness.findByHotelId(user);
 		}
 		
 		ResponseEntity<ServiceResponses<Employee>> responseEntity = generic.returnResponseController(serviceResponses);

@@ -78,20 +78,32 @@ public class PersonController {
 	}
 	
 	
+	@GetMapping("/person/{uuid}")
+	public ResponseEntity<ServiceResponse<Person>> findByUuid(@PathVariable String uuid, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		
+		ServiceResponse<Person> serviceResponse = personBusiness.findByUuid(uuid);
+		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+	}
+	
+	
 	@GetMapping("/person")
 	public ResponseEntity<ServiceResponses<Person>> findAllAndHotel(@RequestParam(defaultValue = "") String type, @RequestParam(defaultValue = "") String nationality, @RequestParam(defaultValue = "") String initDate, @RequestParam(defaultValue = "") String endDate, @RequestHeader Map<String, String> headers){
 		
 		ResponseEntity<ServiceResponses<Person>> responseEntity = null;
-		
+		ServiceResponses<Person> serviceResponses = null;
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		if(type.equals("")) {
-			ServiceResponses<Person> serviceResponses = personBusiness.findAllAndHotelIdAndSale(nationality, initDate, endDate, user);
-			responseEntity = generic.returnResponseController(serviceResponses);
+			serviceResponses = personBusiness.findAllAndHotelIdAndSale(nationality, initDate, endDate, user);
 		}else {
-			ServiceResponses<Person> serviceResponses = personBusiness.findPersonType(type, user);
-			responseEntity = generic.returnResponseController(serviceResponses);
+			serviceResponses = personBusiness.findPersonType(type, user);
 		}
+		
+		responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;
 	}

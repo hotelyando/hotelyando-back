@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mongodb.MongoException;
 
@@ -17,6 +18,7 @@ import co.com.hotelyando.database.dao.UserDao;
 import co.com.hotelyando.database.model.User;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired
@@ -154,6 +156,12 @@ public class UserService {
 			encryptionData = new EncryptionData();
 			passwordEncryption = encryptionData.encript(password);
 			user = userDao.findByUserAndPassword(login, passwordEncryption);
+			
+			if(user != null) {
+				if(!user.isState()) {
+					user.setUuid(PrintVariable.VALIDACION);
+				}
+			}
 		}
 		
 		return user;
@@ -223,6 +231,17 @@ public class UserService {
 		User user = userDao.findByHotelIdAndPersonId(hotelId, personId);
 		
 		return user;
+		
+	}
+	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		messageReturn = "";
+		
+		userDao.delete(uuid);
+		
+		return messageReturn;
 		
 	}
 }

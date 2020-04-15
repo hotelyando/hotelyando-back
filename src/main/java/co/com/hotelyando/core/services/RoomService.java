@@ -52,10 +52,6 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getRoomType())) {
 			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getItemInRooms().toString())) {
-			messageReturn = messageSource.getMessage("room.item_in_rooms", null, LocaleContextHolder.getLocale());
-		}else if(room.getComfort() == null) {
-			messageReturn = messageSource.getMessage("room.comfort", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getState())) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getScore().toString())) {
@@ -94,10 +90,6 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getRoomType())) {
 			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getItemInRooms().toString())) {
-			messageReturn = messageSource.getMessage("room.item_in_rooms", null, LocaleContextHolder.getLocale());
-		}else if(room.getComfort() == null) {
-			messageReturn = messageSource.getMessage("room.comfort", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getState())) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getScore().toString())) {

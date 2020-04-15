@@ -1,5 +1,7 @@
 package co.com.hotelyando.database.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.MongoException;
@@ -27,6 +29,13 @@ public class CountryDao {
 		iCountryRepository.save(country);
 	}
 	
+	
+	public List<Country> findAll() throws MongoException, Exception {
+		
+		List<Country> countries = iCountryRepository.findAll();
+		
+		return countries;
+	}
 	
 	public Country findByNombre(String nameCountry) throws MongoException, Exception {
 	

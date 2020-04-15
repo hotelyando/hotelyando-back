@@ -12,10 +12,12 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.EmployeeService;
+import co.com.hotelyando.core.services.PersonService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Employee;
+import co.com.hotelyando.database.model.Person;
 import co.com.hotelyando.database.model.User;
 
 @Service
@@ -23,6 +25,9 @@ public class EmployeeBusiness {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private PersonService personService;
 	
 	private final EmployeeService employeeService;
 	
@@ -51,7 +56,20 @@ public class EmployeeBusiness {
 			employee.setUuid(utilities.generadorId());
 			employee.setHotelId(user.getHotelId());
 			
-			messageReturn = employeeService.save(employee);
+			if(employee.getPersonId().equals("")) {
+				messageReturn = messageSource.getMessage("employee.person", null, LocaleContextHolder.getLocale());
+			}else {
+				
+				Person person = personService.findByUuid(employee.getPersonId());
+				
+				if(person == null) {
+					messageReturn = messageSource.getMessage("employee.person_not_content", null, LocaleContextHolder.getLocale());
+				}
+			}
+			
+			if(messageReturn.equals("")) {
+				messageReturn = employeeService.save(employee);
+			}
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(employee, PrintVariable.NEGOCIO, messageSource.getMessage("employee.register_ok", null, LocaleContextHolder.getLocale()));
@@ -77,7 +95,20 @@ public class EmployeeBusiness {
 			employee.setUuid(utilities.generadorId());
 			employee.setHotelId(user.getHotelId());
 			
-			messageReturn = employeeService.update(employee);
+			if(employee.getPersonId().equals("")) {
+				messageReturn = messageSource.getMessage("employee.person", null, LocaleContextHolder.getLocale());
+			}else {
+				
+				Person person = personService.findByUuid(employee.getPersonId());
+				
+				if(person == null) {
+					messageReturn = messageSource.getMessage("employee.person_not_content", null, LocaleContextHolder.getLocale());
+				}
+			}
+			
+			if(messageReturn.equals("")) {
+				messageReturn = employeeService.update(employee);
+			}
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(employee, PrintVariable.NEGOCIO, messageSource.getMessage("employee.update_ok", null, LocaleContextHolder.getLocale()));

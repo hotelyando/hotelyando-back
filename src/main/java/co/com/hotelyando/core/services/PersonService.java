@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mongodb.MongoException;
 
@@ -18,6 +19,7 @@ import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
 
 @Service
+@Transactional
 public class PersonService {
 
 	@Autowired
@@ -194,6 +196,17 @@ public class PersonService {
 		Person person = personDao.findByUuid(uuid);
 		
 		return person;
+	}
+	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		messageReturn = "";
+		
+		personDao.delete(uuid);
+		
+		return messageReturn;
+		
 	}
 
 }

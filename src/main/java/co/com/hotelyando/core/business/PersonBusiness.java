@@ -168,6 +168,30 @@ public class PersonBusiness {
 	}
 	
 	
+	public ServiceResponse<Person> findByUuid(String uuid) {
+		
+		try {
+			
+			Person person = personService.findByUuid(uuid);
+			
+			if(person != null) {
+				serviceResponse = generic.messageReturn(person, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+		
+	}
+	
+	
 	/*
 	 * Método que retorna una persona dependiendo del tipo de persona empleado o huesper
 	 * @ ServiceResponse<Person>

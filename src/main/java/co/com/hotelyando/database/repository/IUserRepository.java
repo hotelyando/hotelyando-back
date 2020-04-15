@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.com.hotelyando.database.model.User;
 
 @JaversSpringDataAuditable
+@Transactional
 public interface IUserRepository extends MongoRepository<User, String> {
 	
 	List<User> findByHotelId(String hotelId);

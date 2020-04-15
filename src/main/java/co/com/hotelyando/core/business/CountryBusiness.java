@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.business;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.MongoException;
 
 import co.com.hotelyando.core.model.ServiceResponse;
+import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.CountryService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
@@ -23,6 +26,7 @@ public class CountryBusiness {
 	private final CountryService countryService;
 	private Utilities utilities = null;
 	private ServiceResponse<Country> serviceResponse;
+	private ServiceResponses<Country> serviceResponses;
 	private Generic<Country> generic = null;
 	
 	private String messageReturn;
@@ -32,6 +36,7 @@ public class CountryBusiness {
 		
 		utilities = new Utilities();
 		serviceResponse = new ServiceResponse<Country>();
+		serviceResponses = new ServiceResponses<Country>();
 		generic = new Generic<Country>();
 	}
 	
@@ -92,5 +97,54 @@ public class CountryBusiness {
 		return serviceResponse;
 		
 	}
+	
+	
+	public ServiceResponses<Country> findAll() {
+		
+		try {
+			
+			List<Country> countries = countryService.findAll();
+			
+			if(countries != null) {
+				serviceResponses = generic.messagesReturn(countries, PrintVariable.NEGOCIO, messageSource.getMessage("country.find_ok", new String[] {countries.get(0).getName()}, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponses;
+		
+	}
+
+
+	public ServiceResponse<Country> findByNombre(String nameCountry) {
+		
+		try {
+			
+			Country country = countryService.findByNombre(nameCountry);
+			
+			if(country != null) {
+				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.find_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+		
+	}
+	
 
 }
