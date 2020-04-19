@@ -15,8 +15,6 @@ public class EmployeeService {
 	
 	private final EmployeeDao employeeDao;
 	
-	private String messagesReturn;
-	
 	public EmployeeService(EmployeeDao employeeDao) {
 		this.employeeDao = employeeDao;
 	}
@@ -24,21 +22,21 @@ public class EmployeeService {
 	
 	public String save(Employee employee) throws MongoException, Exception {
 		
-		messagesReturn = "";
+		String messageReturn = "";
 		
 		employeeDao.save(employee);
 		
-		return messagesReturn;
+		return messageReturn;
 	}
 	
 	
 	public String update(Employee employee) throws MongoException, Exception {
 		
-		messagesReturn = "";
+		String messageReturn = "";
 		
 		employeeDao.save(employee);
 		
-		return messagesReturn;
+		return messageReturn;
 		
 	}
 	

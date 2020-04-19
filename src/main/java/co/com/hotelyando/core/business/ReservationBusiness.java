@@ -31,8 +31,6 @@ public class ReservationBusiness {
 	private Utilities utilities = null;
 	private Generic<Reservation> generic = null;
 
-	private String messageReturn;
-	
 	public ReservationBusiness(ReservationService reservationService) {
 		this.reservationService = reservationService;
 		
@@ -49,6 +47,8 @@ public class ReservationBusiness {
 	 * @return String
 	 */
 	public ServiceResponse<Reservation> save(Reservation reservation, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -80,6 +80,8 @@ public class ReservationBusiness {
 	 * @return String
 	 */
 	public ServiceResponse<Reservation> update(Reservation reservation, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

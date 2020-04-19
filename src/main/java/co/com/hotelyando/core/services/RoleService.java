@@ -21,8 +21,6 @@ public class RoleService {
 	
 	private final RoleDao roleDao;
 	
-	private String messageReturn = "";
-	
 	public RoleService(RoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
@@ -33,6 +31,8 @@ public class RoleService {
 	 * @return String
 	 */
 	public String save(Role role) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(role.getUuid())) {
 			messageReturn = messageSource.getMessage("role.id", null, LocaleContextHolder.getLocale());
@@ -59,6 +59,8 @@ public class RoleService {
 	 * @return String
 	 */
 	public String update(Role role) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(role.getUuid())) {
 			messageReturn = messageSource.getMessage("role.id", null, LocaleContextHolder.getLocale());

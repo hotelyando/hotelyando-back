@@ -32,7 +32,7 @@ public class Room implements Serializable{
 	private List<Comment> comments;
 	
 	@Data
-	class ItemInRoom {
+	public static class ItemInRoom {
 		
 		private String itemId;
 		private String description;
@@ -42,7 +42,7 @@ public class Room implements Serializable{
 	}
 	
 	@Data
-	class Comment {
+	public static class Comment {
 		
 		private String uuid;
 		private String description;

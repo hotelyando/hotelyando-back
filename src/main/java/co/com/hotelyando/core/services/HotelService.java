@@ -22,8 +22,6 @@ public class HotelService {
 	
 	private final HotelDao hotelDao;
 	
-	private String messageReturn = "";
-	
 	public HotelService(HotelDao hotelDao) {
 		this.hotelDao = hotelDao;
 		
@@ -36,6 +34,8 @@ public class HotelService {
 	 * @return String
 	 */
 	public String save(Hotel hotel) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(hotel.getUuid())) {
 			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());
@@ -81,6 +81,8 @@ public class HotelService {
 	 * @return String
 	 */
 	public String update(Hotel hotel) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(hotel.getUuid())) {
 			messageReturn = messageSource.getMessage("hotel.id", null, LocaleContextHolder.getLocale());

@@ -26,8 +26,6 @@ public class HotelBusiness {
 	private Utilities utilities = null;
 	private Generic<Hotel> generic = null;
 	
-	private String messageReturn;
-	
 	public HotelBusiness(HotelService hotelService) {
 		this.hotelService = hotelService;
 		
@@ -42,6 +40,8 @@ public class HotelBusiness {
 	 * @return ServiceResponse<Hotel>
 	 */
 	public ServiceResponse<Hotel> save(Hotel hotel) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -71,6 +71,8 @@ public class HotelBusiness {
 	 * @return ServiceResponse<Hotel>
 	 */
 	public ServiceResponse<Hotel> update(Hotel hotel) {
+		
+		String messageReturn = "";
 		
 		try {
 			

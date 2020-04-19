@@ -29,8 +29,6 @@ public class CountryBusiness {
 	private ServiceResponses<Country> serviceResponses;
 	private Generic<Country> generic = null;
 	
-	private String messageReturn;
-	
 	public CountryBusiness(CountryService countryService) {
 		this.countryService = countryService;
 		
@@ -46,6 +44,8 @@ public class CountryBusiness {
 	 * @return ServiceResponse<Country>
 	 */
 	public ServiceResponse<Country> save(Country country) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -77,6 +77,8 @@ public class CountryBusiness {
 	 */
 	public ServiceResponse<Country> update(Country country) {
 		
+		String messageReturn = "";
+		
 		try {
 			
 			messageReturn = countryService.update(country);
@@ -101,6 +103,8 @@ public class CountryBusiness {
 	
 	public ServiceResponses<Country> findAll() {
 		
+		String messageReturn = "";
+		
 		try {
 			
 			List<Country> countries = countryService.findAll();
@@ -124,6 +128,8 @@ public class CountryBusiness {
 
 
 	public ServiceResponse<Country> findByNombre(String nameCountry) {
+		
+		String messageReturn = "";
 		
 		try {
 			

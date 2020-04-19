@@ -37,8 +37,6 @@ public class EmployeeBusiness {
 	private Utilities utilities = null;
 	private Generic<Employee> generic = null;
 	
-	private String messageReturn;
-	
 	public EmployeeBusiness(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 		
@@ -50,6 +48,8 @@ public class EmployeeBusiness {
 	
 	
 	public ServiceResponse<Employee> save(Employee employee, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -89,6 +89,8 @@ public class EmployeeBusiness {
 	
 	
 	public ServiceResponse<Employee> update(Employee employee, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

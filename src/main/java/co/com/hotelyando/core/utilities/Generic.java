@@ -63,7 +63,7 @@ public class Generic<T> {
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_TECNICO)) {
-				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponse.getState().equals(PrintVariable.NEGOCIO)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.OK);
 			}else {

@@ -39,8 +39,6 @@ public class ItemBusiness {
 	private Utilities utilities;
 	private Generic<Item> generic;
 	
-	private String messageReturn;
-	
 	public ItemBusiness(ItemService itemService) {
 		this.itemService = itemService;
 		
@@ -56,6 +54,8 @@ public class ItemBusiness {
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<Item> save(Item item, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -86,6 +86,8 @@ public class ItemBusiness {
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<Item> update(Item item, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -204,6 +206,7 @@ public class ItemBusiness {
 		
 		ServiceResponse<ItemRequest> serviceResponseItem;
 		
+		String messageReturn = "";
 		
 		try {
 			

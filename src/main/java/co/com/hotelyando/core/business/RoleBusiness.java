@@ -30,8 +30,6 @@ public class RoleBusiness {
 	private ServiceResponses<Role> serviceResponses;
 	private Utilities utilities = null;
 	
-	private String messageReturn;
-	
 	public RoleBusiness(RoleService roleService) {
 		this.roleService = roleService;
 		
@@ -47,6 +45,8 @@ public class RoleBusiness {
 	 * @return ServiceResponse<Role>
 	 */
 	public ServiceResponse<Role> save(Role role, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -76,6 +76,8 @@ public class RoleBusiness {
 	 * @return ServiceResponse<Role>
 	 */
 	public ServiceResponse<Role> update(Role role, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

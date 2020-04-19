@@ -29,8 +29,6 @@ public class ParameterBusiness {
 	private Utilities utilities = null;
 	private Generic<Parameter> generic = null;
 	
-	private String messageReturn;
-	
 	public ParameterBusiness(ParameterService parameterService) {
 		this.parameterService = parameterService;
 		
@@ -40,6 +38,8 @@ public class ParameterBusiness {
 	}
 	
 	public ServiceResponse<Parameter> save(Parameter parameter) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -66,6 +66,8 @@ public class ParameterBusiness {
 
 	
 	public ServiceResponse<Parameter> update(Parameter parameter) {
+		
+		String messageReturn = "";
 		
 		try {
 			

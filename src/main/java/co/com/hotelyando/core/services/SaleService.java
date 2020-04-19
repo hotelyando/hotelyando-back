@@ -25,8 +25,6 @@ public class SaleService {
 	
 	private final SaleDao saleDao;
 	
-	private String messageReturn = "";
-	
 	public SaleService(SaleDao saleDao) {
 		this.saleDao = saleDao;
 	}
@@ -39,7 +37,7 @@ public class SaleService {
 	public String save(Sale sale) throws MongoException, Exception {
 		
 		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
-		messageReturn = "";
+		String messageReturn = "";
 		
 		saleDao.save(sale);
 			
@@ -54,7 +52,7 @@ public class SaleService {
 	public String update(Sale sale) throws MongoException, Exception {
 		
 		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
-		messageReturn = "";
+		String messageReturn = "";
 		
 		saleDao.update(sale);
 			
@@ -96,6 +94,8 @@ public class SaleService {
 	 * @return List<Sale>
 	 */
 	public List<Sale> findByHotelIdAndCountryAndDate(String hotelId, String nationality, String initDate, String endDate) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		List<Sale> sales = saleDao.findByHotelId(hotelId);
 		List<Sale> returnSales = new ArrayList<Sale>();

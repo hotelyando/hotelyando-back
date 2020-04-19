@@ -17,7 +17,7 @@ public class Item implements Serializable{
 	private String uuid;
 	private String hotelId;
 	private String name;
-	private Boolean active;
+	private Integer state;
 	private Integer quantity;
 	private String description;
 	private Double price;

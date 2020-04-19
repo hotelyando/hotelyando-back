@@ -25,9 +25,8 @@ public class RoomType implements Serializable{
 	
 	
 	@Data
-	class PriceDetails{
+	public static class PriceDetails{
 		
-		private String uuid;
 		private String day;
 		private Double priceDay;
 		private Double priceHour;

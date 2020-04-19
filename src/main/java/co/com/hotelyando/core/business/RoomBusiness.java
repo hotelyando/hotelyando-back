@@ -30,8 +30,6 @@ public class RoomBusiness {
 	private Utilities utilities = null;
 	private Generic<Room> generic = null;
 	
-	private String messageReturn;
-	
 	public RoomBusiness(RoomService roomService) {
 		this.roomService = roomService;
 		
@@ -47,6 +45,8 @@ public class RoomBusiness {
 	 * @return ServiceResponse<Room>
 	 */
 	public ServiceResponse<Room> save(Room room, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -77,6 +77,8 @@ public class RoomBusiness {
 	 * @return ServiceResponse<Room>
 	 */
 	public ServiceResponse<Room> update(Room room, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

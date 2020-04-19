@@ -22,8 +22,6 @@ public class ReservationService {
 	
 	private final ReservationDao reservationDao;
 	
-	private String messageReturn = "";
-	
 	public ReservationService(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 		
@@ -36,6 +34,8 @@ public class ReservationService {
 	 * @return String
 	 */
 	public String save(Reservation reservation) throws Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(reservation.getUuid())) {
 			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());
@@ -80,6 +80,8 @@ public class ReservationService {
 	 * @return String
 	 */
 	public String update(Reservation reservation) throws Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(reservation.getUuid())) {
 			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());

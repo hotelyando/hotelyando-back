@@ -30,8 +30,6 @@ public class RoomTypeBusiness {
 	private Utilities utilities = null;
 	private Generic<RoomType> generic = null;
 	
-	private String messageReturn;
-	
 	public RoomTypeBusiness(RoomTypeService roomTypeService) {
 		this.roomTypeService = roomTypeService;
 		
@@ -48,9 +46,12 @@ public class RoomTypeBusiness {
 	 */
 	public ServiceResponse<RoomType> save(RoomType roomType, User user) {
 		
+		String messageReturn = "";
+		
 		try {
 			
 			roomType.setUuid(utilities.generadorId());
+			roomType.setHotelId(user.getHotelId());
 			
 			messageReturn = roomTypeService.save(roomType);
 			
@@ -76,6 +77,8 @@ public class RoomTypeBusiness {
 	 * @return ServiceResponse<RoomType>
 	 */
 	public ServiceResponse<RoomType> update(RoomType roomType, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

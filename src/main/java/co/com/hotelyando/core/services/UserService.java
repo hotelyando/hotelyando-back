@@ -31,8 +31,6 @@ public class UserService {
 	
 	private final UserDao userDao;
 	
-	
-	private String messageReturn = "";
 	private String encodeReturn;
 	
 	public UserService(UserDao userDao) {
@@ -48,6 +46,8 @@ public class UserService {
 	 * @return String
 	 */
 	public String save(User user) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(user.getUuid())) {
 			messageReturn = messageSource.getMessage("user.id", null, LocaleContextHolder.getLocale());
@@ -82,6 +82,8 @@ public class UserService {
 	 * @return String
 	 */
 	public String update(User user) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(user.getUuid())) {
 			messageReturn = messageSource.getMessage("user.id", null, LocaleContextHolder.getLocale());
@@ -158,7 +160,7 @@ public class UserService {
 			user = userDao.findByUserAndPassword(login, passwordEncryption);
 			
 			if(user != null) {
-				if(!user.isState()) {
+				if(user.getState() == 0) {
 					user.setUuid(PrintVariable.VALIDACION);
 				}
 			}
@@ -237,7 +239,7 @@ public class UserService {
 	
 	public String delete(String uuid) throws MongoException, Exception {
 		
-		messageReturn = "";
+		String messageReturn = "";
 		
 		userDao.delete(uuid);
 		

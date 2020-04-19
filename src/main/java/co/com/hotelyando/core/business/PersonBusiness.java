@@ -45,8 +45,6 @@ public class PersonBusiness {
 	private Generic<Person> generic = null;
 	private Utilities utilities = null;
 	
-	private String messageReturn;
-	
 	public PersonBusiness(PersonService personService) {
 		this.personService = personService;
 		
@@ -62,6 +60,8 @@ public class PersonBusiness {
 	 * @return ServiceResponse<Person>
 	 */
 	public ServiceResponse<Person> save(Person person, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -91,6 +91,8 @@ public class PersonBusiness {
 	 * @return ServiceResponse<Person>
 	 */
 	public ServiceResponse<Person> update(Person person, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -340,6 +342,31 @@ public class PersonBusiness {
 		
 		return serviceResponses;
 		
+	}
+	
+	
+	public ServiceResponse<Person> delete(String uuid, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = personService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("person.delete_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
 	}
 
 

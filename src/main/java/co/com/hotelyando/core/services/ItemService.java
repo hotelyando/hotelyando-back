@@ -25,8 +25,6 @@ public class ItemService {
 	
 	private final ItemDao itemDao;
 	
-	private String messageReturn = "";
-	
 	public ItemService(ItemDao itemDao) {
 		this.itemDao = itemDao;
 		
@@ -40,11 +38,13 @@ public class ItemService {
 	 */
 	public String save(Item item) throws MongoException, Exception {
 		
+		String messageReturn = "";
+		
 		if(StringUtils.isBlank(item.getUuid())) {
 			messageReturn = messageSource.getMessage("item.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getHotelId())) {
 			messageReturn = messageSource.getMessage("item.hotel_id", null, LocaleContextHolder.getLocale());
-		}else if(item.getActive() == null) {
+		}else if(item.getState() == null) {
 			messageReturn = messageSource.getMessage("item.active", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(item.getQuantity().toString())) {
 			messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());
@@ -78,11 +78,13 @@ public class ItemService {
 	 */
 	public String update(Item item) throws MongoException, Exception {
 		
+		String messageReturn = "";
+		
 		if(StringUtils.isBlank(item.getUuid())) {
 			messageReturn = messageSource.getMessage("item.id", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getHotelId())) {
 			messageReturn = messageSource.getMessage("item.hotel_id", null, LocaleContextHolder.getLocale());
-		}else if(item.getActive() == null) {
+		}else if(item.getState() == null) {
 			messageReturn = messageSource.getMessage("item.active", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(item.getQuantity().toString())) {
 			messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());

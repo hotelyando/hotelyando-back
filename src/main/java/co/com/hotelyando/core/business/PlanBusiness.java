@@ -23,8 +23,6 @@ public class PlanBusiness {
 	private Utilities utilities = null;
 	private Generic<Plan> generic = null;
 	
-	private String messageReturn;
-	
 	public PlanBusiness(PlanService planService) {
 		this.planService = planService;
 		
@@ -36,6 +34,8 @@ public class PlanBusiness {
 	}
 	
 	public String save(Plan plan, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

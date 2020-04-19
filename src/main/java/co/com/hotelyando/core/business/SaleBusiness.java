@@ -35,8 +35,6 @@ public class SaleBusiness {
 	private Generic<Sale> generic = null;
 	private Utilities utilities;
 	
-	private String messageReturn;
-	
 	public SaleBusiness(SaleService saleService) {
 		this.saleService = saleService;
 		
@@ -48,6 +46,8 @@ public class SaleBusiness {
 	}
 	
 	public ServiceResponse<Sale> save(Sale sale, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -71,6 +71,8 @@ public class SaleBusiness {
 	}
 	
 	public ServiceResponse<Sale> update(Sale sale, User user) {
+		
+		String messageReturn = "";
 		
 		try {
 			

@@ -20,6 +20,6 @@ public class User implements Serializable{
 	private String personId;
 	private String user;
 	private String password;
-	private boolean state;
+	private Integer state;
 	
 }

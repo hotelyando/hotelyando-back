@@ -13,7 +13,6 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.CountryDao;
 import co.com.hotelyando.database.model.Country;
-import co.com.hotelyando.database.repository.ICountryRepository;
 
 @Service
 public class CountryService {
@@ -24,8 +23,6 @@ public class CountryService {
 	private RegularExpression regularExpression;
 	
 	private final CountryDao countryDao;
-	
-	private String messageReturn = "";
 	
 	public CountryService(CountryDao countryDao) {
 		this.countryDao = countryDao;
@@ -39,6 +36,8 @@ public class CountryService {
 	 * @return string
 	 */
 	public String save(Country country) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(country.getUuid())) {
 			messageReturn = messageSource.getMessage("country.id", null, LocaleContextHolder.getLocale());
@@ -61,6 +60,8 @@ public class CountryService {
 	 * @return string
 	 */
 	public String update(Country country) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(country.getUuid())) {
 			messageReturn = messageSource.getMessage("country.id", null, LocaleContextHolder.getLocale());

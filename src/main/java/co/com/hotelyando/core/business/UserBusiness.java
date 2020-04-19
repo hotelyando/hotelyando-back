@@ -38,9 +38,6 @@ public class UserBusiness {
 	private Generic<User> generic;
 	private Generic<LoginResponse> genericosLogin;
 	
-
-	private String messageReturn;
-	
 	public UserBusiness(UserService userService) {
 		
 		this.userService = userService;
@@ -56,6 +53,8 @@ public class UserBusiness {
 	 * @return ServiceResponse<User>
 	 */
 	public ServiceResponse<User> save(User user, User user1) {
+		
+		String messageReturn = "";
 		
 		try {
 			
@@ -87,6 +86,8 @@ public class UserBusiness {
 	 * @return ServiceResponse<User>
 	 */
 	public ServiceResponse<User> update(User user, User user1) {
+		
+		String messageReturn = "";
 		
 		try {
 			

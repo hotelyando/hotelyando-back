@@ -38,8 +38,6 @@ public class OtherBusiness {
 	
 	private Utilities utilities = null;
 	
-	private String messageReturn;
-	
 	public OtherBusiness() {
 		
 		utilities = new Utilities();
@@ -55,6 +53,8 @@ public class OtherBusiness {
 		
 		String userId = "";
 		String personId = "";
+		
+		String messageReturn = "";
 		
 		try {
 			

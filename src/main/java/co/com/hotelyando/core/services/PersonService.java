@@ -29,8 +29,6 @@ public class PersonService {
 	
 	private final PersonDao personDao;
 	
-	private String messageReturn = "";
-	
 	public PersonService(PersonDao personDao) {
 		this.personDao = personDao;
 		
@@ -42,6 +40,8 @@ public class PersonService {
 	 * @return String
 	 */
 	public String save(Person person) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(person.getUuid())) {
 			messageReturn = messageSource.getMessage("person.id", null, LocaleContextHolder.getLocale());
@@ -78,6 +78,8 @@ public class PersonService {
 	 * @return String
 	 */
 	public String update(Person person) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(person.getUuid())) {
 			messageReturn = messageSource.getMessage("person.id", null, LocaleContextHolder.getLocale());
@@ -201,7 +203,7 @@ public class PersonService {
 	
 	public String delete(String uuid) throws MongoException, Exception {
 		
-		messageReturn = "";
+		String messageReturn = "";
 		
 		personDao.delete(uuid);
 		

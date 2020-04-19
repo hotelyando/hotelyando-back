@@ -12,8 +12,6 @@ public class ParameterService {
 	
 	private final ParameterDao parameterDao;
 	
-	private String messagesReturn;
-	
 	public ParameterService(ParameterDao parameterDao) {
 		this.parameterDao = parameterDao;
 	}
@@ -21,22 +19,22 @@ public class ParameterService {
 	
 	public String save(Parameter parameter) throws MongoException, Exception {
 		
-		messagesReturn = "";
+		String messageReturn = "";
 		
 		parameterDao.save(parameter);
 		
-		return messagesReturn;
+		return messageReturn;
 		
 	}
 	
 	
 	public String update(Parameter parameter) throws MongoException, Exception {
 		
-		messagesReturn = "";
+		String messageReturn = "";
 		
 		parameterDao.update(parameter);
 		
-		return messagesReturn;
+		return messageReturn;
 	}
 	
 	

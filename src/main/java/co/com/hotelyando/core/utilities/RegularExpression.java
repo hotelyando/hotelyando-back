@@ -51,6 +51,10 @@ public class RegularExpression {
 		    result = matcher.find();
 		}
 		
+		/*if(!result && Integer.parseInt(text) < 0) {
+			result = true;
+		}*/
+		
 		return result;
 		
 	}

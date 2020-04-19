@@ -19,8 +19,6 @@ public class RoomService {
 	@Autowired
 	private MessageSource messageSource;
 	
-	private String messageReturn = "";
-	
 	private RoomDao roomDao;
 	
 	public RoomService(RoomDao roomDao) {
@@ -33,6 +31,8 @@ public class RoomService {
 	 * @return String 
 	 */
 	public String save(Room room) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(room.getUuid())) {
 			messageReturn = messageSource.getMessage("room.id", null, LocaleContextHolder.getLocale());
@@ -71,6 +71,8 @@ public class RoomService {
 	 * @return String 
 	 */
 	public String update(Room room) throws MongoException, Exception {
+		
+		String messageReturn = "";
 		
 		if(StringUtils.isBlank(room.getUuid())) {
 			messageReturn = messageSource.getMessage("room.id", null, LocaleContextHolder.getLocale());
