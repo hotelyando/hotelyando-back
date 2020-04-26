@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,12 +67,12 @@ public class PersonController {
 	}
 	
 	@GetMapping("/person/{typeDocument}/{documentNumber}")
-	public ResponseEntity<ServiceResponse<Person>> findByDocumentTypeAndDocument(@PathVariable String typeDocument, @PathVariable String documentNumber, @RequestHeader Map<String, String> headers){
+	public ResponseEntity<ServiceResponses<Person>> findByDocumentTypeAndDocument(@PathVariable(value = "", required = false) String typeDocument, @PathVariable String documentNumber, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
-		ServiceResponse<Person> serviceResponse = personBusiness.findByDocumentTypeAndDocument(typeDocument, documentNumber, user);
-		ResponseEntity<ServiceResponse<Person>> responseEntity = generic.returnResponseController(serviceResponse);
+		ServiceResponses<Person> serviceResponses = personBusiness.findByDocumentTypeAndDocument(typeDocument, documentNumber, user);
+		ResponseEntity<ServiceResponses<Person>> responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;
 	}

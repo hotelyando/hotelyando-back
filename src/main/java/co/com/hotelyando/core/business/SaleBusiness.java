@@ -59,7 +59,8 @@ public class SaleBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, messageSource.getMessage("sale.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.ADVERTENCIA, messageReturn);
+				sale.setUuid("");
+				serviceResponse = generic.messageReturn(sale, PrintVariable.ADVERTENCIA, messageReturn);
 			}
 			
 		}catch (Exception e) {
@@ -81,9 +82,9 @@ public class SaleBusiness {
 			messageReturn = saleService.update(sale);
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("sale.update_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, messageSource.getMessage("sale.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(sale, PrintVariable.ADVERTENCIA, messageReturn);
 			}
 			
 		}catch (Exception e) {

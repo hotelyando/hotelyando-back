@@ -1,5 +1,6 @@
 package co.com.hotelyando.database.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -29,11 +30,19 @@ public class PersonDao{
 	}
 
 	
-	public Person findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
+	public List<Person> findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
 		
-		Person person = iPersonRepository.findByDocumentTypeAndDocument(documentType, document);
+		Person person = null;
+		List<Person> persons = new ArrayList<Person>();
 		
-		return person;
+		if(documentType.equals("")) {
+			persons = iPersonRepository.findByDocumentLike(document);
+		}else {
+			persons = iPersonRepository.findByDocumentLike(document);
+			
+		}
+		
+		return persons;
 	}
 	
 	

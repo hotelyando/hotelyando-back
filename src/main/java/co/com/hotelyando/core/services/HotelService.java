@@ -43,6 +43,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
 			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getCellPhone() == null) {
+			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
@@ -55,6 +57,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
 		}else if(nitValidate(hotel.getNit(), false)) {
 			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getPhone() == null) {
+			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getPhone())) {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {
@@ -90,6 +94,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.address", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getAltitude())) {
 			messageReturn = messageSource.getMessage("hotel.altitude", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getCellPhone() == null) {
+			messageReturn = messageSource.getMessage("hotel.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getCellPhone())) {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
@@ -102,6 +108,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.nit", null, LocaleContextHolder.getLocale());
 		}else if(nitValidate(hotel.getNit(), true)) {
 			messageReturn = messageSource.getMessage("hotel.nit_unique", null, LocaleContextHolder.getLocale());
+		}else if(hotel.getPhone() == null) {
+			messageReturn = messageSource.getMessage("hotel.phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(hotel.getPhone())) {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {

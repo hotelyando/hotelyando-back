@@ -41,17 +41,17 @@ public class RegularExpression {
      */
 	public boolean validateNumeric(String text) {
 		
-		if(StringUtils.isBlank(text)) {
+		if(text == null) {
 			result = true;
 		}else {
 			
 			pattern = Pattern.compile("[^0-9*]");
-		    matcher = pattern.matcher(text);
+		    matcher = pattern.matcher(text.toString());
 		    
 		    result = matcher.find();
 		}
 		
-		/*if(!result && Integer.parseInt(text) < 0) {
+		/*if(!result && text < 0) {
 			result = true;
 		}*/
 		

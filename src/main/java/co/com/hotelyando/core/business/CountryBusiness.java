@@ -56,6 +56,7 @@ public class CountryBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.register_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
 			}else {
+				country.setUuid("");
 				serviceResponse = generic.messageReturn(country, PrintVariable.VALIDACION, messageReturn);
 			}
 			

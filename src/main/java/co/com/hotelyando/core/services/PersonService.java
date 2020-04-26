@@ -49,10 +49,6 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(person.getEmail())) {
 			messageReturn = messageSource.getMessage("person.email_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getAddress())) {
-			messageReturn = messageSource.getMessage("person.address", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getBirthdate())) {
-			messageReturn = messageSource.getMessage("person.birthdate", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getFirstName())) {
 			messageReturn = messageSource.getMessage("person.first_name", null, LocaleContextHolder.getLocale());
 		}else if(!person.getDocumentType().equals("NIT") && StringUtils.isBlank(person.getLastName())) {
@@ -63,8 +59,8 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.document_number_unique", null, LocaleContextHolder.getLocale());
 		}else if(person.getDocumentType() == null) {
 			messageReturn = messageSource.getMessage("person.type_document", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getPhone())) {
-			messageReturn = messageSource.getMessage("person.phone", null, LocaleContextHolder.getLocale());
+		}else if(person.getCountry() == null) {
+			messageReturn = messageSource.getMessage("person.country", null, LocaleContextHolder.getLocale());
 		}else {
 			personDao.save(person);
 		}
@@ -87,10 +83,6 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.cell_phone", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(person.getEmail())) {
 			messageReturn = messageSource.getMessage("person.email_format", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getAddress())) {
-			messageReturn = messageSource.getMessage("person.address", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getBirthdate())) {
-			messageReturn = messageSource.getMessage("person.birthdate", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(person.getFirstName())) {
 			messageReturn = messageSource.getMessage("person.first_name", null, LocaleContextHolder.getLocale());
 		}else if(!person.getDocumentType().equals("NIT") && StringUtils.isBlank(person.getLastName())) {
@@ -101,9 +93,9 @@ public class PersonService {
 			messageReturn = messageSource.getMessage("person.document_number_unique", null, LocaleContextHolder.getLocale());
 		}else if(person.getDocumentType() == null) {
 			messageReturn = messageSource.getMessage("person.type_document", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(person.getPhone())) {
-			messageReturn = messageSource.getMessage("person.phone", null, LocaleContextHolder.getLocale());
-		}else {
+		}else if(person.getCountry() == null) {
+			messageReturn = messageSource.getMessage("person.country", null, LocaleContextHolder.getLocale());
+		}else {	
 			personDao.update(person);
 		}
 		
@@ -131,11 +123,11 @@ public class PersonService {
 	 * Método que retorna el una persona por el tipo y número de documento
 	 * @return Person
 	 */
-	public Person findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
+	public List<Person> findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
 		
-		Person person = personDao.findByDocumentTypeAndDocument(documentType, document);
+		List<Person> persons = personDao.findByDocumentTypeAndDocument(documentType, document);
 		
-		return person;
+		return persons;
 	}
 	
 	

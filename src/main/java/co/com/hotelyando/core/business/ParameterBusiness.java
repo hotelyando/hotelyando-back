@@ -50,7 +50,8 @@ public class ParameterBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(parameter, PrintVariable.NEGOCIO, messageSource.getMessage("parameter.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				parameter.setUuid("");
+				serviceResponse = generic.messageReturn(parameter, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -76,7 +77,7 @@ public class ParameterBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(parameter, PrintVariable.NEGOCIO, messageSource.getMessage("parameter.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(parameter, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

@@ -67,7 +67,8 @@ public class ItemBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(item, PrintVariable.NEGOCIO, messageSource.getMessage("item.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				item.setUuid("");
+				serviceResponse = generic.messageReturn(item, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -98,7 +99,7 @@ public class ItemBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(item, PrintVariable.NEGOCIO, messageSource.getMessage("item.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(item, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

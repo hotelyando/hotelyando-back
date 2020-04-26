@@ -57,7 +57,8 @@ public class RoleBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				role.setUuid("");
+				serviceResponse = generic.messageReturn(role, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -86,7 +87,7 @@ public class RoleBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(role, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

@@ -46,8 +46,10 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.hotel_id", null, LocaleContextHolder.getLocale());
 		}else if(item.getState() == null) {
 			messageReturn = messageSource.getMessage("item.active", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateNumeric(item.getQuantity().toString())) {
+		}else if(item.getQuantity() == null) {
 			messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateNumeric(item.getQuantity().toString())) {
+				messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());
 		}else if(item.getQuantity() < 0 ) {
 			messageReturn = messageSource.getMessage("item.quantity_number", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(item.getDescription())) {
@@ -86,6 +88,8 @@ public class ItemService {
 			messageReturn = messageSource.getMessage("item.hotel_id", null, LocaleContextHolder.getLocale());
 		}else if(item.getState() == null) {
 			messageReturn = messageSource.getMessage("item.active", null, LocaleContextHolder.getLocale());
+		}else if(item.getQuantity() == null) {
+			messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateNumeric(item.getQuantity().toString())) {
 			messageReturn = messageSource.getMessage("item.quantity", null, LocaleContextHolder.getLocale());
 		}else if(item.getQuantity() < 0 ) {

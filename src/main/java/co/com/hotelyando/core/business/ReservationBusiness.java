@@ -61,7 +61,8 @@ public class ReservationBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				reservation.setUuid("");
+				serviceResponse = generic.messageReturn(reservation, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -92,7 +93,7 @@ public class ReservationBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(reservation, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

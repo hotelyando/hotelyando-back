@@ -67,7 +67,8 @@ public class UserBusiness {
 				user.setPassword("");
 				serviceResponse = generic.messageReturn(user, PrintVariable.NEGOCIO, messageSource.getMessage("user.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				user.setUuid("");
+				serviceResponse = generic.messageReturn(user, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -99,7 +100,7 @@ public class UserBusiness {
 				user.setPassword("");
 				serviceResponse = generic.messageReturn(user, PrintVariable.NEGOCIO, messageSource.getMessage("user.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(user, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

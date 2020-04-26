@@ -46,11 +46,11 @@ public class RoomTypeService {
 			messageReturn = messageSource.getMessage("roomtype.hotelId", null, LocaleContextHolder.getLocale());
 		} else if (StringUtils.isBlank(roomType.getDescription())) {
 			messageReturn = messageSource.getMessage("roomtype.description", null, LocaleContextHolder.getLocale());
-		} else if (StringUtils.isBlank(roomType.getPriceDay().toString())) {
+		} else if (roomType.getPriceDay() == null) {
 			messageReturn = messageSource.getMessage("roomtype.price_day", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceDay().toString())) {
 			messageReturn = messageSource.getMessage("roomtype.price_day_numeric", null, LocaleContextHolder.getLocale());
-		} else if (StringUtils.isBlank(roomType.getPriceHour().toString())) {
+		} else if (roomType.getPriceHour() == null) {
 			messageReturn = messageSource.getMessage("roomtype.price_hour", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceHour().toString())) {
 			messageReturn = messageSource.getMessage("roomtype.price_hour_numeric", null, LocaleContextHolder.getLocale());
@@ -81,11 +81,11 @@ public class RoomTypeService {
 			messageReturn = messageSource.getMessage("roomtype.hotelId", null, LocaleContextHolder.getLocale());
 		} else if (StringUtils.isBlank(roomType.getDescription())) {
 			messageReturn = messageSource.getMessage("roomtype.description", null, LocaleContextHolder.getLocale());
-		} else if (StringUtils.isBlank(roomType.getPriceDay().toString())) {
+		} else if (roomType.getPriceDay() == null) {
 			messageReturn = messageSource.getMessage("roomtype.price_day", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceDay().toString())) {
 			messageReturn = messageSource.getMessage("roomtype.price_day_numeric", null, LocaleContextHolder.getLocale());
-		} else if (StringUtils.isBlank(roomType.getPriceHour().toString())) {
+		} else if (roomType.getPriceHour() == null) {
 			messageReturn = messageSource.getMessage("roomtype.price_hour", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceHour().toString())) {
 			messageReturn = messageSource.getMessage("roomtype.price_hour_numeric", null, LocaleContextHolder.getLocale());

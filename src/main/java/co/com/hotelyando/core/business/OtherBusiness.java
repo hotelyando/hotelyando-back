@@ -104,9 +104,9 @@ public class OtherBusiness {
 			}
 			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("other.employee_register_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(dataEmployee, PrintVariable.NEGOCIO, messageSource.getMessage("other.employee_register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(dataEmployee, PrintVariable.VALIDACION, messageReturn);
 				if(!userId.equals(""))
 					userService.delete(userId);
 				

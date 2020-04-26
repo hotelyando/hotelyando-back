@@ -58,7 +58,8 @@ public class RoomBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(room, PrintVariable.NEGOCIO, messageSource.getMessage("room.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				room.setUuid("");
+				serviceResponse = generic.messageReturn(room, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -89,7 +90,7 @@ public class RoomBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(room, PrintVariable.NEGOCIO, messageSource.getMessage("room.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(room, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

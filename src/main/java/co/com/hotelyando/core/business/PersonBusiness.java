@@ -72,7 +72,8 @@ public class PersonBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(person, PrintVariable.NEGOCIO, messageSource.getMessage("person.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				person.setUuid("");
+				serviceResponse = generic.messageReturn(person, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -101,7 +102,7 @@ public class PersonBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(person, PrintVariable.NEGOCIO, messageSource.getMessage("person.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(person, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -119,26 +120,26 @@ public class PersonBusiness {
 	 * Método que retorna una persona por tipo y número de documento
 	 * @ ServiceResponse<Person>
 	 */
-	public ServiceResponse<Person> findByDocumentTypeAndDocument(String typeDocument, String documentNumber, User user) {
+	public ServiceResponses<Person> findByDocumentTypeAndDocument(String typeDocument, String documentNumber, User user) {
 		
 		try {
 			
-			Person person = personService.findByDocumentTypeAndDocument(typeDocument, documentNumber);
+			List<Person> persons = personService.findByDocumentTypeAndDocument(typeDocument, documentNumber);
 			
-			if(person != null) {
-				serviceResponse = generic.messageReturn(person, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
+			if(persons != null) {
+				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
-			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
 		}catch (Exception e) {
-			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return serviceResponse;
+		return serviceResponses;
 	}
 	
 	
