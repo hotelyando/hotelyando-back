@@ -41,6 +41,8 @@ public class RegularExpression {
      */
 	public boolean validateNumeric(String text) {
 		
+		result = false;
+		
 		if(text == null) {
 			result = true;
 		}else {
@@ -48,7 +50,7 @@ public class RegularExpression {
 			pattern = Pattern.compile("[^0-9*]");
 		    matcher = pattern.matcher(text.toString());
 		    
-		    result = matcher.find();
+		    //result = matcher.find();
 		}
 		
 		/*if(!result && text < 0) {

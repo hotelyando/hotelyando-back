@@ -27,6 +27,10 @@ public class RoomDao{
 	public void update(Room room) throws MongoException, Exception {
 		iRoomRepository.save(room);
 	}
+	
+	public void delete(String uuid) throws MongoException, Exception {
+		iRoomRepository.deleteById(uuid);
+	}
 
 	@Cacheable("findByHotelId")
 	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {

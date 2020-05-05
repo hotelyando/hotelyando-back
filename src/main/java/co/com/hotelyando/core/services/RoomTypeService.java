@@ -33,7 +33,7 @@ public class RoomTypeService {
 
 	
 	/*
-	 * Método que se encarga de registrar un tipo de habitación
+	 * Mï¿½todo que se encarga de registrar un tipo de habitaciï¿½n
 	 * @return String
 	 */
 	public String save(RoomType roomType) throws MongoException, Exception {
@@ -54,6 +54,8 @@ public class RoomTypeService {
 			messageReturn = messageSource.getMessage("roomtype.price_hour", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceHour().toString())) {
 			messageReturn = messageSource.getMessage("roomtype.price_hour_numeric", null, LocaleContextHolder.getLocale());
+		} else if (roomType.getPriceHour() > roomType.getPriceDay()) {
+			messageReturn = messageSource.getMessage("roomtype.price_hour_and_day", null, LocaleContextHolder.getLocale());
 		} else if (!validateRoomType(roomType).equals("")) {
 			messageReturn = validateRoomType(roomType);
 		} else {
@@ -68,7 +70,7 @@ public class RoomTypeService {
 	
 	
 	/*
-	 * Método que se encarga de actualizar un tipo de habitación
+	 * Mï¿½todo que se encarga de actualizar un tipo de habitaciï¿½n
 	 * @return String
 	 */
 	public String update(RoomType roomType) throws MongoException, Exception {
@@ -103,7 +105,7 @@ public class RoomTypeService {
 
 		
 	/*
-	 * Método que se encarga de mostrar un tipo de habitación por hotel
+	 * Mï¿½todo que se encarga de mostrar un tipo de habitaciï¿½n por hotel
 	 * @return RoomType
 	 */
 	public RoomType findByHotelIdAndRoomType(String hotelId, String roomTypeId) throws MongoException, Exception {
@@ -116,7 +118,7 @@ public class RoomTypeService {
 
 	
 	/*
-	 * Método que se encarga de listar los tipos de habitaciones de un hotel
+	 * Mï¿½todo que se encarga de listar los tipos de habitaciones de un hotel
 	 * @return
 	 */
 	public List<RoomType> findAll(String hotelId) throws MongoException, Exception {
@@ -170,5 +172,16 @@ public class RoomTypeService {
 		}
 		
 		return messageReturn;
+	}
+	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+
+		String messageReturn = "";
+		
+		roomTypeDao.delete(uuid);
+		
+		return messageReturn;
+		
 	}
 }

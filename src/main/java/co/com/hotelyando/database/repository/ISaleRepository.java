@@ -13,5 +13,7 @@ public interface ISaleRepository extends MongoRepository<Sale, String> {
 	List<Sale> findByHotelId(String hotelId);
 	Sale findByHotelIdAndUuid(String hotelId, String uuid);
 	List<Sale> findByHotelIdAndState(String hotelId, String state);
+	List<Sale> findByHotelIdAndDateBetween(String hotelId, String from, String to);
+	
 	
 }

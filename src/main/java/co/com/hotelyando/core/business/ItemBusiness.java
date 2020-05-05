@@ -50,7 +50,7 @@ public class ItemBusiness {
 	
 	
 	/*
-	 * Método para el registro de ITEM'S por hotel
+	 * Mï¿½todo para el registro de ITEM'S por hotel
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<Item> save(Item item, User user) {
@@ -83,7 +83,7 @@ public class ItemBusiness {
 	
 	
 	/*
-	 * Método para la actualización de ITEM'S por hotel
+	 * Mï¿½todo para la actualizaciï¿½n de ITEM'S por hotel
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<Item> update(Item item, User user) {
@@ -114,7 +114,7 @@ public class ItemBusiness {
 
 	
 	/*
-	 * Método que lista los ITEM'S de un hotel
+	 * Mï¿½todo que lista los ITEM'S de un hotel
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponses<Item> findByHotelId(User user) {
@@ -128,7 +128,7 @@ public class ItemBusiness {
 			if(items != null) {
 				serviceResponses = generic.messagesReturn(items, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -143,7 +143,7 @@ public class ItemBusiness {
 	
 	
 	/*
-	 * Método que lista los ITEM'S de un hotel
+	 * Mï¿½todo que lista los ITEM'S de un hotel
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponses<Item> findByHotelId(User user, String description) {
@@ -157,7 +157,7 @@ public class ItemBusiness {
 			if(items != null) {
 				serviceResponses = generic.messagesReturn(items, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -171,7 +171,7 @@ public class ItemBusiness {
 	}
 	
 	/*
-	 * Método que retorna un ITEM de un hotel
+	 * Mï¿½todo que retorna un ITEM de un hotel
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<Item> findByHotelIdAndUuid(User user, String uuid) {
@@ -185,7 +185,7 @@ public class ItemBusiness {
 			if(item != null) {
 				serviceResponse = generic.messageReturn(item, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -200,7 +200,7 @@ public class ItemBusiness {
 	
 	
 	/*
-	 * Método que actualiza el stock de un item y registra en la venta del cliente
+	 * Mï¿½todo que actualiza el stock de un item y registra en la venta del cliente
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<ItemRequest> updateStock(ItemRequest itemRequest, User user) {
@@ -264,5 +264,34 @@ public class ItemBusiness {
 		}
 			
 		return null;
+	}
+	
+	
+	/*
+	 * MÃ©todo para eliminar un ITEM'S por hotel
+	 * @return ServiceResponse<Item>
+	 */
+	public ServiceResponse<Item> delete(String uuid, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = itemService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("item.delete_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+			
+		return serviceResponse;
 	}
 }

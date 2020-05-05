@@ -27,7 +27,7 @@ public class RoomService {
 	
 	
 	/*
-	 * Método que registrar una habitación del hotel
+	 * Mï¿½todo que registrar una habitaciï¿½n del hotel
 	 * @return String 
 	 */
 	public String save(Room room) throws MongoException, Exception {
@@ -52,7 +52,7 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getRoomType())) {
 			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getState())) {
+		}else if(room.getState() == null) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getScore().toString())) {
 			messageReturn = messageSource.getMessage("room.score", null, LocaleContextHolder.getLocale());
@@ -67,7 +67,7 @@ public class RoomService {
 	
 	
 	/*
-	 * Método que actualiza una habitación del hotel
+	 * Mï¿½todo que actualiza una habitaciï¿½n del hotel
 	 * @return String 
 	 */
 	public String update(Room room) throws MongoException, Exception {
@@ -92,7 +92,7 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getRoomType())) {
 			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getState())) {
+		}else if(room.getState() == null) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getScore().toString())) {
 			messageReturn = messageSource.getMessage("room.score", null, LocaleContextHolder.getLocale());
@@ -107,7 +107,7 @@ public class RoomService {
 
 	
 	/*
-	 * Método que retorna una lista de habitaciones de un hotel
+	 * Mï¿½todo que retorna una lista de habitaciones de un hotel
 	 * @List<Room>
 	 */
 	public List<Room> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -119,7 +119,7 @@ public class RoomService {
 
 	
 	/*
-	 * Método que retorna una habitación de hotel
+	 * Mï¿½todo que retorna una habitaciï¿½n de hotel
 	 * @Room
 	 */
 	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -128,5 +128,16 @@ public class RoomService {
 		
 		return room;
 	}
+	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		String messageReturn = "";
+		
+		roomDao.delete(uuid);
+		
+		return messageReturn;
+	}
+
 
 }

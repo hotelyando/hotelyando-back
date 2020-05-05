@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +63,17 @@ public class UserController {
 		return responseEntity;
 	}
 	
+	@DeleteMapping("/user/{uuid}")
+	public ResponseEntity<ServiceResponse<User>> delete(@PathVariable String uuid, @RequestHeader Map<String, String> headers){
+		
+		userJson = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+			
+		ServiceResponse<User> serviceResponse = userBusiness.delete(uuid, userJson);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+	}
+	
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<ServiceResponse<User>> findByHotelIdAndUuid(@PathVariable String userId, @RequestHeader Map<String, String> headers){
 		
@@ -72,6 +84,28 @@ public class UserController {
 		
 		return responseEntity;
 	}
+	
+	@GetMapping("/user/external")
+	public ResponseEntity<ServiceResponse<User>> recoveryPassword(@RequestBody String json){
+		
+		ServiceResponse<User> serviceResponse = userBusiness.recoveryPassword(json);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+	}
+	
+	@PutMapping("/user/change")
+	public ResponseEntity<ServiceResponse<User>> changePassword(@RequestBody String jsonObject, @RequestHeader Map<String, String> headers){
+		
+		userJson = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+			
+		ServiceResponse<User> serviceResponse = userBusiness.changePassword(userJson, jsonObject);
+		ResponseEntity<ServiceResponse<User>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+	}
+	
+	
 	
 	@GetMapping("/user")
 	public ResponseEntity<ServiceResponses<User>> findByHotelId(@RequestHeader Map<String, String> headers){

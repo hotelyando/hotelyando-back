@@ -30,53 +30,26 @@ public class ReservationService {
 	
 	
 	/*
-	 * Método para el registro de una reservación de hotel
+	 * Mï¿½todo para el registro de una reservaciï¿½n de hotel
 	 * @return String
 	 */
 	public String save(Reservation reservation) throws Exception {
 		
 		String messageReturn = "";
 		
-		if(StringUtils.isBlank(reservation.getUuid())) {
-			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(reservation.getHotelId())) {
-			messageReturn = messageSource.getMessage("reservation.hotel_id", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateFormatDate(reservation.getReservationDate())) {
-			messageReturn = messageSource.getMessage("reservation.date_format", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateFormatDate(reservation.getStartDate())) {
-			messageReturn = messageSource.getMessage("reservation.start_date_format", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateFormatDate(reservation.getExitDate())) {
-			messageReturn = messageSource.getMessage("reservation.exit_date_format", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdultQuantity() == null) {
-			messageReturn = messageSource.getMessage("reservation.adult_quantity", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdultQuantity() >= 0) {
-			messageReturn = messageSource.getMessage("reservation.adult_quantity_number", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getChildrenQuantity() == null) {
-			messageReturn = messageSource.getMessage("reservation.children_quantity", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getChildrenQuantity() >= 0) {
-			messageReturn = messageSource.getMessage("reservation.children_quantity_number", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getFullPayment() == null) {
-			messageReturn = messageSource.getMessage("reservation.full_payment", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdvancedPayment() == null) {
-			messageReturn = messageSource.getMessage("reservation.advanced_payment", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdvancedPayment() >= 0) {
-			messageReturn = messageSource.getMessage("reservation.advanced_payment_number", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getPerson() == null) {
-			messageReturn = messageSource.getMessage("reservation.person", null, LocaleContextHolder.getLocale());
-		}else {
-			reservationDao.save(reservation);
-		}
+		reservationDao.save(reservation);
 		
-		//Se debe validar que la reservación solicitada si este disponible.
-		//En la reservación se escoge la habitación?
-		//Como se va a mostrar la información de la habitación al cliente?
+		
+		//Se debe validar que la reservaciï¿½n solicitada si este disponible.
+		//En la reservaciï¿½n se escoge la habitaciï¿½n?
+		//Como se va a mostrar la informaciï¿½n de la habitaciï¿½n al cliente?
 		
 		return messageReturn;
 	}
 	
 	
 	/*
-	 * Método que actualiza una reservación de hotel
+	 * Mï¿½todo que actualiza una reservaciï¿½n de hotel
 	 * @return String
 	 */
 	public String update(Reservation reservation) throws Exception {
@@ -95,17 +68,17 @@ public class ReservationService {
 			messageReturn = messageSource.getMessage("reservation.exit_date_format", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getAdultQuantity() == null) {
 			messageReturn = messageSource.getMessage("reservation.adult_quantity", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdultQuantity() >= 0) {
+		}else if(reservation.getAdultQuantity() < 1) {
 			messageReturn = messageSource.getMessage("reservation.adult_quantity_number", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getChildrenQuantity() == null) {
 			messageReturn = messageSource.getMessage("reservation.children_quantity", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getChildrenQuantity() >= 0) {
+		}else if(reservation.getChildrenQuantity() < 0) {
 			messageReturn = messageSource.getMessage("reservation.children_quantity_number", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getFullPayment() == null) {
 			messageReturn = messageSource.getMessage("reservation.full_payment", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getAdvancedPayment() == null) {
 			messageReturn = messageSource.getMessage("reservation.advanced_payment", null, LocaleContextHolder.getLocale());
-		}else if(reservation.getAdvancedPayment() >= 0) {
+		}else if(reservation.getAdvancedPayment() < 0) {
 			messageReturn = messageSource.getMessage("reservation.advanced_payment_number", null, LocaleContextHolder.getLocale());
 		}else if(reservation.getPerson() == null) {
 			messageReturn = messageSource.getMessage("reservation.person", null, LocaleContextHolder.getLocale());
@@ -113,16 +86,16 @@ public class ReservationService {
 			reservationDao.update(reservation);
 		}
 		
-		//Se debe validar que la reservación solicitada si este disponible.
-		//En la reservación se escoge la habitación?
-		//Como se va a mostrar la información de la habitación al cliente?
+		//Se debe validar que la reservaciï¿½n solicitada si este disponible.
+		//En la reservaciï¿½n se escoge la habitaciï¿½n?
+		//Como se va a mostrar la informaciï¿½n de la habitaciï¿½n al cliente?
 		
 		return messageReturn;
 	}
 
 	
 	/*
-	 * Método que lista todas las reservaciones de un hotel
+	 * Mï¿½todo que lista todas las reservaciones de un hotel
 	 * @List<Reservation>
 	 */
 	public List<Reservation> findByHotelId(String hotelId) throws Exception {
@@ -134,7 +107,7 @@ public class ReservationService {
 
 	
 	/*
-	 * Método que lista una reservación de un hotel por id
+	 * Mï¿½todo que lista una reservaciï¿½n de un hotel por id
 	 * @return Reservation
 	 */
 	public Reservation findByHotelIdAndUuid(String hotelId, String uuid) throws Exception {
@@ -142,6 +115,49 @@ public class ReservationService {
 		Reservation reservation = reservationDao.findByHotelIdAndUuid(hotelId, uuid);
 		
 		return reservation;
+	}
+	
+	
+	public String validationData(Reservation reservation) {
+		
+		String messageReturn = "";
+		
+		if(StringUtils.isBlank(reservation.getUuid())) {
+			messageReturn = messageSource.getMessage("reservation.id", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(reservation.getHotelId())) {
+			messageReturn = messageSource.getMessage("reservation.hotel_id", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateFormatDate(reservation.getReservationDate())) {
+			messageReturn = messageSource.getMessage("reservation.date_format", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateFormatDate(reservation.getStartDate())) {
+			messageReturn = messageSource.getMessage("reservation.start_date_format", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateFormatDate(reservation.getExitDate())) {
+			messageReturn = messageSource.getMessage("reservation.exit_date_format", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getAdultQuantity() == null) {
+			messageReturn = messageSource.getMessage("reservation.adult_quantity", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getAdultQuantity() < 1) {
+			messageReturn = messageSource.getMessage("reservation.adult_quantity_number", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getChildrenQuantity() == null) {
+			messageReturn = messageSource.getMessage("reservation.children_quantity", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getChildrenQuantity() < 0) {
+			messageReturn = messageSource.getMessage("reservation.children_quantity_number", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getFullPayment() == null) {
+			messageReturn = messageSource.getMessage("reservation.full_payment", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getAdvancedPayment() == null) {
+			messageReturn = messageSource.getMessage("reservation.advanced_payment", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getAdvancedPayment() < 0) {
+			messageReturn = messageSource.getMessage("reservation.advanced_payment_number", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getPerson() == null) {
+			messageReturn = messageSource.getMessage("reservation.person", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getRoomIds() == null) {
+			messageReturn = messageSource.getMessage("reservation.rooms", null, LocaleContextHolder.getLocale());
+		}else if(reservation.getRoomIds().size() < 1) {
+			messageReturn = messageSource.getMessage("reservation.rooms", null, LocaleContextHolder.getLocale());
+		}else {
+			messageReturn = "";
+		}
+		
+		return messageReturn;
+		
 	}
 
 }

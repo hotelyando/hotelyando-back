@@ -6,7 +6,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 public class EncryptionData {
 	
-	public String encript(String text) throws Exception {
+	public String code(String text) throws Exception {
 		
 	    byte[] encrypted = text.getBytes();
 	         
@@ -14,7 +14,7 @@ public class EncryptionData {
 	    
 	}
 	 
-	public String decrypt(String text) throws Exception {
+	public String decipher(String text) throws Exception {
 		
 		String decrypted;
 		
@@ -25,5 +25,27 @@ public class EncryptionData {
 	    return decrypted;
 	
 	}
-
+	
+	public String encript(String text, String hashType) {
+		
+		try {
+			
+			java.security.MessageDigest md = java.security.MessageDigest.getInstance(hashType);
+			
+			byte[] array = md.digest(text.getBytes());
+			StringBuffer sb = new StringBuffer();
+			
+			for (int i = 0; i < array.length; ++i) {
+				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+				//sb.append(Integer.toString(array[i]));
+			}
+			
+			return sb.toString();
+			
+		} catch (java.security.NoSuchAlgorithmException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
 }

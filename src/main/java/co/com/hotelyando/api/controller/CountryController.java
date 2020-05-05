@@ -1,15 +1,13 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +15,8 @@ import co.com.hotelyando.core.business.CountryBusiness;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.utilities.Generic;
-import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Country;
-import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -62,6 +58,16 @@ public class CountryController {
 	public ResponseEntity<ServiceResponse<Country>> update(@RequestBody Country country){
 		
 		ServiceResponse<Country> serviceResponse = countryBusiness.update(country);
+		ResponseEntity<ServiceResponse<Country>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+	}
+	
+	@DeleteMapping("/country/{uuid}")
+	public ResponseEntity<ServiceResponse<Country>> delete(@PathVariable String uuid){
+		
+		ServiceResponse<Country> serviceResponse = countryBusiness.delete(uuid);
 		ResponseEntity<ServiceResponse<Country>> responseEntity = generic.returnResponseController(serviceResponse);
 		
 		return responseEntity;

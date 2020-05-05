@@ -26,7 +26,7 @@ public class Employee implements Serializable {
 	private String dependence;
 	private String responsable;
 	private String costCenter;
-	private String state;
+	private Boolean state;
 	private String emailEmployee;
 	
 

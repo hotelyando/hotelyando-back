@@ -36,7 +36,7 @@ public class HotelBusiness {
 	
 	
 	/*
-	 * Método para el registro de hoteles
+	 * Mï¿½todo para el registro de hoteles
 	 * @return ServiceResponse<Hotel>
 	 */
 	public ServiceResponse<Hotel> save(Hotel hotel) {
@@ -68,14 +68,16 @@ public class HotelBusiness {
 	
 	
 	/*
-	 * Método para la actualización de hoteles
+	 * Mï¿½todo para la actualizaciï¿½n de hoteles
 	 * @return ServiceResponse<Hotel>
 	 */
-	public ServiceResponse<Hotel> update(Hotel hotel) {
+	public ServiceResponse<Hotel> update(User user, Hotel hotel) {
 		
 		String messageReturn = "";
 		
 		try {
+			
+			hotel.setUuid(user.getHotelId());
 			
 			messageReturn = hotelService.update(hotel);
 			
@@ -97,7 +99,7 @@ public class HotelBusiness {
 
 	
 	/*
-	 * Método para la búsqueda de un hotel por uuid
+	 * Mï¿½todo para la bï¿½squeda de un hotel por uuid
 	 * @return ServiceResponse<Hotel>
 	 */
 	public ServiceResponse<Hotel> findByUuid(User user) {
@@ -109,7 +111,7 @@ public class HotelBusiness {
 			if(hotel != null) {
 				serviceResponse = generic.messageReturn(hotel, PrintVariable.NEGOCIO, messageSource.getMessage("hotel.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("hotel.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("hotel.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

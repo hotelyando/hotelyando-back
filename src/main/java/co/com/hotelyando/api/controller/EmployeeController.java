@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +64,19 @@ public class EmployeeController {
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Employee> serviceResponse = employeeBusiness.update(employee, user); 
+		ResponseEntity<ServiceResponse<Employee>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+				
+	}
+	
+	
+	@DeleteMapping("/employee/{uuid}")
+	public ResponseEntity<ServiceResponse<Employee>> delete(@PathVariable String uuid, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		
+		ServiceResponse<Employee> serviceResponse = employeeBusiness.delete(user, uuid); 
 		ResponseEntity<ServiceResponse<Employee>> responseEntity = generic.returnResponseController(serviceResponse);
 		
 		return responseEntity;

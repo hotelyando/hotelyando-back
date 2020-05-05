@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +59,18 @@ public class RoomTypeController {
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.update(roomType, user);
+		ResponseEntity<ServiceResponse<RoomType>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+	}
+	
+	@DeleteMapping("/roomtype/{uuid}")
+	public ResponseEntity<ServiceResponse<RoomType>> delete(@PathVariable String uuid, @RequestHeader Map<String, String> headers){
+	
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		ServiceResponse<RoomType> serviceResponse = roomTypeBusiness.delete(uuid, user);
+		
 		ResponseEntity<ServiceResponse<RoomType>> responseEntity = generic.returnResponseController(serviceResponse);
 		
 		return responseEntity;

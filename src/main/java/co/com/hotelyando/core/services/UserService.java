@@ -14,6 +14,7 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.utilities.EncryptionData;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.RegularExpression;
+import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.dao.UserDao;
 import co.com.hotelyando.database.model.User;
 
@@ -26,6 +27,7 @@ public class UserService {
 	
 	private RegularExpression regularExpression = null;
 	private EncryptionData encryptionData = null;
+	private Utilities utilities = null;
 	
 	private User user;
 	
@@ -37,12 +39,13 @@ public class UserService {
 		this.userDao = userDao;
 		
 		regularExpression = new RegularExpression();
+		utilities = new Utilities();
 		user = new User();
 	}
 	
 	
 	/*
-	 * Método para el registro de usuario en un hotel
+	 * Mï¿½todo para el registro de usuario en un hotel
 	 * @return String
 	 */
 	public String save(User user) throws MongoException, Exception {
@@ -61,10 +64,10 @@ public class UserService {
 			messageReturn = messageSource.getMessage("user.person_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getUser())) {
 			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateEmail(user.getUser())) {
+			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
 		}else if(validateUser(user.getHotelId(), user.getUser(), false)) {
 			messageReturn = messageSource.getMessage("user.login_unique", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateSpecialCharacters(user.getUser())) {
-			messageReturn = messageSource.getMessage("user.login_caracter", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getPassword())) {
 			messageReturn = messageSource.getMessage("user.password", null, LocaleContextHolder.getLocale());
 		}else {
@@ -78,7 +81,7 @@ public class UserService {
 	
 	
 	/*
-	 * Método para la actualización de usuarios en un hotel
+	 * Mï¿½todo para la actualizaciï¿½n de usuarios en un hotel
 	 * @return String
 	 */
 	public String update(User user) throws MongoException, Exception {
@@ -95,10 +98,10 @@ public class UserService {
 			messageReturn = messageSource.getMessage("user.person", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getUser())) {
 			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
+		}else if(regularExpression.validateEmail(user.getUser())) {
+			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
 		}else if(validateUser(user.getHotelId(), user.getUser(), true)) {
 			messageReturn = messageSource.getMessage("user.login_unique", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateSpecialCharacters(user.getUser())) {
-			messageReturn = messageSource.getMessage("user.login_caracter", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getPassword())) {
 			messageReturn = messageSource.getMessage("user.password", null, LocaleContextHolder.getLocale());
 		}else {
@@ -112,7 +115,7 @@ public class UserService {
 	
 	
 	/*
-	 * Método para listar todos los usuarios de un hotel
+	 * Mï¿½todo para listar todos los usuarios de un hotel
 	 * @return List<User>
 	 */
 	public List<User> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -128,7 +131,7 @@ public class UserService {
 
 	
 	/*
-	 * Método para buscar un usuario  de un hotel por Id
+	 * Mï¿½todo para buscar un usuario  de un hotel por Id
 	 * @return User
 	 */
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -142,7 +145,7 @@ public class UserService {
 
 	
 	/*
-	 * Método para la validación del usuario y contraseña
+	 * Mï¿½todo para la validaciï¿½n del usuario y contraseÃ±a
 	 * @return String
 	 */
 	public User findByUserAndPassword(String login, String password) throws MongoException, Exception {
@@ -156,11 +159,11 @@ public class UserService {
 		}else {
 			
 			encryptionData = new EncryptionData();
-			passwordEncryption = encryptionData.encript(password);
+			passwordEncryption = encryptionData.encript(password, "SHA1");
 			user = userDao.findByUserAndPassword(login, passwordEncryption);
 			
 			if(user != null) {
-				if(user.getState() == 0) {
+				if(!user.getState()) {
 					user.setUuid(PrintVariable.VALIDACION);
 				}
 			}
@@ -171,7 +174,7 @@ public class UserService {
 	
 	
 	/*
-	 * Método para validar si un usuario ya se encuentra registrado
+	 * Mï¿½todo para validar si un usuario ya se encuentra registrado
 	 * @return String
 	 */
 	private Boolean validateUser(String hotelId, String login, Boolean update) throws MongoException, Exception {
@@ -190,7 +193,7 @@ public class UserService {
 	
 	
 	/*
-	 * Método para encriptar una contraseña
+	 * Mï¿½todo para encriptar una contraseÃ±a
 	 * @return String
 	 */
 	private String encodePassword(User user, String method) {
@@ -201,22 +204,15 @@ public class UserService {
 			
 			encryptionData = new EncryptionData();
 			
-			//Encripta la contraseña que se va a registrar
+			//Encripta la contraseÃ±a que se va a registrar
 			if(method.equals(PrintVariable.SAVE)) {
-				encodeReturn = encryptionData.encript(user.getPassword());
+				encodeReturn = encryptionData.encript(user.getPassword(), "SHA1");
 			}
 			
-			//Si va a actualizar valida la contraseña actual con la nueva, si son iguales, no hace nada de lo contrario encripta la nueva
+			//Si va a actualizar valida la contraseÃ±a actual con la nueva, si son iguales, no hace nada de lo contrario encripta la nueva
 			if(method.equals(PrintVariable.UPDATE)) {
 				passwordOld = findByHotelIdAndUuid(user.getHotelId(), user.getUuid()).getPassword();
-				
-				if(!passwordOld.equals("")) {
-					if(!passwordOld.equals(user.getPassword())) {
-						encodeReturn = encryptionData.encript(user.getPassword());
-					}else {
-						encodeReturn = user.getPassword();
-					}
-				}
+				encodeReturn = passwordOld;
 			}
 			
 		}catch (Exception e) {
@@ -246,4 +242,44 @@ public class UserService {
 		return messageReturn;
 		
 	}
+	
+	
+	public String changePassword(User user, String oldPassword, String newPassword) throws MongoException, Exception {
+		
+		String messageReturn = "";
+		EncryptionData encryptionData = new EncryptionData();
+		
+		
+		if(user.getPassword().equals(encryptionData.encript(oldPassword, "SHA1"))) {
+			user.setPassword(encryptionData.encript(newPassword, "SHA1"));
+			
+			userDao.update(user);
+		}
+		
+		return messageReturn;
+		
+		
+	}
+	
+	
+	public String recoveryPassword(String hotelId, String login) throws MongoException, Exception{
+		
+		String messageReturn = "";
+		
+		User user = userDao.findByUser(hotelId, login);
+		
+		if(user != null) {
+			
+			messageReturn = changePassword(user, user.getPassword(), "A123b456cde");
+			
+			if(messageReturn.equals("")) {
+				utilities.sendEmailGMail(user.getUser(), "Solicitud cambio de contraseÃ±a", "A123b456cde");
+			}
+		}
+		
+		return messageReturn;
+		
+	}
+	
+	
 }

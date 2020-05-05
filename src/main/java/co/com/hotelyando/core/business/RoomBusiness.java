@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.business;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.RoomService;
+import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Room;
+import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
 
 @Service
@@ -23,6 +27,9 @@ public class RoomBusiness {
 
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private SaleService saleService;
 	
 	private RoomService roomService;
 	private ServiceResponse<Room> serviceResponse;
@@ -41,7 +48,7 @@ public class RoomBusiness {
 	
 	
 	/*
-	 * Método que registra una habitación de hotel
+	 * Mï¿½todo que registra una habitaciï¿½n de hotel
 	 * @return ServiceResponse<Room>
 	 */
 	public ServiceResponse<Room> save(Room room, User user) {
@@ -74,7 +81,7 @@ public class RoomBusiness {
 	
 	
 	/*
-	 * Método que actualiza una habitación de hotel
+	 * Mï¿½todo que actualiza una habitaciï¿½n de hotel
 	 * @return ServiceResponse<Room>
 	 */
 	public ServiceResponse<Room> update(Room room, User user) {
@@ -105,7 +112,7 @@ public class RoomBusiness {
 
 	
 	/*
-	 * Método que retorna la lista de habitaciones de un hotel
+	 * Mï¿½todo que retorna la lista de habitaciones de un hotel
 	 * @ServiceResponses<Room>
 	 */
 	public ServiceResponses<Room> findByHotelId(User user) {
@@ -117,7 +124,7 @@ public class RoomBusiness {
 			if(rooms != null) {
 				serviceResponses = generic.messagesReturn(rooms, PrintVariable.NEGOCIO, messageSource.getMessage("room.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -132,7 +139,7 @@ public class RoomBusiness {
 
 
 	/*
-	 * Método que retorna una habitación de un hotel
+	 * Mï¿½todo que retorna una habitaciï¿½n de un hotel
 	 * @ServiceResponses<Room>
 	 */
 	public ServiceResponse<Room> findByHotelIdAndUuid(User user, String uuid) {
@@ -144,7 +151,7 @@ public class RoomBusiness {
 			if(room != null) {
 				serviceResponse = generic.messageReturn(room, PrintVariable.NEGOCIO, messageSource.getMessage("room.use_found", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("room.use_not_found", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("room.use_not_found", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -156,5 +163,102 @@ public class RoomBusiness {
 		
 		return serviceResponse;
 	}
+	
+	
+	/*
+	 * Mï¿½todo que retorna listado de habitaciones disponibles
+	 * @ServiceResponses<Room>
+	 */
+	public ServiceResponses<Room> findByHotelIdAndBetweenDate(User user, String initDate, String endDate) {
+		
+		List<Room> rooms = null;
+		Room room = null;
+		
+		
+		try {
+			
+			List<Sale> sales = saleService.findByHotelIdAndState(user.getHotelId(), "Activo");
+			
+			rooms = new ArrayList<Room>();
+			
+			if(sales != null) {
+					
+				for(int a = 0; a < sales.size(); a++) {
+					
+					Sale sale = sales.get(a);
+					
+					for(int b = 0; b < sale.getRooms().size(); b++) {
+						
+						LocalDateTime init = LocalDateTime.parse(initDate);
+						LocalDateTime end = LocalDateTime.parse(endDate);
+						
+						if(init.isBefore(LocalDateTime.parse(sale.getRooms().get(b).getStartDate())) && end.isAfter(LocalDateTime.parse(sale.getRooms().get(b).getEndDate()))) {
+						
+							room = roomService.findByHotelIdAndUuid(user.getHotelId(), sale.getRooms().get(b).getUuid());
+							
+							if(room != null) {
+								rooms.add(room);
+							}
+						}
+					}
+				}
+			}
+			
+			
+			List<Room> roomList = roomService.findByHotelId(user.getHotelId());
+			
+			if(roomList != null) {
+				
+				for(int c = 0; c < roomList.size(); c++) {
+					
+					if(roomList.get(c).getState().equals("Disponible") && roomList.get(c).getState().equals("Reservada")) {
+						rooms.add(roomList.get(c));
+					}
+				}
+			}
+			
+			
+			if(rooms != null) {
+				serviceResponses = generic.messagesReturn(rooms, PrintVariable.NEGOCIO, messageSource.getMessage("room.use_found", null, LocaleContextHolder.getLocale()));
+			}
+			
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponses;
+	}
 
+	
+	/*
+	 * MÃ©todo que elimina una habitaciÃ³n de hotel
+	 * @return ServiceResponse<Room>
+	 */
+	public ServiceResponse<Room> delete(String uuid, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = roomService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("room.delete_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
+	
 }

@@ -26,6 +26,10 @@ public class RoomTypeDao{
 	public void update(RoomType roomType) throws MongoException, Exception {
 		iRoomTypeRepository.save(roomType);
 	}
+	
+	public void delete(String uuid) throws MongoException, Exception {
+		iRoomTypeRepository.deleteById(uuid);
+	}
 
 	public RoomType findByHotelIdAndRoomType(String hotelId, String roomTypeId) throws MongoException, Exception {
 		

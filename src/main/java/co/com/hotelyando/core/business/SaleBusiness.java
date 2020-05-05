@@ -60,7 +60,7 @@ public class SaleBusiness {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, messageSource.getMessage("sale.register_ok", null, LocaleContextHolder.getLocale()));
 			}else {
 				sale.setUuid("");
-				serviceResponse = generic.messageReturn(sale, PrintVariable.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(sale, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (Exception e) {
@@ -84,7 +84,7 @@ public class SaleBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, messageSource.getMessage("sale.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(sale, PrintVariable.ADVERTENCIA, messageReturn);
+				serviceResponse = generic.messageReturn(sale, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (Exception e) {
@@ -102,9 +102,9 @@ public class SaleBusiness {
 			List<Sale> sales = saleService.findByHotelId(user.getHotelId());
 			
 			if(sales == null) {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.ADVERTENCIA, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(sales, PrintVariable.NEGOCIO, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(sales, PrintVariable.VALIDACION, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {
@@ -164,7 +164,7 @@ public class SaleBusiness {
 			}
 			
 			if(returnSales != null) {
-				serviceResponses = generic.messagesReturn(returnSales, PrintVariable.ADVERTENCIA, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(returnSales, PrintVariable.NEGOCIO, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {
@@ -184,7 +184,7 @@ public class SaleBusiness {
 			if(sale != null) {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, "");
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.ADVERTENCIA, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {

@@ -45,19 +45,26 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws ServletException, IOException {
 		
+		Boolean permisoAcceso = false;
+		
 		try {
 			
-			final Boolean existeToken = utilities.existeJWTToken(request, response);
-			
-			if (existeToken) {
+			if(request.getRequestURI().equals("/login") || request.getRequestURI().equals("/user/external")) {
+				permisoAcceso = true;
+			}else {
 				
-				final User user = utilities.retornoTenant(request, PrintVariable.TOKEN_HEADER);
+				final Boolean existeToken = utilities.existeJWTToken(request, response);
 				
-				final Boolean permisoAcceso = validaPermiso(request.getMethod(), request.getRequestURI(), user);
-				
-				if(!permisoAcceso) {
-					SecurityContextHolder.clearContext();
-					throw new JwtException("UnAuthorized");
+				if (existeToken) {
+					
+					final User user = utilities.retornoTenant(request, PrintVariable.TOKEN_HEADER);
+					
+					permisoAcceso = validaPermiso(request.getMethod(), request.getRequestURI(), user);
+					
+					if(!permisoAcceso) {
+						SecurityContextHolder.clearContext();
+						throw new JwtException("UnAuthorized");
+					}
 				}
 			}
 			

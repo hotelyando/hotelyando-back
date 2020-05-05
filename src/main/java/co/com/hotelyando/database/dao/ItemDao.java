@@ -20,7 +20,7 @@ private final IItemRepository iItemRepository;
 	
 	
 	/*
-	 * Método que registra un item en Mongo
+	 * Mï¿½todo que registra un item en Mongo
 	 * @return void
 	 */
 	public void save(Item item) throws MongoException, Exception {
@@ -29,7 +29,7 @@ private final IItemRepository iItemRepository;
 
 	
 	/*
-	 * Método que actualiza un item en Mongo
+	 * Mï¿½todo que actualiza un item en Mongo
 	 * @return void
 	 */
 	public void update(Item item) throws MongoException, Exception {
@@ -38,7 +38,15 @@ private final IItemRepository iItemRepository;
 	
 	
 	/*
-	 * Método que retorna todos los item´s de un hotel
+	 * MÃ©todo que elimina un item
+	 * @return void
+	 */
+	public void delete(String uuid) throws MongoException, Exception {
+		iItemRepository.deleteById(uuid);
+	}
+	
+	/*
+	 * Mï¿½todo que retorna todos los itemï¿½s de un hotel
 	 * @return List<Item>
 	 */
 	public List<Item> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -50,7 +58,7 @@ private final IItemRepository iItemRepository;
 	
 	
 	/*
-	 * Método que retorna un item por Id y por hotel
+	 * Mï¿½todo que retorna un item por Id y por hotel
 	 * @return Item
 	 */
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -62,7 +70,7 @@ private final IItemRepository iItemRepository;
 	
 	
 	/*
-	 * Método que retorna un item por nombre y por hotel 
+	 * Mï¿½todo que retorna un item por nombre y por hotel 
 	 * @return Item
 	 */
 	public Item findByHotelIdAndName(String hotelId, String name) throws MongoException, Exception {

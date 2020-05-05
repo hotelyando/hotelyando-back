@@ -12,17 +12,31 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.ReservationService;
+import co.com.hotelyando.core.services.RoomService;
+import co.com.hotelyando.core.services.RoomTypeService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Reservation;
+import co.com.hotelyando.database.model.Room;
+import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.User;
+import lombok.val;
 
 @Service
 public class ReservationBusiness {
 
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private RoomService roomService;
+	
+	@Autowired
+	private RoomTypeService roomTypeService;
+	
+	private Room room;
+	private RoomType roomType;
 	
 	private final ReservationService reservationService;
 	
@@ -43,7 +57,7 @@ public class ReservationBusiness {
 	
 	
 	/*
-	 * Método para el registro de una reservación de hotel
+	 * Mï¿½todo para el registro de una reservaciï¿½n de hotel
 	 * @return String
 	 */
 	public ServiceResponse<Reservation> save(Reservation reservation, User user) {
@@ -56,7 +70,35 @@ public class ReservationBusiness {
 			reservation.setUuid(utilities.generadorId());
 			reservation.setHotelId(user.getHotelId());
 			
-			messageReturn = reservationService.save(reservation);
+			messageReturn = reservationService.validationData(reservation);
+			
+			if(messageReturn.equals("")) {
+				
+				//reservation.getRoomIds().forEach((value) -> {
+				for(int a = 0; a < reservation.getRoomIds().size(); a++) {
+					
+					try {
+						room = roomService.findByHotelIdAndUuid(user.getHotelId(), reservation.getRoomIds().get(a));
+						
+						roomType = roomTypeService.findByHotelIdAndRoomType(user.getHotelId(), room.getRoomType());
+						
+						Double price = 0.0;
+						price = roomType.getPriceDay() + price;
+						
+						reservation.getValues().setDiscount(0.0);
+						reservation.getValues().setGross(0);
+						reservation.getValues().setTax(0.0);
+						reservation.getValues().setTotal(price);
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				messageReturn = reservationService.save(reservation);
+				
+			}
+			
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.register_ok", null, LocaleContextHolder.getLocale()));
@@ -77,7 +119,7 @@ public class ReservationBusiness {
 	
 	
 	/*
-	 * Método que actualiza una reservación de hotel
+	 * Mï¿½todo que actualiza una reservaciï¿½n de hotel
 	 * @return String
 	 */
 	public ServiceResponse<Reservation> update(Reservation reservation, User user) {
@@ -108,7 +150,7 @@ public class ReservationBusiness {
 
 	
 	/*
-	 * Método que lista todas las reservaciones de un hotel
+	 * Mï¿½todo que lista todas las reservaciones de un hotel
 	 * @List<Reservation>
 	 */
 	public ServiceResponses<Reservation> findByHotelId(User user) {
@@ -120,7 +162,7 @@ public class ReservationBusiness {
 			if(reservations != null) {
 				serviceResponses = generic.messagesReturn(reservations, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -135,7 +177,7 @@ public class ReservationBusiness {
 
 	
 	/*
-	 * Método que lista una reservación de un hotel por id
+	 * Mï¿½todo que lista una reservaciï¿½n de un hotel por id
 	 * @return Reservation
 	 */
 	public ServiceResponse<Reservation> findByHotelIdAndUuid(User user, String uuid) {
@@ -147,7 +189,7 @@ public class ReservationBusiness {
 			if(reservation != null) {
 				serviceResponse = generic.messageReturn(reservation, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("reservation.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

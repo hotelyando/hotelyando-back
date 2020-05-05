@@ -95,7 +95,7 @@ public class EmployeeBusiness {
 		
 		try {
 			
-			employee.setUuid(utilities.generadorId());
+			//employee.setUuid(utilities.generadorId());
 			employee.setHotelId(user.getHotelId());
 			
 			if(employee.getPersonId().equals("")) {
@@ -140,7 +140,7 @@ public class EmployeeBusiness {
 			if(employees != null) {
 				serviceResponses = generic.messagesReturn(employees, PrintVariable.NEGOCIO, messageSource.getMessage("employee.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -163,7 +163,7 @@ public class EmployeeBusiness {
 			if(employees != null) {
 				serviceResponses = generic.messagesReturn(employees, PrintVariable.NEGOCIO, messageSource.getMessage("employee.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -186,7 +186,7 @@ public class EmployeeBusiness {
 			if(employees != null) {
 				serviceResponses = generic.messagesReturn(employees, PrintVariable.NEGOCIO, messageSource.getMessage("employee.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -210,7 +210,7 @@ public class EmployeeBusiness {
 			if(employees != null) {
 				serviceResponses = generic.messagesReturn(employees, PrintVariable.NEGOCIO, messageSource.getMessage("employee.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("employee.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -223,4 +223,30 @@ public class EmployeeBusiness {
 		return serviceResponses;
 	}
 
+
+	public ServiceResponse<Employee> delete(User user, String uuid) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = employeeService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("employee.update_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+		
+	}
+	
 }

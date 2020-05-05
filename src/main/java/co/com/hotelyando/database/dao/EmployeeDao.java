@@ -20,17 +20,18 @@ public class EmployeeDao {
 
 	
 	public void save(Employee employee) throws MongoException, Exception {
-		
 		iEmployeeRepository.save(employee);
 	}
 	
 	
 	public void update(Employee employee) throws MongoException, Exception {
-		
 		iEmployeeRepository.save(employee);
-		
 	}
 	
+	
+	public void delete(String uuid) throws MongoException, Exception {
+		iEmployeeRepository.deleteById(uuid);
+	}
 	
 	public Employee findByUuid(String uuid) throws MongoException, Exception {
 		

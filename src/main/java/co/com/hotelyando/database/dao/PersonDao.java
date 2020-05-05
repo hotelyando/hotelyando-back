@@ -28,6 +28,10 @@ public class PersonDao{
 	public void update(Person person) throws MongoException, Exception {
 		iPersonRepository.save(person);
 	}
+	
+	public void delete(String uuid) throws MongoException, Exception {
+		iPersonRepository.deleteById(uuid);
+	}
 
 	
 	public List<Person> findByDocumentTypeAndDocument(String documentType, String document) throws MongoException, Exception {
@@ -69,12 +73,6 @@ public class PersonDao{
 		
 		return person;
 		
-	}
-	
-	
-	public void delete(String uuid) throws MongoException, Exception {
-		
-		iPersonRepository.deleteById(uuid);
 	}
 
 }

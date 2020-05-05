@@ -1,13 +1,18 @@
 package co.com.hotelyando.core.business;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.MongoException;
 
 import co.com.hotelyando.core.authorization.JwtToken;
@@ -20,6 +25,8 @@ import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Hotel;
 import co.com.hotelyando.database.model.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
 @Service
 public class UserBusiness {
@@ -33,6 +40,7 @@ public class UserBusiness {
 	private ServiceResponses<User> serviceResponses;
 	private ServiceResponse<LoginResponse> serviceLoginResponse;
 	
+	private String tokenHeader;
 	
 	private Utilities utilities;
 	private Generic<User> generic;
@@ -49,7 +57,7 @@ public class UserBusiness {
 	
 	
 	/*
-	 * Método para el registro de usuario en un hotel
+	 * MÃ©todo para el registro de usuario en un hotel
 	 * @return ServiceResponse<User>
 	 */
 	public ServiceResponse<User> save(User user, User user1) {
@@ -83,7 +91,7 @@ public class UserBusiness {
 	
 	
 	/*
-	 * Método para la actualización de usuario en un hotel
+	 * MÃ©todo para la actualizaciï¿½n de usuario en un hotel
 	 * @return ServiceResponse<User>
 	 */
 	public ServiceResponse<User> update(User user, User user1) {
@@ -115,7 +123,7 @@ public class UserBusiness {
 
 	
 	/*
-	 * Metodo que consultará los usuarios por hotel, la información del hotel viene en el token, no hay necesidad de 
+	 * Metodo que consultarï¿½ los usuarios por hotel, la informaciï¿½n del hotel viene en el token, no hay necesidad de 
 	 * enviarlo desde el servicio.
 	 * @return ServiceResponse<User>
 	 */
@@ -128,7 +136,7 @@ public class UserBusiness {
 			if(users != null) {
 				serviceResponses = generic.messagesReturn(users, PrintVariable.NEGOCIO, messageSource.getMessage("user.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(users, PrintVariable.ADVERTENCIA, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(users, PrintVariable.VALIDACION, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
 			}
 
 		}catch (MongoException e) {
@@ -143,7 +151,7 @@ public class UserBusiness {
 
 	
 	/*
-	 * Método para la consulta de un usuario por hotel
+	 * MÃ©todo para la consulta de un usuario por hotel
 	 * @return ServiceResponse<User>
 	 */
 	public ServiceResponse<User> findByHotelIdAndUuid(User user, String uuid) {
@@ -169,8 +177,8 @@ public class UserBusiness {
 	}
 	
 	/*
-	 * Metodo que se encarga de validar el usuario y contraseña ingresado, en caso de ser correcto, generará un token con 
-	 * la información del usuario para poder navegar con los demás servicios por medio del token generado, este token dará
+	 * Metodo que se encarga de validar el usuario y contraseï¿½a ingresado, en caso de ser correcto, generarï¿½ un token con 
+	 * la informaciï¿½n del usuario para poder navegar con los demï¿½s servicios por medio del token generado, este token darï¿½
 	 * los permisos necesarios a los servicios que este permitido consumir.
 	 * @return ServiceResponse<LoginReponse>
 	 */
@@ -188,7 +196,7 @@ public class UserBusiness {
 			
 			if(user != null && !user.getUuid().equals(PrintVariable.VALIDACION)){
 				
-				//Obtenemos el token, en donde se encuentra la información del usuario logueado
+				//Obtenemos el token, en donde se encuentra la informaciï¿½n del usuario logueado
 				jwtToken = new JwtToken();
 				token = jwtToken.getJWTToken(user);
 				
@@ -206,7 +214,7 @@ public class UserBusiness {
 				serviceLoginResponse = genericosLogin.messageReturn(loginResponse, PrintVariable.NEGOCIO, messageSource.getMessage("user.use_found", null, LocaleContextHolder.getLocale()));
 				
 			}else {
-				serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.ADVERTENCIA, messageSource.getMessage("user.use_not_found", null, LocaleContextHolder.getLocale()));
+				serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("user.use_not_found", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -217,6 +225,141 @@ public class UserBusiness {
 		}
 				
 		return serviceLoginResponse;
+	}
+	
+	
+	public ServiceResponse<LoginResponse> logout(Map<String, String> headers, String nombreEncabezado){
+		
+		genericosLogin = new Generic<LoginResponse>();
+		
+		try {
+			
+			headers.forEach((key,value) ->{
+				
+				if(key.equals(nombreEncabezado)) {
+					tokenHeader = value.toString();
+				}
+			});
+			
+			String jwtToken;
+			
+			jwtToken = tokenHeader.replace(PrintVariable.PREFIX, "");
+			
+			Claims claims = Jwts.parser().setSigningKey(PrintVariable.SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+			claims.setExpiration(new Date(System.currentTimeMillis() + 1000));
+			
+			serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.NEGOCIO, "Vuelva pronto!");
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+		}
+		
+				
+		return serviceLoginResponse;
+	}
+	
+	
+	/*
+	 * MÃ©todo para la actualizaciï¿½n de la contraseï¿½a de un usuario de un hotel
+	 * @return ServiceResponse<User>
+	 */
+	//public ServiceResponse<User> changePassword(User user, String oldPassword, String newPassword) {
+	public ServiceResponse<User> changePassword(User user, String json) {
+		
+		String messageReturn = "";
+		String oldPassword = "";
+		String newPassword = "";
+		
+		try {
+			
+			JsonElement jsonElement = new JsonParser().parse(json);
+			JsonObject jsonObject = jsonElement.getAsJsonObject(); 		
+			
+			oldPassword = jsonObject.get("oldPassword").getAsString();
+			newPassword = jsonObject.get("newPassword").getAsString();
+			
+			messageReturn = userService.changePassword(user, oldPassword, newPassword);
+			
+			if(messageReturn.equals("")) {
+				user.setPassword("");
+				serviceResponse = generic.messageReturn(user, PrintVariable.NEGOCIO, messageSource.getMessage("user.update_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(user, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
+	
+	
+	/*
+	 * MÃ©todo que envie correo al usurio para recuperar contraseï¿½a
+	 * @return ServiceResponse<User>
+	 */
+	public ServiceResponse<User> recoveryPassword(String json) {
+		
+		String messageReturn = "";
+		String login = "";
+		try {
+			
+			JsonElement jsonElement = new JsonParser().parse(json);
+			JsonObject jsonObject = jsonElement.getAsJsonObject();
+			
+			login = jsonObject.get("login").getAsString();
+			
+			//messageReturn = userService.recoveryPassword(hotelId, login);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, "Se ha enviado un correo electrÃ³nico a " + login);
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
+	
+	
+	/*
+	 * MÃ©todo para la eliminaciÃ³n de usuario en un hotel
+	 * @return ServiceResponse<User>
+	 */
+	public ServiceResponse<User> delete(String uuid, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = userService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				user.setPassword("");
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("user.delete_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
 	}
 
 

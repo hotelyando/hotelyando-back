@@ -157,5 +157,30 @@ public class SaleService {
 		return sale;
 		
 	}
+	
+	
+	/*
+	 * Método que retorna una venta por fecha
+	 * @return Sale
+	 */
+	public List<Sale> findByHotelIdAndDateBetween(String hotelId, String from, String to) throws MongoException, Exception {
+		
+		List<Sale> sales = saleDao.findByHotelIdAndDateBetween(hotelId, from, to);
+		
+		return sales;
+	}
+	
+	
+	/*
+	 * Método que retorna las ventas por estado de un hotel
+	 * @return List<Sale>
+	 */
+	public List<Sale> findByHotelIdAndState(String hotelId, String state) throws MongoException, Exception {
+		
+		List<Sale> sales = saleDao.findByHotelIdAndState(hotelId, state);
+		
+		return sales;
+		
+	}
 
 }

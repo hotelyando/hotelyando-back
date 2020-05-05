@@ -72,5 +72,17 @@ public class SaleDao {
 		return sales;
 		
 	}
+	
+	
+	/*
+	 * Método que retorna una venta por fecha
+	 * @return Sale
+	 */
+	public List<Sale> findByHotelIdAndDateBetween(String hotelId, String from, String to) throws MongoException, Exception {
+		
+		List<Sale> sales = iSaleRepository.findByHotelIdAndDateBetween(hotelId, from, to);
+		
+		return sales;
+	}
 
 }

@@ -41,7 +41,7 @@ public class RoomTypeBusiness {
 	
 	
 	/*
-	 * Método que se encarga de registrar un tipo de habitación
+	 * Mï¿½todo que se encarga de registrar un tipo de habitaciï¿½n
 	 * @return ServiceResponse<RoomType>
 	 */
 	public ServiceResponse<RoomType> save(RoomType roomType, User user) {
@@ -74,7 +74,7 @@ public class RoomTypeBusiness {
 	
 	
 	/*
-	 * Método que se encarga de actualizar un tipo de habitación
+	 * Mï¿½todo que se encarga de actualizar un tipo de habitaciï¿½n
 	 * @return ServiceResponse<RoomType>
 	 */
 	public ServiceResponse<RoomType> update(RoomType roomType, User user) {
@@ -82,6 +82,8 @@ public class RoomTypeBusiness {
 		String messageReturn = "";
 		
 		try {
+			
+			roomType.setHotelId(user.getHotelId());
 			
 			messageReturn = roomTypeService.update(roomType);
 			
@@ -103,7 +105,7 @@ public class RoomTypeBusiness {
 
 	
 	/*
-	 * Método para la búsqueda de un tipo de habitación por uuid
+	 * Mï¿½todo para la bï¿½squeda de un tipo de habitaciï¿½n por uuid
 	 * @return ServiceResponse<RoomType>
 	 */
 	public ServiceResponse<RoomType> findByUuid(User user, String uuid) {
@@ -115,7 +117,7 @@ public class RoomTypeBusiness {
 			if(roomType != null) {
 				serviceResponse = generic.messageReturn(roomType, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -130,7 +132,7 @@ public class RoomTypeBusiness {
 
 	
 	/*
-	 * Método para la búsqueda de un tipo de habitación por uuid
+	 * Mï¿½todo para la bï¿½squeda de un tipo de habitaciï¿½n por uuid
 	 * @return ServiceResponse<RoomType>
 	 */
 	public ServiceResponses<RoomType> findAll(User user) {
@@ -142,7 +144,7 @@ public class RoomTypeBusiness {
 			if(roomTypes != null) {
 				serviceResponses = generic.messagesReturn(roomTypes, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -155,5 +157,33 @@ public class RoomTypeBusiness {
 		return serviceResponses;
 	}
 
+	
+	/*
+	 * MÃ©todo que se encarga de eliminar un tipo de habitaciÃ³n
+	 * @return ServiceResponse<RoomType>
+	 */
+	public ServiceResponse<RoomType> delete(String uuid, User user) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = roomTypeService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.delete_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+	}
 	
 }

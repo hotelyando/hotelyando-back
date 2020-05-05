@@ -51,7 +51,7 @@ public class Generic<T> {
 	
 	
 	/*
-	 * Método que retorna el mensaje de respuesta HTTP
+	 * Mï¿½todo que retorna el mensaje de respuesta HTTP
 	 * @return ResponseEntity<ServiceResponse<T>>
 	 */
 	public ResponseEntity<ServiceResponse<T>> returnResponseController(ServiceResponse<T> serviceResponse){
@@ -59,7 +59,7 @@ public class Generic<T> {
 		if(serviceResponse != null) {
 			
 			if(serviceResponse.getState().equals(PrintVariable.VALIDACION)) {
-				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_TECNICO)) {
@@ -70,13 +70,13 @@ public class Generic<T> {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
 			}
 		}else {
-			return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	
 	/*
-	 * Método que retorna el mensaje de respuesta HTTP cuando es una lista
+	 * Mï¿½todo que retorna el mensaje de respuesta HTTP cuando es una lista
 	 * @return ResponseEntity<ServiceResponse<T>>
 	 */
 	public ResponseEntity<ServiceResponses<T>> returnResponseController(ServiceResponses<T> serviceResponses){

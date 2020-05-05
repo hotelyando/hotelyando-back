@@ -41,7 +41,7 @@ public class RoleBusiness {
 	
 	
 	/*
-	 * Método que registra un rol para un hotel
+	 * Mï¿½todo que registra un rol para un hotel
 	 * @return ServiceResponse<Role>
 	 */
 	public ServiceResponse<Role> save(Role role, User user) {
@@ -73,7 +73,7 @@ public class RoleBusiness {
 	
 	
 	/*
-	 * Método que actualiza un rol de un hotel 
+	 * Mï¿½todo que actualiza un rol de un hotel 
 	 * @return ServiceResponse<Role>
 	 */
 	public ServiceResponse<Role> update(Role role, User user) {
@@ -102,7 +102,7 @@ public class RoleBusiness {
 	
 	
 	/*
-	 * Método que retorna un rol por su nombre
+	 * Mï¿½todo que retorna un rol por su nombre
 	 * @return ServiceResponse<Role>
 	 */
 	public ServiceResponse<Role> findByName(User user, String name) {
@@ -114,7 +114,7 @@ public class RoleBusiness {
 			if(role != null) {
 				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 			
@@ -131,7 +131,7 @@ public class RoleBusiness {
 	
 	
 	/*
-	 * Método que retorna una lista de roles de un hotel
+	 * Mï¿½todo que retorna una lista de roles de un hotel
 	 * @return ServiceResponses<Role>
 	 */
 	public ServiceResponses<Role> findByHotelId(User user) {
@@ -143,7 +143,7 @@ public class RoleBusiness {
 			if(roles != null) {
 				serviceResponses = generic.messagesReturn(roles, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

@@ -33,7 +33,7 @@ public class ItemService {
 	
 	
 	/*
-	 * Método para el registro de un ITEM del hotel
+	 * Mï¿½todo para el registro de un ITEM del hotel
 	 * @return String
 	 */
 	public String save(Item item) throws MongoException, Exception {
@@ -68,14 +68,14 @@ public class ItemService {
 			itemDao.save(item);
 		}
 		
-		//Hay item de Hotel e Item de habitación?, si es así, se debería colocar un tipo de item?
+		//Hay item de Hotel e Item de habitaciï¿½n?, si es asï¿½, se deberï¿½a colocar un tipo de item?
 		
 		return messageReturn;
 	}
 	
 	
 	/*
-	 * Método para la actualización de un ITEM del hotel
+	 * Mï¿½todo para la actualizaciï¿½n de un ITEM del hotel
 	 * @return String
 	 */
 	public String update(Item item) throws MongoException, Exception {
@@ -110,14 +110,14 @@ public class ItemService {
 			itemDao.update(item);
 		}
 		
-		//Hay item de Hotel e Item de habitación?, si es así, se debería colocar un tipo de item?
+		//Hay item de Hotel e Item de habitaciï¿½n?, si es asï¿½, se deberï¿½a colocar un tipo de item?
 		
 		return messageReturn;
 	}
 
 	
 	/*
-	 * Método para que liste todos los ITEM'S de un hotel
+	 * Mï¿½todo para que liste todos los ITEM'S de un hotel
 	 * @return List<Item>
 	 */
 	public List<Item> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -129,7 +129,7 @@ public class ItemService {
 	
 	
 	/*
-	 * Método para que liste todos los ITEM'S de un hotel
+	 * Mï¿½todo para que liste todos los ITEM'S de un hotel
 	 * @return List<Item>
 	 */
 	public List<Item> findByHotelId(String hotelId, String name) throws MongoException, Exception {
@@ -149,7 +149,7 @@ public class ItemService {
 		return items;
 	}
 	/*
-	 * Método para que liste un ITEM del hotel por uuid
+	 * Mï¿½todo para que liste un ITEM del hotel por uuid
 	 * @return Item
 	 */
 	public Item findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -161,7 +161,7 @@ public class ItemService {
 	
 	
 	/*
-	 * Método que valida si un ITEM ya existe por hotel
+	 * Mï¿½todo que valida si un ITEM ya existe por hotel
 	 * @return Boolean
 	 */
 	private Boolean nameValidate(String hotelId, String name, Boolean update) throws MongoException, Exception {
@@ -176,6 +176,20 @@ public class ItemService {
 			return true;
 		}
 		
+	}
+	
+	
+	/*
+	 * MÃ©todo que elimina un item
+	 * @return void
+	 */
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		String messageReturn = "";
+		
+		itemDao.delete(uuid);
+		
+		return messageReturn;
 	}
 
 }

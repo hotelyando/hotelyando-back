@@ -40,7 +40,7 @@ public class CountryBusiness {
 	
 	
 	/*
-	 * Método para el registro de paises
+	 * Mï¿½todo para el registro de paises
 	 * @return ServiceResponse<Country>
 	 */
 	public ServiceResponse<Country> save(Country country) {
@@ -73,7 +73,7 @@ public class CountryBusiness {
 	
 	
 	/*
-	 * Método para la actualización de paises
+	 * Mï¿½todo para la actualizaciï¿½n de paises
 	 * @return ServiceResponse<Country>
 	 */
 	public ServiceResponse<Country> update(Country country) {
@@ -138,6 +138,36 @@ public class CountryBusiness {
 			
 			if(country != null) {
 				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.find_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+			}
+			
+		}catch (MongoException e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponse = generic.messageReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponse;
+		
+	}
+	
+	
+	/*
+	 * MÃ©todo para la eliminacion de paises
+	 * @return ServiceResponse<Country>
+	 */
+	public ServiceResponse<Country> delete(String uuid) {
+		
+		String messageReturn = "";
+		
+		try {
+			
+			messageReturn = countryService.delete(uuid);
+			
+			if(messageReturn.equals("")) {
+				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("country.delete_ok", new String[] {""}, LocaleContextHolder.getLocale()));
 			}else {
 				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
 			}

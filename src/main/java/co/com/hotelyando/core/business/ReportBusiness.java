@@ -191,7 +191,7 @@ public class ReportBusiness {
 			}
 			
 			if(saleReports != null) {
-				serviceResponses = generic.messagesReturn(saleReports, PrintVariable.ADVERTENCIA, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(saleReports, PrintVariable.NEGOCIO, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {

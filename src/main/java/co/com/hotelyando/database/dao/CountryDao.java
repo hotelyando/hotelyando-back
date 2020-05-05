@@ -29,6 +29,10 @@ public class CountryDao {
 		iCountryRepository.save(country);
 	}
 	
+	public void delete(String uuid) throws MongoException, Exception {
+		iCountryRepository.deleteById(uuid);
+	}
+	
 	
 	public List<Country> findAll() throws MongoException, Exception {
 		
@@ -43,5 +47,7 @@ public class CountryDao {
 		
 		return country;
 	}
+	
+	
 
 }

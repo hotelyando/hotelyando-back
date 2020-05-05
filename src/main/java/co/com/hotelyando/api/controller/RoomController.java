@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,8 +66,32 @@ public class RoomController {
 		
 	}
 	
+	@DeleteMapping("/room/{uuid}")
+	public ResponseEntity<ServiceResponse<Room>> delete(@PathVariable String uuid, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		ServiceResponse<Room> serviceResponse = roomBusiness.delete(uuid, user);
+			
+		ResponseEntity<ServiceResponse<Room>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+	}
+	
 	@GetMapping("/room/{roomId}")
 	public ResponseEntity<ServiceResponse<Room>> findByHotelIdAndUuid(@PathVariable String roomId, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		ServiceResponse<Room> serviceResponse = roomBusiness.findByHotelIdAndUuid(user, roomId);
+			
+		ResponseEntity<ServiceResponse<Room>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+	}
+	
+	@GetMapping("/room/{initDate}/{endDate}")
+	public ResponseEntity<ServiceResponse<Room>> findByHotelIdAndBetweenDate(@PathVariable String roomId, @RequestHeader Map<String, String> headers){
 		
 		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		ServiceResponse<Room> serviceResponse = roomBusiness.findByHotelIdAndUuid(user, roomId);

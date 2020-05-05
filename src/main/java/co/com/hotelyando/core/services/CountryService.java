@@ -32,7 +32,7 @@ public class CountryService {
 	
 	
 	/*
-	 * Método para el registro de paises
+	 * Mï¿½todo para el registro de paises
 	 * @return string
 	 */
 	public String save(Country country) throws MongoException, Exception {
@@ -56,7 +56,7 @@ public class CountryService {
 	
 	
 	/*
-	 * Método para la actualización de paises
+	 * Mï¿½todo para la actualizaciï¿½n de paises
 	 * @return string
 	 */
 	public String update(Country country) throws MongoException, Exception {
@@ -95,7 +95,7 @@ public class CountryService {
 	
 	
 	/*
-	 * Método para validar si el nombre existe en la base de datos
+	 * Mï¿½todo para validar si el nombre existe en la base de datos
 	 * @return boolean
 	 */
 	private boolean nameValidate(String name, Boolean update) throws MongoException, Exception {
@@ -111,6 +111,15 @@ public class CountryService {
 		}
 	}
 	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		String messageReturn = ""; 
+		
+		countryDao.delete(uuid);
+		
+		return messageReturn;
+	}
 	
 	
 	

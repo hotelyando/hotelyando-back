@@ -49,8 +49,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
 			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
-			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
+		//}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
+		//	messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
 		}else if(nameValidate(hotel.getName(), false)) {
 			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
@@ -63,12 +63,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {
 			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
-		}else if(hotel.getPlan() == null) {
-			messageReturn = messageSource.getMessage("hotel.plan", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getSocialNetworks() == null) {
 			messageReturn = messageSource.getMessage("hotel.social_networks", null, LocaleContextHolder.getLocale());
-		}else if(hotel.getBranchOffices() == null) {
-			messageReturn = messageSource.getMessage("hotel.sucursal", null, LocaleContextHolder.getLocale());
 		}else {
 			hotelDao.save(hotel);
 		}
@@ -100,8 +96,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.cell_phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getLatitude())) {
 			messageReturn = messageSource.getMessage("hotel.latitud", null, LocaleContextHolder.getLocale());
-		}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
-			messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
+		//}else if(regularExpression.validateSpecialCharacters(hotel.getName())) {
+		//	messageReturn = messageSource.getMessage("hotel.name_character", null, LocaleContextHolder.getLocale());
 		}else if(nameValidate(hotel.getName(), true)) {
 			messageReturn = messageSource.getMessage("hotel.name_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(hotel.getNit())) {
@@ -114,12 +110,8 @@ public class HotelService {
 			messageReturn = messageSource.getMessage("hotel.phone_numeric", null, LocaleContextHolder.getLocale());
 		}else if(regularExpression.validateEmail(hotel.getEmail())) {
 			messageReturn = messageSource.getMessage("hotel.email_format", null, LocaleContextHolder.getLocale());
-		}else if(hotel.getPlan() == null) {
-			messageReturn = messageSource.getMessage("hotel.plan", null, LocaleContextHolder.getLocale());
 		}else if(hotel.getSocialNetworks() == null) {
 			messageReturn = messageSource.getMessage("hotel.social_networks", null, LocaleContextHolder.getLocale());
-		}else if(hotel.getBranchOffices() == null) {
-			messageReturn = messageSource.getMessage("hotel.sucursal", null, LocaleContextHolder.getLocale());
 		}else {
 			hotelDao.update(hotel);
 		}

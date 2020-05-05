@@ -41,7 +41,9 @@ public class HotelController {
 	}
 	
 	@PostMapping("/hotel")
-	public ResponseEntity<ServiceResponse<Hotel>> save(@RequestBody Hotel hotel){
+	public ResponseEntity<ServiceResponse<Hotel>> save(@RequestBody Hotel hotel, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
 		
 		ServiceResponse<Hotel> serviceResponse = hotelBusiness.save(hotel); 
 		ResponseEntity<ServiceResponse<Hotel>> responseEntity = generic.returnResponseController(serviceResponse);
@@ -51,9 +53,11 @@ public class HotelController {
 	}
 	
 	@PutMapping("/hotel")
-	public ResponseEntity<ServiceResponse<Hotel>> update(@RequestBody Hotel hotel){
+	public ResponseEntity<ServiceResponse<Hotel>> update(@RequestBody Hotel hotel, @RequestHeader Map<String, String> headers){
 		
-		ServiceResponse<Hotel> serviceResponse = hotelBusiness.update(hotel); 
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		
+		ServiceResponse<Hotel> serviceResponse = hotelBusiness.update(user, hotel); 
 		ResponseEntity<ServiceResponse<Hotel>> responseEntity = generic.returnResponseController(serviceResponse);
 		
 		return responseEntity;

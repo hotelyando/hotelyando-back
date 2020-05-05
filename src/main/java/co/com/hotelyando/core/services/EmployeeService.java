@@ -74,5 +74,15 @@ public class EmployeeService {
 		
 		return employees;
 	}
+	
+	
+	public String delete(String uuid) throws MongoException, Exception {
+		
+		String messageReturn = ""; 
+		
+		employeeDao.delete(uuid);
+		
+		return messageReturn;
+	}
 
 }
