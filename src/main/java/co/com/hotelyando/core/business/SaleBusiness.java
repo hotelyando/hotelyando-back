@@ -104,7 +104,7 @@ public class SaleBusiness {
 			if(sales == null) {
 				serviceResponses = generic.messagesReturn(null, PrintVariable.NEGOCIO, messageSource.getMessage("sale.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(sales, PrintVariable.VALIDACION, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(sales, PrintVariable.NOT_CONTENT, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {
@@ -184,7 +184,7 @@ public class SaleBusiness {
 			if(sale != null) {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, "");
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("sale.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (Exception e) {

@@ -47,5 +47,12 @@ public class RoomDao{
 		
 		return room;
 	}
+	
+	public Room findByHotelIdAndDescription(String hotelId, String description) throws MongoException, Exception {
+		
+		Room room = iRoomRepository.findByHotelIdAndDescription(hotelId, description);
+		
+		return room;
+	}
 
 }

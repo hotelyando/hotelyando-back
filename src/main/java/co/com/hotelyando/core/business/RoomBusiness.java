@@ -14,11 +14,13 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
 import co.com.hotelyando.core.services.RoomService;
+import co.com.hotelyando.core.services.RoomTypeService;
 import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
 import co.com.hotelyando.database.model.Room;
+import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
 
@@ -30,6 +32,9 @@ public class RoomBusiness {
 	
 	@Autowired
 	private SaleService saleService;
+	
+	@Autowired
+	private RoomTypeService roomTypeService;
 	
 	private RoomService roomService;
 	private ServiceResponse<Room> serviceResponse;
@@ -55,12 +60,25 @@ public class RoomBusiness {
 		
 		String messageReturn = "";
 		
+		RoomType roomType = null;
+		
 		try {
 			
 			room.setUuid(utilities.generadorId());
 			room.setHotelId(user.getHotelId());
 			
-			messageReturn = roomService.save(room);
+			//Validamos si el roomType está lleno y si existe, antes de pasar a las validaciones propias de la habitación
+			if(room.getRoomType() != null) {
+				roomType = roomTypeService.findByHotelIdAndRoomType(room.getHotelId(), room.getRoomType());
+				
+				if(roomType == null) {
+					messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
+				}else {
+					messageReturn = roomService.save(room);
+				}
+			}else {
+				messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
+			}
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(room, PrintVariable.NEGOCIO, messageSource.getMessage("room.register_ok", null, LocaleContextHolder.getLocale()));
@@ -124,7 +142,7 @@ public class RoomBusiness {
 			if(rooms != null) {
 				serviceResponses = generic.messagesReturn(rooms, PrintVariable.NEGOCIO, messageSource.getMessage("room.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -151,7 +169,7 @@ public class RoomBusiness {
 			if(room != null) {
 				serviceResponse = generic.messageReturn(room, PrintVariable.NEGOCIO, messageSource.getMessage("room.use_found", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("room.use_not_found", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("room.use_not_found", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

@@ -114,7 +114,7 @@ public class RoleBusiness {
 			if(role != null) {
 				serviceResponse = generic.messageReturn(role, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 			
@@ -143,7 +143,7 @@ public class RoleBusiness {
 			if(roles != null) {
 				serviceResponses = generic.messagesReturn(roles, PrintVariable.NEGOCIO, messageSource.getMessage("role.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("role.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

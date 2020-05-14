@@ -59,13 +59,15 @@ public class Generic<T> {
 		if(serviceResponse != null) {
 			
 			if(serviceResponse.getState().equals(PrintVariable.VALIDACION)) {
-				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponse.getState().equals(PrintVariable.ERROR_TECNICO)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponse.getState().equals(PrintVariable.NEGOCIO)) {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.OK);
+			}else if (serviceResponse.getState().equals(PrintVariable.NOT_CONTENT)) {
+				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.NOT_FOUND);
 			}else {
 				return new ResponseEntity<ServiceResponse<T>>(serviceResponse, HttpStatus.BAD_REQUEST);
 			}
@@ -82,21 +84,22 @@ public class Generic<T> {
 	public ResponseEntity<ServiceResponses<T>> returnResponseController(ServiceResponses<T> serviceResponses){
 		
 		if(serviceResponses != null) {
-		
+			
 			if(serviceResponses.getState().equals(PrintVariable.VALIDACION)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.BAD_REQUEST);
 			}else if(serviceResponses.getState().equals(PrintVariable.ERROR_BD)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponses.getState().equals(PrintVariable.ERROR_TECNICO)) {
-				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.INTERNAL_SERVER_ERROR);
 			}else if(serviceResponses.getState().equals(PrintVariable.NEGOCIO)) {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.OK);
+			}else if (serviceResponses.getState().equals(PrintVariable.NOT_CONTENT)) {
+				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NOT_FOUND);
 			}else {
 				return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.BAD_REQUEST);
 			}
-			
 		}else {
-			return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<ServiceResponses<T>>(serviceResponses, HttpStatus.NOT_FOUND);
 		}
 	}
 

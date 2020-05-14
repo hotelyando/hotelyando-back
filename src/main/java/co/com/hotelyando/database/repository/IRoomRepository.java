@@ -12,6 +12,7 @@ public interface IRoomRepository extends MongoRepository<Room, String> {
 	
 	List<Room> findByHotelId(String hotelId);
 	Room findByHotelIdAndUuid(String hotelId, String uuid);
+	Room findByHotelIdAndDescription(String hotelId, String description);
 	
 
 }

@@ -17,8 +17,6 @@ import co.com.hotelyando.core.model.LoginRequest;
 import co.com.hotelyando.core.model.LoginResponse;
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.utilities.PrintVariable;
-import co.com.hotelyando.core.utilities.Utilities;
-import co.com.hotelyando.database.model.User;
 import io.swagger.annotations.Api;
 
 @RestController
@@ -29,9 +27,6 @@ public class LoginController {
 	
 	private final UserBusiness userBusiness;
 	private ServiceResponse<LoginResponse> serviceResponse = null;
-	
-	private User user;
-	private Utilities utilities;
 	
 	public LoginController(UserBusiness userBusiness) {
 		this.userBusiness = userBusiness;

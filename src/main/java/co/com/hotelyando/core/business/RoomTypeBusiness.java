@@ -117,7 +117,7 @@ public class RoomTypeBusiness {
 			if(roomType != null) {
 				serviceResponse = generic.messageReturn(roomType, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -144,7 +144,7 @@ public class RoomTypeBusiness {
 			if(roomTypes != null) {
 				serviceResponses = generic.messagesReturn(roomTypes, PrintVariable.NEGOCIO, messageSource.getMessage("roomtype.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("roomtype.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

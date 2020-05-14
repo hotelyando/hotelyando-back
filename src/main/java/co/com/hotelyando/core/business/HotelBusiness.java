@@ -111,7 +111,7 @@ public class HotelBusiness {
 			if(hotel != null) {
 				serviceResponse = generic.messageReturn(hotel, PrintVariable.NEGOCIO, messageSource.getMessage("hotel.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("hotel.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("hotel.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

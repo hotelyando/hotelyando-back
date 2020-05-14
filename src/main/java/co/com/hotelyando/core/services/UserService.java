@@ -102,11 +102,10 @@ public class UserService {
 			messageReturn = messageSource.getMessage("user.login", null, LocaleContextHolder.getLocale());
 		}else if(validateUser(user.getHotelId(), user.getUser(), true)) {
 			messageReturn = messageSource.getMessage("user.login_unique", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(user.getPassword())) {
-			messageReturn = messageSource.getMessage("user.password", null, LocaleContextHolder.getLocale());
 		}else {
 			
-			user.setPassword(encodePassword(user, PrintVariable.UPDATE));
+			//Retornamos el password para guardarlo de nuevo, por que desde Front vienen null y lo borraría
+			user.setPassword(findByHotelIdAndUuid(user.getHotelId(), user.getUuid()).getPassword());
 			userDao.update(user);
 		}
 		
@@ -122,10 +121,6 @@ public class UserService {
 		
 		List<User> users = userDao.findByHotelId(hotelId);
 		
-		/*users.forEach((user) -> {
-			user.setPassword("");
-		});*/
-		
 		return users;
 	}
 
@@ -137,8 +132,6 @@ public class UserService {
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
 		
 		User user = userDao.findByHotelIdAndUuid(hotelId, uuid);
-		
-		//user.setPassword("");
 		
 		return user;
 	}
@@ -266,7 +259,7 @@ public class UserService {
 		
 		String messageReturn = "";
 		
-		User user = userDao.findByUser(hotelId, login);
+		User user = userDao.findByUser("1583126611616dc71b9d43a0442128066f309daecc060", login);
 		
 		if(user != null) {
 			

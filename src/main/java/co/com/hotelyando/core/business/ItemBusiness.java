@@ -128,7 +128,7 @@ public class ItemBusiness {
 			if(items != null) {
 				serviceResponses = generic.messagesReturn(items, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -157,7 +157,7 @@ public class ItemBusiness {
 			if(items != null) {
 				serviceResponses = generic.messagesReturn(items, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -185,7 +185,7 @@ public class ItemBusiness {
 			if(item != null) {
 				serviceResponse = generic.messageReturn(item, PrintVariable.NEGOCIO, messageSource.getMessage("item.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("item.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -204,8 +204,6 @@ public class ItemBusiness {
 	 * @return ServiceResponse<Item>
 	 */
 	public ServiceResponse<ItemRequest> updateStock(ItemRequest itemRequest, User user) {
-		
-		ServiceResponse<ItemRequest> serviceResponseItem;
 		
 		String messageReturn = "";
 		
@@ -228,7 +226,7 @@ public class ItemBusiness {
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(item, PrintVariable.NEGOCIO, messageSource.getMessage("item.update_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageReturn);
 			}
 			
 			//Consultamos la venta actual

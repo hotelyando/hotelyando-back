@@ -113,7 +113,7 @@ public class CountryBusiness {
 			if(countries != null) {
 				serviceResponses = generic.messagesReturn(countries, PrintVariable.NEGOCIO, messageSource.getMessage("country.find_ok", new String[] {countries.get(0).getName()}, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageReturn);
 			}
 			
 		}catch (MongoException e) {
@@ -139,7 +139,7 @@ public class CountryBusiness {
 			if(country != null) {
 				serviceResponse = generic.messageReturn(country, PrintVariable.NEGOCIO, messageSource.getMessage("country.find_ok", new String[] {country.getName()}, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageReturn);
 			}
 			
 		}catch (MongoException e) {

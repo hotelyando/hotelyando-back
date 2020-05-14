@@ -1,12 +1,13 @@
 package co.com.hotelyando.core.utilities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
 /*
  * Clase : PrintVariable.java
- * Comentario : Clase que se encarga de cargar los mensajes constantes dentro de la aplicación
+ * Comentario : Clase que se encarga de cargar los mensajes constantes dentro de la aplicaciï¿½n
  */
 @Data
 public class PrintVariable implements Serializable{
@@ -23,10 +24,11 @@ public class PrintVariable implements Serializable{
 	public static final String BEARER = "Bearer ";
 	
 	public static final String ERROR_BD = "Error base de datos";
-	public static final String ERROR_TECNICO = "Error técnico";
+	public static final String ERROR_TECNICO = "Error tÃ©cnico";
 	public static final String NEGOCIO = "Negocio";
 	public static final String ADVERTENCIA = "Advertencia";
-	public static final String VALIDACION = "Validación de datos";
+	public static final String VALIDACION = "ValidaciÃ³n de datos";
+	public static final String NOT_CONTENT = "Contenido no encontrado";
 	
 	public static final String SAVE = "Save";
 	public static final String UPDATE = "Update";
@@ -39,6 +41,8 @@ public class PrintVariable implements Serializable{
 	
 	public static final String INIT_DATE = "2000-01-01T00:00";
 	public static final String END_DATE = "2100-01-01T00:00";
+	
+	public static final String[] STATES_ROOM = {"Disponible", "Reservado", "Ocupado", "Limpieza", "Mantenimiento"};
 	
 	
 	

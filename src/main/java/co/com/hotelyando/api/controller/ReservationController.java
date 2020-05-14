@@ -66,6 +66,19 @@ public class ReservationController {
 		
 	}
 	
+	@PostMapping("/reservation/liquidation")
+	public ResponseEntity<ServiceResponse<Reservation>> liquidation(@RequestBody Reservation reservation, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+			
+		ServiceResponse<Reservation> serviceResponse = reservationBusiness.liquidation(reservation, user);
+		ResponseEntity<ServiceResponse<Reservation>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+		
+	}
+	
 	@GetMapping("/reservation/{reservationId}")
 	public ResponseEntity<ServiceResponse<Reservation>> findByHotelIdAndUuid(@PathVariable String reservaId, @RequestHeader Map<String, String> headers){
 		

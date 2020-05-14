@@ -30,8 +30,8 @@ public class RoomType implements Serializable{
 		private String day;
 		private Double priceDay;
 		private Double priceHour;
-		private Integer startTime;
-		private Integer endTime;
+		private String startTime;
+		private String endTime;
 		private Boolean holiday;
 		
 	}

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -130,14 +131,14 @@ public class Utilities {
 	}
 	
 	
-	public void sendEmailGMail(String addressee, String subject, String body) {
+	public void sendEmailGMail1(String addressee, String subject, String body) {
 	    // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
-	    String remitente = "luisalberto7814@gmail.com";  //Para la dirección nomcuenta@gmail.com
+	    String remitente = "hotelyando@gmail.com";  //Para la dirección nomcuenta@gmail.com
 
 	    Properties props = System.getProperties();
 	    props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
 	    props.put("mail.smtp.user", remitente);
-	    props.put("mail.smtp.clave", "Labs2019*");    //La clave de la cuenta
+	    props.put("mail.smtp.clave", "hadmin2019*");    //La clave de la cuenta
 	    props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
 	    props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
 	    props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
@@ -151,13 +152,30 @@ public class Utilities {
 	        message.setSubject(subject);
 	        message.setText(body);
 	        Transport transport = session.getTransport("smtp");
-	        transport.connect("smtp.gmail.com", remitente, "Labs2019*");
+	        transport.connect("smtp.gmail.com", remitente, "hadmin2019*");
 	        transport.sendMessage(message, message.getAllRecipients());
 	        transport.close();
 	    }
 	    catch (MessagingException me) {
 	        me.printStackTrace();   //Si se produce un error
 	    }
-	} 
+	}
+	
+	
+	public void sendEmailGMail(String addressee, String subject, String body) throws MessagingException {
+	    // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
+	    
+		Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+
+        MimeMessage email = new MimeMessage(session);
+
+        email.setFrom(new InternetAddress("hotelyando@gmail.com"));
+        email.addRecipient(javax.mail.Message.RecipientType.TO,
+                new InternetAddress(addressee));
+        email.setSubject(subject);
+        email.setText(body);
+        
+	}
 
 }

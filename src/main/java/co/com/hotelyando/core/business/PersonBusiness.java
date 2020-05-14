@@ -56,7 +56,7 @@ public class PersonBusiness {
 	
 	
 	/*
-	 * Método que registra una persona
+	 * Mï¿½todo que registra una persona
 	 * @return ServiceResponse<Person>
 	 */
 	public ServiceResponse<Person> save(Person person, User user) {
@@ -88,7 +88,7 @@ public class PersonBusiness {
 
 	
 	/*
-	 * Método que actualiza una persona
+	 * Mï¿½todo que actualiza una persona
 	 * @return ServiceResponse<Person>
 	 */
 	public ServiceResponse<Person> update(Person person, User user) {
@@ -117,7 +117,7 @@ public class PersonBusiness {
 
 	
 	/*
-	 * Método que retorna una persona por tipo y número de documento
+	 * Mï¿½todo que retorna una persona por tipo y nï¿½mero de documento
 	 * @ ServiceResponse<Person>
 	 */
 	public ServiceResponses<Person> findByDocumentTypeAndDocument(String typeDocument, String documentNumber, User user) {
@@ -129,7 +129,7 @@ public class PersonBusiness {
 			if(persons != null) {
 				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -144,7 +144,7 @@ public class PersonBusiness {
 	
 	
 	/*
-	 * Método que retorna una persona por tipo y número de documento
+	 * Mï¿½todo que retorna una persona por tipo y nï¿½mero de documento
 	 * @ ServiceResponse<Person>
 	 */
 	public ServiceResponses<Person> findAll() {
@@ -156,7 +156,7 @@ public class PersonBusiness {
 			if(persons != null) {
 				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -180,7 +180,7 @@ public class PersonBusiness {
 			if(person != null) {
 				serviceResponse = generic.messageReturn(person, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -196,7 +196,7 @@ public class PersonBusiness {
 	
 	
 	/*
-	 * Método que retorna una persona dependiendo del tipo de persona empleado o huesper
+	 * Mï¿½todo que retorna una persona dependiendo del tipo de persona empleado o huesper
 	 * @ ServiceResponse<Person>
 	 */
 	public ServiceResponses<Person> findAllAndHotelIdAndSale(String nationality, String initDate, String endDate, User user) {
@@ -262,7 +262,7 @@ public class PersonBusiness {
 			}
 			
 			if(persons.size() <= 0) {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -278,7 +278,7 @@ public class PersonBusiness {
 	
 	
 	/*
-	 * Método que retorna una persona dependiendo del tipo de persona empleado o huesper
+	 * Mï¿½todo que retorna una persona dependiendo del tipo de persona empleado o huesper
 	 * @ ServiceResponse<Person>
 	 */
 	public ServiceResponses<Person> findPersonType(String type, User user) {
@@ -331,7 +331,7 @@ public class PersonBusiness {
 			if(persons != null) {
 				serviceResponses = generic.messagesReturn(persons, PrintVariable.NEGOCIO, messageSource.getMessage("person.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("person.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {

@@ -136,7 +136,7 @@ public class UserBusiness {
 			if(users != null) {
 				serviceResponses = generic.messagesReturn(users, PrintVariable.NEGOCIO, messageSource.getMessage("user.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponses = generic.messagesReturn(users, PrintVariable.VALIDACION, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponses = generic.messagesReturn(users, PrintVariable.NOT_CONTENT, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
 			}
 
 		}catch (MongoException e) {
@@ -163,7 +163,7 @@ public class UserBusiness {
 			if(user1 != null) {
 				serviceResponse = generic.messageReturn(user1, PrintVariable.NEGOCIO, messageSource.getMessage("user.find_ok", null, LocaleContextHolder.getLocale()));
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
+				serviceResponse = generic.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("user.not_content", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -214,7 +214,7 @@ public class UserBusiness {
 				serviceLoginResponse = genericosLogin.messageReturn(loginResponse, PrintVariable.NEGOCIO, messageSource.getMessage("user.use_found", null, LocaleContextHolder.getLocale()));
 				
 			}else {
-				serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.VALIDACION, messageSource.getMessage("user.use_not_found", null, LocaleContextHolder.getLocale()));
+				serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("user.use_not_found", null, LocaleContextHolder.getLocale()));
 			}
 			
 		}catch (MongoException e) {
@@ -246,7 +246,11 @@ public class UserBusiness {
 			jwtToken = tokenHeader.replace(PrintVariable.PREFIX, "");
 			
 			Claims claims = Jwts.parser().setSigningKey(PrintVariable.SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
-			claims.setExpiration(new Date(System.currentTimeMillis() + 1000));
+			claims.setExpiration(new Date(System.currentTimeMillis() - 1000));
+			claims.remove(null);
+			Jwts.parser().setAllowedClockSkewSeconds(1);
+			
+
 			
 			serviceLoginResponse = genericosLogin.messageReturn(null, PrintVariable.NEGOCIO, "Vuelva pronto!");
 			
@@ -314,7 +318,7 @@ public class UserBusiness {
 			
 			login = jsonObject.get("login").getAsString();
 			
-			//messageReturn = userService.recoveryPassword(hotelId, login);
+			messageReturn = userService.recoveryPassword(null, login);
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, "Se ha enviado un correo electrónico a " + login);

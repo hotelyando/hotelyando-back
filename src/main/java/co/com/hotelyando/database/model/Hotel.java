@@ -26,9 +26,8 @@ public class Hotel implements Serializable{
 	private List<String> socialNetworks;
 	private String phone;
 	private String cellPhone;
-	//private Plan plan;
 	private Boolean state;
-	//private List<BranchOffice> branchOffices;
+	private List<String> comforts;
 	private Parameterize parameterize;
 	
 	@Data
