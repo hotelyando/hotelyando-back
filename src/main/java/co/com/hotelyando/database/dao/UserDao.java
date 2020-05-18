@@ -57,6 +57,13 @@ public class UserDao {
 		return user;
 	}
 	
+	public User findByUser(String login) throws MongoException, Exception {
+		
+		User user = iUsuarioRepository.findByUser(login);
+		
+		return user;
+	}
+	
 	
 	public User findByHotelIdAndPersonId(String hotelId, String personId) throws MongoException, Exception {
 		

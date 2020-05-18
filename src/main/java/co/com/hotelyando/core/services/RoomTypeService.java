@@ -85,8 +85,8 @@ public class RoomTypeService {
 			messageReturn = messageSource.getMessage("roomtype.hotelId", null, LocaleContextHolder.getLocale());
 		} else if (StringUtils.isBlank(roomType.getDescription())) {
 			messageReturn = messageSource.getMessage("roomtype.description", null, LocaleContextHolder.getLocale());
-		} else if (findByHotelIdAndDescription(roomType.getHotelId(), roomType.getDescription())  != null) {
-			messageReturn = messageSource.getMessage("roomtype.description", null, LocaleContextHolder.getLocale());
+		/*} else if (findByHotelIdAndDescription(roomType.getHotelId(), roomType.getDescription())  != null) {
+			messageReturn = messageSource.getMessage("roomtype.description", null, LocaleContextHolder.getLocale());*/
 		} else if (roomType.getPriceDay() == null) {
 			messageReturn = messageSource.getMessage("roomtype.price_day", null, LocaleContextHolder.getLocale());
 		} else if (regularExpression.validateNumeric(roomType.getPriceDay().toString())) {

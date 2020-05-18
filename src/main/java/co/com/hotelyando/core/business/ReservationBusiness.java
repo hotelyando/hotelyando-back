@@ -169,7 +169,7 @@ public class ReservationBusiness {
 					try {
 						room = roomService.findByHotelIdAndUuid(user.getHotelId(), reservation.getRoomIds().get(a));
 						
-						roomType = roomTypeService.findByHotelIdAndRoomType(user.getHotelId(), room.getRoomType());
+						roomType = roomTypeService.findByHotelIdAndRoomType(user.getHotelId(), room.getRoomTypeUuid());
 							
 						LocalDateTime starDate = LocalDateTime.parse(reservation.getStartDate());
 						LocalDateTime exitDate = LocalDateTime.parse(reservation.getExitDate());

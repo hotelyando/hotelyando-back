@@ -35,6 +35,7 @@ public class HotelyandoApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**").allowedMethods("GET","POST","PUT","DELETE");
+				//registry.addMapping("/graphql").allowedOrigins("http://localhost:8084");
 			}
 		};
 	}
@@ -50,8 +51,8 @@ public class HotelyandoApplication {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/login").permitAll()
-				//.antMatchers(HttpMethod.GET, "/user").permitAll()
-				.antMatchers(HttpMethod.GET, "/user/external").permitAll()
+				.antMatchers(HttpMethod.POST, "/graphql").permitAll()
+				.antMatchers(HttpMethod.POST, "/user/external").permitAll()
 				.antMatchers("/v2/api-docs").permitAll()
 				.antMatchers("/configuration/**").permitAll()
 				.antMatchers("/swagger*/**").permitAll()

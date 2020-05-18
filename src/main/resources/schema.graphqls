@@ -1,0 +1,22 @@
+
+type Room {
+	uuid : ID
+	hotelId : String
+	description : String
+	floor : Int
+	area : Int
+	maximumPersons : Int
+	numberBeds : Int
+	freeParking : Boolean
+	roomTypeUuid : String
+	state : String
+	score : Int
+	
+}
+
+type Query {
+	rooms : [Room]
+	room(uuid:String) : Room
+	 
+	
+}

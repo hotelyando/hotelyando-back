@@ -1,6 +1,15 @@
 package co.com.hotelyando.core.services;
 
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,25 +263,34 @@ public class UserService {
 		
 	}
 	
-	
-	public String recoveryPassword(String hotelId, String login) throws MongoException, Exception{
+	@Transactional
+	public String recoveryPassword(String hotelId, String login) throws MongoException, Exception {
 		
 		String messageReturn = "";
 		
-		User user = userDao.findByUser("1583126611616dc71b9d43a0442128066f309daecc060", login);
+		Boolean sendEmail = true;
+		
+		EncryptionData encryptionData = new EncryptionData();
+		User user = userDao.findByUser(login);
 		
 		if(user != null) {
 			
-			messageReturn = changePassword(user, user.getPassword(), "A123b456cde");
+			user.setPassword(encryptionData.encript("123", "SHA1"));
+			userDao.update(user);
 			
-			if(messageReturn.equals("")) {
-				utilities.sendEmailGMail(user.getUser(), "Solicitud cambio de contraseña", "A123b456cde");
+			sendEmail = utilities.sendEmailGMail(PrintVariable.EMAIL_SENDER, PrintVariable.EMAIL_SENDER_PASSWORD, user.getUser(), "Envío contraseña temporal", "Su contraseña temporal es : A123b456cde");
+				
+			if(sendEmail) {
+				messageReturn = "Correo enviado!... , por si las moscas, la clave temporal es : A123b456cde";
+			}else {
+				messageReturn = "Correo no enviado, la clave temporal es : A123b456cde";
 			}
 		}
 		
 		return messageReturn;
 		
+		
+		
 	}
-	
 	
 }

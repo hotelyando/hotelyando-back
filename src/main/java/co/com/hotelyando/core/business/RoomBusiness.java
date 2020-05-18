@@ -1,5 +1,6 @@
 package co.com.hotelyando.core.business;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import co.com.hotelyando.database.model.Room;
 import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
+import co.com.hotelyando.database.model.Reservation.Values;
 
 @Service
 public class RoomBusiness {
@@ -68,8 +70,8 @@ public class RoomBusiness {
 			room.setHotelId(user.getHotelId());
 			
 			//Validamos si el roomType está lleno y si existe, antes de pasar a las validaciones propias de la habitación
-			if(room.getRoomType() != null) {
-				roomType = roomTypeService.findByHotelIdAndRoomType(room.getHotelId(), room.getRoomType());
+			if(room.getRoomTypeUuid() != null) {
+				roomType = roomTypeService.findByHotelIdAndRoomType(room.getHotelId(), room.getRoomTypeUuid());
 				
 				if(roomType == null) {
 					messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());

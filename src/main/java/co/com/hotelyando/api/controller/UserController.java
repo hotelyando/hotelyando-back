@@ -85,7 +85,7 @@ public class UserController {
 		return responseEntity;
 	}
 	
-	@GetMapping("/user/external")
+	@PostMapping("/user/external")
 	public ResponseEntity<ServiceResponse<User>> recoveryPassword(@RequestBody String json){
 		
 		ServiceResponse<User> serviceResponse = userBusiness.recoveryPassword(json);

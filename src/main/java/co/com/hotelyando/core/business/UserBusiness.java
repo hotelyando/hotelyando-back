@@ -320,10 +320,13 @@ public class UserBusiness {
 			
 			messageReturn = userService.recoveryPassword(null, login);
 			
+			User user = new User();
+			user.setUser(login);
+			
 			if(messageReturn.equals("")) {
-				serviceResponse = generic.messageReturn(null, PrintVariable.NEGOCIO, "Se ha enviado un correo electrónico a " + login);
+				serviceResponse = generic.messageReturn(user, PrintVariable.NEGOCIO, "Se ha enviado un correo electrónico a " + login);
 			}else {
-				serviceResponse = generic.messageReturn(null, PrintVariable.VALIDACION, messageReturn);
+				serviceResponse = generic.messageReturn(user, PrintVariable.VALIDACION, messageReturn);
 			}
 			
 		}catch (MongoException e) {

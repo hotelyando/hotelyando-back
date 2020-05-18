@@ -32,7 +32,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException{
 		
 		try{
-		
+			
 			if(existeJWTToken(httpServletRequest, httpServletResponse)){
 				
 				Claims claims = validateToken(httpServletRequest);

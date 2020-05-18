@@ -1,5 +1,7 @@
 package co.com.hotelyando.core.services;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.RegularExpression;
 import co.com.hotelyando.database.dao.RoomDao;
 import co.com.hotelyando.database.model.Room;
+import co.com.hotelyando.database.model.Reservation.Values;
 
 @Service
 public class RoomService {
@@ -33,7 +36,7 @@ public class RoomService {
 	
 	
 	/*
-	 * M�todo que registrar una habitaci�n del hotel
+	 * Método que registrar una habitación del hotel
 	 * @return String 
 	 */
 	public String save(Room room) throws MongoException, Exception {
@@ -60,12 +63,14 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.number_beds", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getFreeParking().toString())) {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(room.getRoomTypeUuid())) {
+			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
 		}else if(validateState(room.getState())) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getScore().toString())) {
-			messageReturn = messageSource.getMessage("room.score", null, LocaleContextHolder.getLocale());
-		}else if(room.getComments() == null) {
-			messageReturn = messageSource.getMessage("room.comments", null, LocaleContextHolder.getLocale());
+		/*}else if(StringUtils.isBlank(room.getScore().toString())) {
+			messageReturn = messageSource.getMessage("room.score", null, LocaleContextHolder.getLocale());*/
+		/*}else if(room.getComments() == null) {
+			messageReturn = messageSource.getMessage("room.comments", null, LocaleContextHolder.getLocale());*/
 		}else {
 			roomDao.save(room);
 		}
@@ -75,7 +80,7 @@ public class RoomService {
 	
 	
 	/*
-	 * M�todo que actualiza una habitaci�n del hotel
+	 * Método que actualiza una habitación del hotel
 	 * @return String 
 	 */
 	public String update(Room room) throws MongoException, Exception {
@@ -102,14 +107,14 @@ public class RoomService {
 			messageReturn = messageSource.getMessage("room.number_beds", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(room.getFreeParking().toString())) {
 			messageReturn = messageSource.getMessage("room.free_parking", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getRoomType())) {
+		}else if(StringUtils.isBlank(room.getRoomTypeUuid())) {
 			messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
 		}else if(validateState(room.getState())) {
 			messageReturn = messageSource.getMessage("room.state", null, LocaleContextHolder.getLocale());
-		}else if(StringUtils.isBlank(room.getScore().toString())) {
+		/*}else if(StringUtils.isBlank(room.getScore().toString())) {
 			messageReturn = messageSource.getMessage("room.score", null, LocaleContextHolder.getLocale());
 		}else if(room.getComments() == null) {
-			messageReturn = messageSource.getMessage("room.comments", null, LocaleContextHolder.getLocale());
+			messageReturn = messageSource.getMessage("room.comments", null, LocaleContextHolder.getLocale());*/
 		}else {
 			roomDao.update(room);
 		}
@@ -131,7 +136,7 @@ public class RoomService {
 
 	
 	/*
-	 * M�todo que retorna una habitaci�n de hotel
+	 * Método que retorna una habitación de hotel
 	 * @Room
 	 */
 	public Room findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -142,6 +147,10 @@ public class RoomService {
 	}
 	
 	
+	/*
+	 * Método que elimina la habitación de un hotel
+	 * @return String 
+	 */
 	public String delete(String uuid) throws MongoException, Exception {
 		
 		String messageReturn = "";
@@ -152,6 +161,10 @@ public class RoomService {
 	}
 	
 	
+	/*
+	 * Método que retorna la información de un hotel por descripción
+	 * @return Room 
+	 */
 	public Room findByHotelIdAndDescription(String hotelId, String description) throws MongoException, Exception {
 		
 		Room room = roomDao.findByHotelIdAndDescription(hotelId, description);
@@ -160,6 +173,10 @@ public class RoomService {
 	}
 	
 	
+	/*
+	 * Método que valida que el estado ingresado de la habitación sea correcto
+	 * @return String 
+	 */
 	public Boolean validateState(String state) {
 		
 		Boolean stateReturn = true;
@@ -175,5 +192,24 @@ public class RoomService {
 		
 		return stateReturn;
 	}
+	
+	
+	/*
+	 * Método que liquida las habitaciones seleccionadas
+	 * @List<Room>
+	 */
+	public List<Room> liquidate(String hotelId, List<Room> rooms) throws MongoException, Exception {
+		
+		Room room = null;
+		
+		
+		
+		
+		
+		return rooms;
+	}
+
+	
+	
 
 }

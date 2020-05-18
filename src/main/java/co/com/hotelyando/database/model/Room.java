@@ -6,8 +6,12 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Document(collection = "room")
 public class Room implements Serializable{
@@ -24,7 +28,7 @@ public class Room implements Serializable{
 	private Integer maximumPersons;
 	private Integer numberBeds;
 	private Boolean freeParking;
-	private String roomType;
+	private String roomTypeUuid;
 	private List<ItemInRoom> items;
 	private List<String> comforts;
 	private String state;
