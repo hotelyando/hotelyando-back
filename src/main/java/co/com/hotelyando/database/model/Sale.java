@@ -59,10 +59,10 @@ public class Sale implements Serializable{
 	@Data
 	public static class Values {
 		
-		private Integer gross;
-		private Integer tax;
-		private Integer net;
-		private Integer discount;
-		private Integer total;
+		private Double gross;
+		private Double tax;
+		private Double net;
+		private Double discount;
+		private Double total;
 	}
 }

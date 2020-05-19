@@ -1,8 +1,9 @@
 package co.com.hotelyando.core.business;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -11,13 +12,20 @@ import org.springframework.stereotype.Service;
 
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.services.ItemService;
 import co.com.hotelyando.core.services.PersonService;
+import co.com.hotelyando.core.services.RoomService;
+import co.com.hotelyando.core.services.RoomTypeService;
 import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
+import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.Person;
+import co.com.hotelyando.database.model.Room;
+import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.Sale;
+import co.com.hotelyando.database.model.Sale.Values;
 import co.com.hotelyando.database.model.User;
 
 @Service
@@ -28,6 +36,16 @@ public class SaleBusiness {
 	
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private ItemService itemService;
+	
+	@Autowired
+	private RoomService roomService;
+	
+	@Autowired
+	private RoomTypeService roomTypeService;
+	
 	
 	private final SaleService saleService;
 	private ServiceResponse<Sale> serviceResponse;
@@ -75,11 +93,107 @@ public class SaleBusiness {
 		
 		String messageReturn = "";
 		
+		Item item = null;
+		Room room = null;
+		RoomType roomType = null;
+		
+		Double price = 0.0;
+		
+		Values values = null;
+		
 		try {
 			
 			sale.setHotelId(user.getHotelId());
 			
-			messageReturn = saleService.update(sale);
+			messageReturn = saleService.validateSale(sale);
+			
+			if(messageReturn.equals("")) {
+				
+				//Calculamos los items si los hay
+				messageReturn = saleService.validaSaleItem(sale);
+				
+				if(messageReturn.equals("") && sale.getItems() != null) {
+					
+					for(int a = 0; a < sale.getItems().size(); a++) {
+						
+						item = itemService.findByHotelIdAndUuid(sale.getHotelId(), sale.getItems().get(a).getUuid());
+						
+						if(item.getStock() > sale.getItems().get(a).getQuantity()) {
+							price = (item.getPrice() * sale.getItems().get(a).getQuantity()) + price;
+							
+							values = new Values();
+							values.setDiscount(0.0);
+							values.setGross(0.0);
+							values.setNet(0.0);
+							values.setTax(0.0);
+							values.setTotal(price);
+							
+							sale.getItems().get(a).setValues(values);
+							
+						}
+					}
+				}
+				
+				
+				messageReturn = saleService.validateRoom(sale);
+				
+				if(messageReturn.equals("") && sale.getRooms() != null) {
+					
+					price = 0.0;
+					
+					for(int a = 0; a < sale.getRooms().size(); a++) {
+						
+						
+						room = roomService.findByHotelIdAndUuid(user.getHotelId(), sale.getRooms().get(a).getUuid());
+							
+						roomType = roomTypeService.findByHotelIdAndRoomType(user.getHotelId(), room.getRoomTypeUuid());
+								
+						LocalDateTime starDate = LocalDateTime.parse(sale.getRooms().get(a).getStartDate());
+						LocalDateTime exitDate = LocalDateTime.parse(sale.getRooms().get(a).getEndDate());
+							
+						long duration = Duration.between(starDate, exitDate).toDays();
+							
+						for(int days = 0; days < duration; days++) {
+								
+							if(roomType.getPriceDetails() != null && roomType.getPriceDetails().size() > 0) {
+								
+								boolean foundDay = true;
+								
+								for(int b = 0; b < roomType.getPriceDetails().size(); b++) {
+										
+									LocalDateTime dateTime = starDate.plusDays(days);
+									String day = dateTime.getDayOfWeek().toString();
+											
+									if(day.equals(roomType.getPriceDetails().get(b).getDay())) {
+										price = roomType.getPriceDetails().get(b).getPriceDay() + price;
+										foundDay = false;
+										break;
+									}
+								}
+									
+								if(foundDay) {
+									price = roomType.getPriceDay() + price;
+								}
+							}else {
+								price = roomType.getPriceDay() + price;
+							}
+						}
+						
+						values = new Values();
+						values.setDiscount(0.0);
+						values.setGross(0.0);
+						values.setNet(0.0);
+						values.setTax(0.19);
+						values.setTotal(price);
+						
+						sale.getRooms().get(a).setValues(values);
+						
+					}
+				}
+				
+				messageReturn = saleService.update(sale);
+				
+			}
 			
 			if(messageReturn.equals("")) {
 				serviceResponse = generic.messageReturn(sale, PrintVariable.NEGOCIO, messageSource.getMessage("sale.update_ok", null, LocaleContextHolder.getLocale()));

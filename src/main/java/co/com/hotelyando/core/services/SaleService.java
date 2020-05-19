@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
@@ -14,6 +15,8 @@ import com.mongodb.MongoException;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.database.dao.SaleDao;
 import co.com.hotelyando.database.model.Sale;
+import co.com.hotelyando.database.model.Sale.ClientSale;
+import co.com.hotelyando.database.model.Sale.Values;
 
 @Service
 public class SaleService {
@@ -31,27 +34,30 @@ public class SaleService {
 	
 	
 	/*
-	 * Método que registra una venta de un hotel
+	 * Mï¿½todo que registra una venta de un hotel
 	 * @return String
 	 */
 	public String save(Sale sale) throws MongoException, Exception {
 		
-		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
 		String messageReturn = "";
 		
-		saleDao.save(sale);
+		messageReturn = validateSale(sale);
+		
+		if(messageReturn.equals("")) {
+			saleDao.save(sale);
+		}
 			
 		return messageReturn;
 	}
 	
 	
 	/*
-	 * Método que actualiza una venta de un hotel
+	 * Mï¿½todo que actualiza una venta de un hotel
 	 * @return String
 	 */
 	public String update(Sale sale) throws MongoException, Exception {
 		
-		//La factura se crea cuando el cliente confirme su estadia?, si es así, esta se estaria alimentando hasta que el cliente realice el checkout
+		//La factura se crea cuando el cliente confirme su estadia?, si es asï¿½, esta se estaria alimentando hasta que el cliente realice el checkout
 		String messageReturn = "";
 		
 		saleDao.update(sale);
@@ -61,7 +67,7 @@ public class SaleService {
 
 	
 	/*
-	 * Método que retorna todas las ventas de un hotel
+	 * Mï¿½todo que retorna todas las ventas de un hotel
 	 * @return List<Sale>
 	 */
 	public List<Sale> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -90,7 +96,7 @@ public class SaleService {
 
 	
 	/*
-	 * Método que retorna todas las ventas dependiendo de la nacionalidad y el rango de fechas de un hotel
+	 * Mï¿½todo que retorna todas las ventas dependiendo de la nacionalidad y el rango de fechas de un hotel
 	 * @return List<Sale>
 	 */
 	public List<Sale> findByHotelIdAndCountryAndDate(String hotelId, String nationality, String initDate, String endDate) throws MongoException, Exception {
@@ -129,7 +135,7 @@ public class SaleService {
 	}
 	
 	/*
-	 * Método que retorna una venta de un hotel por Id
+	 * Mï¿½todo que retorna una venta de un hotel por Id
 	 * @return Sale
 	 */
 	public Sale findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -141,7 +147,7 @@ public class SaleService {
 	
 	
 	/*
-	 * Método que retorna las personas registradas en una venta del hotel
+	 * Mï¿½todo que retorna las personas registradas en una venta del hotel
 	 * @return Sale
 	 */
 	public Sale findByDocumentAndDocumentType(String hotelId, String state, String document, String documentType) throws MongoException, Exception {
@@ -160,7 +166,7 @@ public class SaleService {
 	
 	
 	/*
-	 * Método que retorna una venta por fecha
+	 * Mï¿½todo que retorna una venta por fecha
 	 * @return Sale
 	 */
 	public List<Sale> findByHotelIdAndDateBetween(String hotelId, String from, String to) throws MongoException, Exception {
@@ -172,7 +178,7 @@ public class SaleService {
 	
 	
 	/*
-	 * Método que retorna las ventas por estado de un hotel
+	 * Mï¿½todo que retorna las ventas por estado de un hotel
 	 * @return List<Sale>
 	 */
 	public List<Sale> findByHotelIdAndState(String hotelId, String state) throws MongoException, Exception {
@@ -183,4 +189,79 @@ public class SaleService {
 		
 	}
 
+	
+	public String validateSale(Sale sale) {
+		
+		String messageReturn = "";
+		
+		
+		if(StringUtils.isBlank(sale.getUuid())) {
+			messageReturn = messageSource.getMessage("sale.id", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(sale.getHotelId())) {
+			messageReturn = messageSource.getMessage("sale.hotel", null, LocaleContextHolder.getLocale());
+		}else if(StringUtils.isBlank(sale.getDate())) {
+			messageReturn = messageSource.getMessage("sale.date", null, LocaleContextHolder.getLocale());
+		}else if(sale.getClient() == null) {
+			messageReturn = messageSource.getMessage("sale.cliente", null, LocaleContextHolder.getLocale());
+		}
+		
+		return messageReturn;
+		
+	}
+	
+	
+	public String validaSaleItem(Sale sale) {
+		
+		String messageReturn = "";
+		
+		if(sale.getItems() == null || sale.getItems().size() < 1) {
+			//messageReturn = messageSource.getMessage("sale.item", null, LocaleContextHolder.getLocale());
+			messageReturn = "";
+		}else {
+			for(int a = 0; a < sale.getItems().size(); a++) {
+				
+				if(StringUtils.isBlank(sale.getItems().get(a).getUuid())) {
+					messageReturn = messageSource.getMessage("sale.item_uuid", null, LocaleContextHolder.getLocale());
+				}else if(StringUtils.isBlank(sale.getItems().get(a).getDateSale())) {
+					messageReturn = messageSource.getMessage("sale.item_date", null, LocaleContextHolder.getLocale());
+				}else if(StringUtils.isBlank(sale.getItems().get(a).getDescription())) {
+					messageReturn = messageSource.getMessage("sale.item_description", null, LocaleContextHolder.getLocale());
+				}else if(sale.getItems().get(a).getQuantity() < 1) {
+					messageReturn = messageSource.getMessage("sale.item_quantity", null, LocaleContextHolder.getLocale());
+				}
+			}
+		}
+		
+		return messageReturn;
+		
+	}
+	
+	
+	public String validateRoom(Sale sale) {
+		
+		String messageReturn = "";
+		
+		if(sale.getRooms() == null || sale.getRooms().size() < 1) {
+			messageReturn = "";
+		}else {
+			
+			for(int a = 0; a < sale.getRooms().size(); a++) {
+				
+				if(StringUtils.isBlank(sale.getRooms().get(a).getUuid())) {
+					messageReturn = messageSource.getMessage("sale.room_uuid", null, LocaleContextHolder.getLocale());
+				}else if(StringUtils.isBlank(sale.getRooms().get(a).getDescription())) {
+					messageReturn = messageSource.getMessage("sale.room_description", null, LocaleContextHolder.getLocale());
+				}else if(StringUtils.isBlank(sale.getRooms().get(a).getStartDate())) {
+					messageReturn = messageSource.getMessage("sale.room_startDate", null, LocaleContextHolder.getLocale());
+				}else if(StringUtils.isBlank(sale.getRooms().get(a).getEndDate())) {
+					messageReturn = messageSource.getMessage("sale.room_endDate", null, LocaleContextHolder.getLocale());
+				}else if(sale.getRooms().get(a).getGuests().size() < 1) {
+					messageReturn = messageSource.getMessage("sale.room_guest", null, LocaleContextHolder.getLocale());
+				}
+			}
+		}
+			
+		return messageReturn;
+		
+	}
 }
