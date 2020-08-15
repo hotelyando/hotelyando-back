@@ -13,8 +13,8 @@ public class RegularExpression {
 	
     
     /*
-     * Método que valida los carácteres especiales de un campo de texto
-     * Retorna false si cumple la expresión regular
+     * MÃ©todo que valida los carÃ¡cteres especiales de un campo de texto
+     * Retorna false si cumple la expresiÃ³n regular
      * @return Boolean
      */
 	public boolean validateSpecialCharacters(String text) {
@@ -23,7 +23,7 @@ public class RegularExpression {
 			result = true;
 		}else {
 			
-			pattern = Pattern.compile("[^A-Za-z0-9*]");
+			pattern = Pattern.compile("([0-9a-zA-Z]{0,}[a-z]{1,}[0-9]{1,}[0-9a-zA-Z]{0,})");
 		    matcher = pattern.matcher(text);
 		    
 		    result = matcher.find();
@@ -35,8 +35,8 @@ public class RegularExpression {
 	
 	
 	/*
-     * Método que valida solo números en un campo de texto
-     * Retorna false si cumple la expresión regular
+     * Mï¿½todo que valida solo nï¿½meros en un campo de texto
+     * Retorna false si cumple la expresiï¿½n regular
      * @return Boolean
      */
 	public boolean validateNumeric(String text) {
@@ -63,8 +63,8 @@ public class RegularExpression {
 	
 	
 	/*
-     * Método que valida el correo electrónico de un campo de texto
-     * Retorna false si cumple la expresión regular
+     * Mï¿½todo que valida el correo electrï¿½nico de un campo de texto
+     * Retorna false si cumple la expresiï¿½n regular
      * @return Boolean
      */
 	public boolean validateEmail(String text) {
@@ -85,8 +85,8 @@ public class RegularExpression {
 	
 	
 	/*
-     * Método que valida el formato de una fecha
-     * Retorna false si cumple la expresión regular
+     * Mï¿½todo que valida el formato de una fecha
+     * Retorna false si cumple la expresiï¿½n regular
      * @return Boolean
      */
 	public boolean validateFormatDate(String text) {

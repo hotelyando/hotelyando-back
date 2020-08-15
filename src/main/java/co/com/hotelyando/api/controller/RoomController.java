@@ -1,6 +1,5 @@
 package co.com.hotelyando.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -50,6 +49,18 @@ public class RoomController {
 		ServiceResponse<Room> serviceResponse = roomBusiness.save(room, user);
 		
 		ResponseEntity<ServiceResponse<Room>> responseEntity = generic.returnResponseController(serviceResponse);
+		
+		return responseEntity;
+		
+	}
+	
+	@PostMapping("/room/query")
+	public ResponseEntity<ServiceResponses<Room>> query(@RequestBody Room room, @RequestHeader Map<String, String> headers){
+		
+		user = utilities.returnTenant(headers, PrintVariable.TOKEN_HEADER);
+		ServiceResponses<Room> serviceResponses = roomBusiness.query(user, room);
+		
+		ResponseEntity<ServiceResponses<Room>> responseEntity = generic.returnResponseController(serviceResponses);
 		
 		return responseEntity;
 		

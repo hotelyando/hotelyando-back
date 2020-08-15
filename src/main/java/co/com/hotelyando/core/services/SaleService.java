@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.MongoException;
 
-import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.database.dao.SaleDao;
+import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.Sale;
-import co.com.hotelyando.database.model.Sale.ClientSale;
+import co.com.hotelyando.database.model.Sale.ItemSale;
+import co.com.hotelyando.database.model.Sale.RoomSale;
 import co.com.hotelyando.database.model.Sale.Values;
 
 @Service
@@ -59,6 +60,34 @@ public class SaleService {
 		
 		//La factura se crea cuando el cliente confirme su estadia?, si es as�, esta se estaria alimentando hasta que el cliente realice el checkout
 		String messageReturn = "";
+		
+		Double priceItem = 0.0;
+		Double priceRoom = 0.0;
+		
+		if(sale.getItems() != null && sale.getItems().size() > 0) {
+			
+			for(int a = 0; a < sale.getItems().size(); a++) {
+				ItemSale itemSale = sale.getItems().get(a);
+				priceItem = priceItem + itemSale.getValues().getTotal();
+			}
+		}
+		
+		if(sale.getRooms() != null && sale.getRooms().size() > 0) {
+			for(int a = 0; a < sale.getRooms().size(); a++) {
+				RoomSale roomSale = sale.getRooms().get(a);
+				priceRoom = priceRoom + roomSale.getValues().getTotal();
+			}
+		}
+		
+		
+		Values values = new Values();
+		values.setDiscount(0.0);
+		values.setGross(0.0);
+		values.setNet(0.0);
+		values.setTax(0.19);
+		values.setTotal(priceRoom + priceItem); 
+		
+		sale.setValues(values);
 		
 		saleDao.update(sale);
 			

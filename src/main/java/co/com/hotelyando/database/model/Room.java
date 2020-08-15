@@ -40,7 +40,7 @@ public class Room implements Serializable{
 		
 		private String itemId;
 		private String description;
-		private String quantity;
+		private Integer quantity;
 		private Boolean requireCheck;
 		
 	}

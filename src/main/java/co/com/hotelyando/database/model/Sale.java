@@ -26,6 +26,7 @@ public class Sale implements Serializable{
 	@Data
 	public static class ItemSale {
 		
+		@Id
 		private String uuid;
 		private String dateSale;
 		private String description;
@@ -36,6 +37,7 @@ public class Sale implements Serializable{
 	@Data
 	public static class ClientSale {
 		
+		@Id
 		private String uuid;
 		private String typeDocument;
 		private String document;
@@ -47,6 +49,7 @@ public class Sale implements Serializable{
 	@Data
 	public static class RoomSale {
 		
+		@Id
 		private String uuid;
 		private String description;
 		private String startDate;

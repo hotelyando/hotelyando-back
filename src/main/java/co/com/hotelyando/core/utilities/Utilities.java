@@ -168,4 +168,24 @@ public class Utilities {
 	}
 	
 	
+	/*
+	 * Valida que el password ingresado cumpla con el estadar indicado
+	 */
+	public Boolean validatePassword(String password) {
+		
+		RegularExpression regularExpression = new RegularExpression();
+		Boolean validatePassword = false;
+		
+		validatePassword = regularExpression.validateSpecialCharacters(password);
+		
+		if(validatePassword && password.length() >= 8) {
+			validatePassword = true;
+		}else {
+			validatePassword = false;
+		}
+		
+		return validatePassword;
+	}
+	
+	
 }

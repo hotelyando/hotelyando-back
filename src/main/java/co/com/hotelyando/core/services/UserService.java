@@ -1,15 +1,8 @@
 package co.com.hotelyando.core.services;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +47,7 @@ public class UserService {
 	
 	
 	/*
-	 * M�todo para el registro de usuario en un hotel
+	 * Método para el registro de usuario en un hotel
 	 * @return String
 	 */
 	public String save(User user) throws MongoException, Exception {
@@ -79,6 +72,8 @@ public class UserService {
 			messageReturn = messageSource.getMessage("user.login_unique", null, LocaleContextHolder.getLocale());
 		}else if(StringUtils.isBlank(user.getPassword())) {
 			messageReturn = messageSource.getMessage("user.password", null, LocaleContextHolder.getLocale());
+		}else if(!utilities.validatePassword(user.getPassword())) {
+			messageReturn = messageSource.getMessage("user.validate_password", null, LocaleContextHolder.getLocale());
 		}else {
 			
 			user.setPassword(encodePassword(user, PrintVariable.SAVE));
@@ -90,7 +85,7 @@ public class UserService {
 	
 	
 	/*
-	 * M�todo para la actualizaci�n de usuarios en un hotel
+	 * Método para la actualizaci�n de usuarios en un hotel
 	 * @return String
 	 */
 	public String update(User user) throws MongoException, Exception {
@@ -123,7 +118,7 @@ public class UserService {
 	
 	
 	/*
-	 * M�todo para listar todos los usuarios de un hotel
+	 * Método para listar todos los usuarios de un hotel
 	 * @return List<User>
 	 */
 	public List<User> findByHotelId(String hotelId) throws MongoException, Exception {
@@ -135,7 +130,7 @@ public class UserService {
 
 	
 	/*
-	 * M�todo para buscar un usuario  de un hotel por Id
+	 * Método para buscar un usuario  de un hotel por Id
 	 * @return User
 	 */
 	public User findByHotelIdAndUuid(String hotelId, String uuid) throws MongoException, Exception {
@@ -147,7 +142,7 @@ public class UserService {
 
 	
 	/*
-	 * M�todo para la validaci�n del usuario y contraseña
+	 * Método para la validaci�n del usuario y contraseña
 	 * @return String
 	 */
 	public User findByUserAndPassword(String login, String password) throws MongoException, Exception {
@@ -176,7 +171,7 @@ public class UserService {
 	
 	
 	/*
-	 * M�todo para validar si un usuario ya se encuentra registrado
+	 * Método para validar si un usuario ya se encuentra registrado
 	 * @return String
 	 */
 	private Boolean validateUser(String hotelId, String login, Boolean update) throws MongoException, Exception {
@@ -195,7 +190,7 @@ public class UserService {
 	
 	
 	/*
-	 * M�todo para encriptar una contraseña
+	 * Método para encriptar una contraseña
 	 * @return String
 	 */
 	private String encodePassword(User user, String method) {
@@ -253,14 +248,16 @@ public class UserService {
 		
 		
 		if(user.getPassword().equals(encryptionData.encript(oldPassword, "SHA1"))) {
-			user.setPassword(encryptionData.encript(newPassword, "SHA1"));
 			
-			userDao.update(user);
+			if(utilities.validatePassword(newPassword)) {
+				user.setPassword(encryptionData.encript(newPassword, "SHA1"));
+				userDao.update(user);
+			}else {
+				messageReturn = messageSource.getMessage("user.validate_password", null, LocaleContextHolder.getLocale());
+			}
 		}
 		
 		return messageReturn;
-		
-		
 	}
 	
 	@Transactional
@@ -275,15 +272,19 @@ public class UserService {
 		
 		if(user != null) {
 			
-			user.setPassword(encryptionData.encript("123", "SHA1"));
+			
+			SecureRandom secureRandom = new SecureRandom();
+			String passwordGenerate = new BigInteger(130, secureRandom).toString(32);
+			
+			user.setPassword(encryptionData.encript(passwordGenerate, "SHA1"));
 			userDao.update(user);
 			
-			sendEmail = utilities.sendEmailGMail(PrintVariable.EMAIL_SENDER, PrintVariable.EMAIL_SENDER_PASSWORD, user.getUser(), "Envío contraseña temporal", "Su contraseña temporal es : A123b456cde");
+			sendEmail = utilities.sendEmailGMail(PrintVariable.EMAIL_SENDER, PrintVariable.EMAIL_SENDER_PASSWORD, user.getUser(), "Envío contraseña temporal", "Su contraseña temporal es : " + passwordGenerate);
 				
 			if(sendEmail) {
-				messageReturn = "Correo enviado!... , por si las moscas, la clave temporal es : A123b456cde";
+				messageReturn = "Correo enviado!... , por si las moscas, la clave temporal es : " + passwordGenerate;
 			}else {
-				messageReturn = "Correo no enviado, la clave temporal es : A123b456cde";
+				messageReturn = "Correo no enviado!..., por si las moscas, la clave temporal es : " + passwordGenerate;
 			}
 		}
 		

@@ -2,7 +2,10 @@ package co.com.hotelyando.core.services;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +165,19 @@ public class RoomService {
 	
 	
 	/*
+	 * M�todo que retorna una lista de habitaciones de un hotel
+	 * @List<Room>
+	 */
+	public List<Room> query(Room room) throws MongoException, Exception {
+		
+		List<Room> rooms = roomDao.findByHotelId(room.getHotelId());
+		
+		rooms.removeIf(r -> r.getFloor() != 0);
+		
+		return rooms;
+	}
+	
+	/*
 	 * Método que retorna la información de un hotel por descripción
 	 * @return Room 
 	 */
@@ -192,6 +208,8 @@ public class RoomService {
 		
 		return stateReturn;
 	}
+	
+	
 	
 	
 	/*

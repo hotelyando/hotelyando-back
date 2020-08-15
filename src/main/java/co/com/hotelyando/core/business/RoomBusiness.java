@@ -1,6 +1,5 @@
 package co.com.hotelyando.core.business;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +13,18 @@ import com.mongodb.MongoException;
 
 import co.com.hotelyando.core.model.ServiceResponse;
 import co.com.hotelyando.core.model.ServiceResponses;
+import co.com.hotelyando.core.services.ItemService;
 import co.com.hotelyando.core.services.RoomService;
 import co.com.hotelyando.core.services.RoomTypeService;
 import co.com.hotelyando.core.services.SaleService;
 import co.com.hotelyando.core.utilities.Generic;
 import co.com.hotelyando.core.utilities.PrintVariable;
 import co.com.hotelyando.core.utilities.Utilities;
+import co.com.hotelyando.database.model.Item;
 import co.com.hotelyando.database.model.Room;
 import co.com.hotelyando.database.model.RoomType;
 import co.com.hotelyando.database.model.Sale;
 import co.com.hotelyando.database.model.User;
-import co.com.hotelyando.database.model.Reservation.Values;
 
 @Service
 public class RoomBusiness {
@@ -38,11 +38,16 @@ public class RoomBusiness {
 	@Autowired
 	private RoomTypeService roomTypeService;
 	
+	@Autowired
+	private ItemService itemService;
+	
 	private RoomService roomService;
 	private ServiceResponse<Room> serviceResponse;
 	private ServiceResponses<Room> serviceResponses;
 	private Utilities utilities = null;
 	private Generic<Room> generic = null;
+	
+	String messageReturn = "";
 	
 	public RoomBusiness(RoomService roomService) {
 		this.roomService = roomService;
@@ -60,8 +65,6 @@ public class RoomBusiness {
 	 */
 	public ServiceResponse<Room> save(Room room, User user) {
 		
-		String messageReturn = "";
-		
 		RoomType roomType = null;
 		
 		try {
@@ -77,6 +80,14 @@ public class RoomBusiness {
 					messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
 				}else {
 					messageReturn = roomService.save(room);
+					
+					if(messageReturn.equals("")) {
+						messageReturn = validateItemQuantity(room);
+						
+						if(!messageReturn.equals("")) {
+							roomService.delete(room.getUuid());
+						}
+					}
 				}
 			}else {
 				messageReturn = messageSource.getMessage("room.type", null, LocaleContextHolder.getLocale());
@@ -279,6 +290,82 @@ public class RoomBusiness {
 		}
 		
 		return serviceResponse;
+	}
+	
+	
+	/*
+	 * M�todo que retorna la lista de habitaciones de un hotel
+	 * @ServiceResponses<Room>
+	 */
+	public ServiceResponses<Room> query(User user, Room room) {
+		
+		try {
+			
+			room.setHotelId(user.getHotelId());
+			
+			List<Room> rooms = roomService.query(room);
+			
+			if(rooms != null) {
+				serviceResponses = generic.messagesReturn(rooms, PrintVariable.NEGOCIO, messageSource.getMessage("room.find_ok", null, LocaleContextHolder.getLocale()));
+			}else {
+				serviceResponses = generic.messagesReturn(null, PrintVariable.NOT_CONTENT, messageSource.getMessage("room.not_content", null, LocaleContextHolder.getLocale()));
+			}
+			
+		}catch (MongoException e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_BD, e.getMessage());
+		}catch (Exception e) {
+			serviceResponses = generic.messagesReturn(null, PrintVariable.ERROR_TECNICO, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return serviceResponses;
+	}
+	
+	
+	/*
+	 * Valida y resta la cantidad de items que hay en la jhabitación con el stock de items del hotel
+	 * 
+	 */
+	private String validateItemQuantity(Room room) {
+		
+		if(room.getItems().size() > 0) {
+			room.getItems().forEach((value) -> {
+				
+				try {
+					if(itemService.findByHotelIdAndUuid(room.getHotelId(), value.getItemId()).getQuantity() <= value.getQuantity()) {
+						messageReturn = "El item " + value.getDescription() + " no tiene la cantidad solicitada en stock.";
+					}
+				}catch (Exception e) {
+					messageReturn = "Error";
+					e.printStackTrace();
+					
+				}
+			});
+		}
+		
+		if(messageReturn.equals("") && room.getItems().size() > 0) {
+			room.getItems().forEach((value) -> {
+				
+				Integer quantity = 0;
+				
+				try {
+					
+					Item item = itemService.findByHotelIdAndUuid(room.getHotelId(), value.getItemId());
+					quantity = item.getQuantity() - value.getQuantity();
+					
+					item.setQuantity(quantity);
+					
+					itemService.update(item);
+					
+				}catch (Exception e) {
+					messageReturn = "Error";
+					e.printStackTrace();
+				}
+			});
+		}
+		
+		
+		return messageReturn;
 	}
 	
 }

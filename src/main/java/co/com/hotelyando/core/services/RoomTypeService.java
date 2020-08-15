@@ -1,6 +1,10 @@
 package co.com.hotelyando.core.services;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +144,8 @@ public class RoomTypeService {
 		
 		String messageReturn = "";
 		
+		List<String> days = new ArrayList<String>();
+		
 		try {
 			
 			if(roomType != null && roomType.getPriceDetails() != null) {
@@ -147,30 +153,33 @@ public class RoomTypeService {
 					priceDetails = roomType.getPriceDetails().get(a);
 					
 					if(StringUtils.isBlank(priceDetails.getDay())){
-						messageReturn = messageSource.getMessage("roomtype.day" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
+						messageReturn = "Debe ingresar el día de la semana." + " Detalle Nro " + (a + 1);
 					}else if(priceDetails.getPriceDay() == null) {
-						messageReturn = messageSource.getMessage("roomtype.price_day" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
+						messageReturn = "Debe ingresar el valor del día." + " Detalle Nro " + (a + 1);
 					}else if(priceDetails.getPriceDay() < 1){
-						messageReturn = messageSource.getMessage("roomtype.price_day_numeric" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
+						messageReturn = "El valor debe ser númerico y mayor o igual a cero." + " Detalle Nro " + (a + 1);
 					}else if(priceDetails.getPriceHour() == null) {
-						messageReturn = messageSource.getMessage("roomtype.price_hour" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
+						messageReturn = "Debe ingresar el valor de la hora." + " Detalle Nro " + (a + 1);
 					}else if(priceDetails.getPriceHour() < 1){
-						messageReturn = messageSource.getMessage("roomtype.price_hour_numeric" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
-					}else if((priceDetails.getPriceHour() * 24) > priceDetails.getPriceDay()){
-						messageReturn = messageSource.getMessage("roomtype.price_hour_and_day" + " - Detalle Nro " + (a + 1), null, LocaleContextHolder.getLocale());
+						messageReturn = "El valor debe ser númerico y mayor o igual a cero." + " Detalle Nro " + (a + 1);
+					}else if(priceDetails.getPriceHour() > priceDetails.getPriceDay()){
+						messageReturn = "El valor de la hora no puede ser mayor al valor día." + " - Detalle Nro " + (a + 1);
+					}else {
+						days.add(priceDetails.getDay());
 					}
+				}
+				
+				if(messageReturn.equals("") && days.size() > 0) {
 					
-					
-					/*private String day;
-					private Double priceDay;
-					private Double priceHour;
-					private Integer startTime;
-					private Integer endTime;
-					private Boolean holiday;
-						*/	
+					Set<String> set = new HashSet<>();
+					Set<String> repeat = days.stream()
+										.filter(n -> !set.add(n))
+										.collect(Collectors.toSet());
+					if(repeat.size() > 0) {
+						messageReturn = "Solo puede haber un día por tipo de item.";
+					}
 				}
 			}
-			
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
